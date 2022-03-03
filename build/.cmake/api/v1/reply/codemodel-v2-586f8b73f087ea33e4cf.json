@@ -66,14 +66,14 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "PGKPr::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-PGKPr-Debug-444098b31668dca68135.json",
+					"jsonFile" : "target-PGKPr-Debug-ae6c87328007aaf43e3a.json",
 					"name" : "PGKPr",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "ZERO_CHECK::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-ZERO_CHECK-Debug-b23e10767ec80bdf15b1.json",
+					"jsonFile" : "target-ZERO_CHECK-Debug-ebc3b03100b216a95f45.json",
 					"name" : "ZERO_CHECK",
 					"projectIndex" : 0
 				}
@@ -144,14 +144,14 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "PGKPr::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-PGKPr-Release-6f2bef865d0033ad84b5.json",
+					"jsonFile" : "target-PGKPr-Release-4cecbf997c06b1a33656.json",
 					"name" : "PGKPr",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "ZERO_CHECK::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-ZERO_CHECK-Release-b23e10767ec80bdf15b1.json",
+					"jsonFile" : "target-ZERO_CHECK-Release-ebc3b03100b216a95f45.json",
 					"name" : "ZERO_CHECK",
 					"projectIndex" : 0
 				}
@@ -222,14 +222,14 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "PGKPr::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-PGKPr-MinSizeRel-94ad5c352b3dd8f34847.json",
+					"jsonFile" : "target-PGKPr-MinSizeRel-cd386b91049520b5a431.json",
 					"name" : "PGKPr",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "ZERO_CHECK::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-ZERO_CHECK-MinSizeRel-b23e10767ec80bdf15b1.json",
+					"jsonFile" : "target-ZERO_CHECK-MinSizeRel-ebc3b03100b216a95f45.json",
 					"name" : "ZERO_CHECK",
 					"projectIndex" : 0
 				}
@@ -300,14 +300,14 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "PGKPr::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-PGKPr-RelWithDebInfo-acb3d2a972e0f6332068.json",
+					"jsonFile" : "target-PGKPr-RelWithDebInfo-c2f7ede2fb95a03c8390.json",
 					"name" : "PGKPr",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "ZERO_CHECK::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-ZERO_CHECK-RelWithDebInfo-b23e10767ec80bdf15b1.json",
+					"jsonFile" : "target-ZERO_CHECK-RelWithDebInfo-ebc3b03100b216a95f45.json",
 					"name" : "ZERO_CHECK",
 					"projectIndex" : 0
 				}
@@ -317,12 +317,12 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "C:/Users/cezar/Documents/PGkPr/build",
-		"source" : "C:/Users/cezar/Documents/PGkPr"
+		"build" : "C:/Users/polsk/Documents/GitHub/PGkPr/build",
+		"source" : "C:/Users/polsk/Documents/GitHub/PGkPr"
 	},
 	"version" : 
 	{
 		"major" : 2,
-		"minor" : 4
+		"minor" : 3
 	}
 }

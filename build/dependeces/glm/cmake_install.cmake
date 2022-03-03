@@ -1,4 +1,4 @@
-# Install script for directory: C:/Users/cezar/Documents/PGkPr/dependeces/glm
+# Install script for directory: C:/Users/polsk/Documents/GitHub/PGkPr/dependeces/glm
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

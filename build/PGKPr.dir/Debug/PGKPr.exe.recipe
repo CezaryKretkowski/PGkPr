@@ -2,10 +2,10 @@
 <Project>
   <ProjectOutputs>
     <ProjectOutput>
-      <FullPath>C:\Users\cezar\Documents\PGkPr\build\x64\Debug\ZERO_CHECK</FullPath>
+      <FullPath>C:\Users\polsk\Documents\GitHub\PGkPr\build\x64\Debug\ZERO_CHECK</FullPath>
     </ProjectOutput>
     <ProjectOutput>
-      <FullPath>C:\Users\cezar\Documents\PGkPr\build\Debug\PGKPr.exe</FullPath>
+      <FullPath>C:\Users\polsk\Documents\GitHub\PGkPr\build\Debug\PGKPr.exe</FullPath>
     </ProjectOutput>
   </ProjectOutputs>
   <ContentFiles />

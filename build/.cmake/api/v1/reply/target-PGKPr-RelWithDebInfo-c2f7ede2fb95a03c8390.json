@@ -2,10 +2,10 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "Debug/PGKPr.exe"
+			"path" : "RelWithDebInfo/PGKPr.exe"
 		},
 		{
-			"path" : "Debug/PGKPr.pdb"
+			"path" : "RelWithDebInfo/PGKPr.pdb"
 		}
 	],
 	"backtrace" : 1,
@@ -59,22 +59,22 @@
 			"compileCommandFragments" : 
 			[
 				{
-					"fragment" : "/DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1"
+					"fragment" : "/DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /Zi /O2 /Ob1 /DNDEBUG"
 				}
 			],
 			"includes" : 
 			[
 				{
 					"backtrace" : 4,
-					"path" : "C:/Users/cezar/Documents/PGkPr/./dependeces/glfw/include"
+					"path" : "C:/Users/polsk/Documents/GitHub/PGkPr/./dependeces/glfw/include"
 				},
 				{
 					"backtrace" : 4,
-					"path" : "C:/Users/cezar/Documents/PGkPr/./dependeces/glew/include"
+					"path" : "C:/Users/polsk/Documents/GitHub/PGkPr/./dependeces/glew/include"
 				},
 				{
 					"backtrace" : 3,
-					"path" : "C:/Users/cezar/Documents/PGkPr/dependeces/glm/.."
+					"path" : "C:/Users/polsk/Documents/GitHub/PGkPr/dependeces/glm/.."
 				}
 			],
 			"language" : "CXX",
@@ -97,7 +97,7 @@
 		"commandFragments" : 
 		[
 			{
-				"fragment" : "/DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1",
+				"fragment" : "/DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /Zi /O2 /Ob1 /DNDEBUG",
 				"role" : "flags"
 			},
 			{
@@ -106,12 +106,12 @@
 			},
 			{
 				"backtrace" : 2,
-				"fragment" : "-LIBPATH:C:\\Users\\cezar\\Documents\\PGkPr\\.\\dependeces\\glfw\\lib-vc2022",
+				"fragment" : "-LIBPATH:C:\\Users\\polsk\\Documents\\GitHub\\PGkPr\\.\\dependeces\\glfw\\lib-vc2022",
 				"role" : "libraryPath"
 			},
 			{
 				"backtrace" : 2,
-				"fragment" : "-LIBPATH:C:\\Users\\cezar\\Documents\\PGkPr\\.\\dependeces\\glew\\lib\\Release\\x64",
+				"fragment" : "-LIBPATH:C:\\Users\\polsk\\Documents\\GitHub\\PGkPr\\.\\dependeces\\glew\\lib\\Release\\x64",
 				"role" : "libraryPath"
 			},
 			{
