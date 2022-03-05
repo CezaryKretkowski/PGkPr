@@ -11,6 +11,6 @@ add_subdirectory(dependeces/glm/)
 include_directories(${GLFW_INCLUDE_DIR} ${GLEW_INCLUDE_DIR})
 link_directories(${GLFW_LIB_DIR} ${GLEW_LIB_DIR})
 find_package(OpenGL REQUIRED)
-add_executable(PGKPr main.cpp shader.cpp)
+add_executable(PGKPr main.cpp shader.cpp src/Engine/Frame.cpp)
 
 target_link_libraries(${PROJECT_NAME} glew32s glew32 OpenGL32 glfw3 glm)

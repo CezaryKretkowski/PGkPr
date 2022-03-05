@@ -83,7 +83,7 @@ int main(void)
     printf("%s\n", glGetString(GL_VERSION));
     do
     {
-
+        
         // Clear the screen
         glClear(GL_COLOR_BUFFER_BIT);
 
@@ -119,7 +119,7 @@ int main(void)
     glDeleteBuffers(1, &vertexbuffer);
     glDeleteVertexArrays(1, &VertexArrayID);
     glDeleteProgram(programID);
-
+    
     // Close OpenGL window and terminate GLFW
     glfwTerminate();
 
