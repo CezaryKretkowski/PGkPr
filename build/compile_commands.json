@@ -1,7 +1,0 @@
-[
-{
-  "directory": "C:/Users/cezar/Documents/PGkPr/build",
-  "command": "C:\\mingw64\\bin\\x86_64-w64-mingw32-g++.exe  @CMakeFiles/PGKPr.dir/includes_CXX.rsp -g -o CMakeFiles\\PGKPr.dir\\main.cpp.obj -c C:\\Users\\cezar\\Documents\\PGkPr\\main.cpp",
-  "file": "C:/Users/cezar/Documents/PGkPr/main.cpp"
-}
-]

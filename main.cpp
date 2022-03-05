@@ -1,12 +1,11 @@
 // Include standard headers
 #include <stdio.h>
 #include <stdlib.h>
+#include <iostream>
 
-// Include GLEW
-#include <GL/glew.h>
-
-// Include GLFW
+#define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
+#include <GL/glew.h>
 GLFWwindow *window;
 
 // Include GLM
@@ -63,7 +62,7 @@ int main(void)
     glBindVertexArray(VertexArrayID);
 
     // Create and compile our GLSL program from the shaders
-    GLuint programID = LoadShaders("shaders/SimpleVertexShader.vertexshader", "shaders/SimpleFragmentShader.fragmentshader");
+    GLuint programID = LoadShaders("../../shaders/SimpleVertexShader.vertexshader", "../../shaders/SimpleFragmentShader.fragmentshader");
 
     static const GLfloat g_vertex_buffer_data[] = {
         -1.0f,
@@ -81,7 +80,7 @@ int main(void)
     glGenBuffers(1, &vertexbuffer);
     glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
     glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
-
+    printf("%s\n", glGetString(GL_VERSION));
     do
     {
 

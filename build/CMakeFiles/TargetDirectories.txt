@@ -1,5 +1,3 @@
 C:/Users/cezar/Documents/PGkPr/build/CMakeFiles/PGKPr.dir
-C:/Users/cezar/Documents/PGkPr/build/CMakeFiles/PACKAGE.dir
 C:/Users/cezar/Documents/PGkPr/build/CMakeFiles/ALL_BUILD.dir
 C:/Users/cezar/Documents/PGkPr/build/CMakeFiles/ZERO_CHECK.dir
-C:/Users/cezar/Documents/PGkPr/build/dependeces/glm/CMakeFiles/PACKAGE.dir
