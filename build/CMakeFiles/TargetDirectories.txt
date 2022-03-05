@@ -1,3 +1,11 @@
+<<<<<<< HEAD
 C:/Users/cezar/Documents/PGkPr/build/CMakeFiles/PGKPr.dir
 C:/Users/cezar/Documents/PGkPr/build/CMakeFiles/ALL_BUILD.dir
 C:/Users/cezar/Documents/PGkPr/build/CMakeFiles/ZERO_CHECK.dir
+=======
+C:/Users/polsk/Documents/GitHub/PGkPr/build/CMakeFiles/PACKAGE.dir
+C:/Users/polsk/Documents/GitHub/PGkPr/build/CMakeFiles/PGKPr.dir
+C:/Users/polsk/Documents/GitHub/PGkPr/build/CMakeFiles/ALL_BUILD.dir
+C:/Users/polsk/Documents/GitHub/PGkPr/build/CMakeFiles/ZERO_CHECK.dir
+C:/Users/polsk/Documents/GitHub/PGkPr/build/dependeces/glm/CMakeFiles/PACKAGE.dir
+>>>>>>> 28d32fe4fbbc5c1ac9a022f22fc17e823845a34c
