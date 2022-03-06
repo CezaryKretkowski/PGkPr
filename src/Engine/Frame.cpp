@@ -44,11 +44,22 @@ void Frame::reloadFrame()
 
 void Frame::mainLoop()
 {
+    glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
+    while (!endFlag)
+    {
+
+        if (!glfwWindowShouldClose(window) == 0)
+            endFlag = true;
+
+        glClear(GL_COLOR_BUFFER_BIT);
+        glfwSwapBuffers(window);
+        glfwPollEvents();
+    }
 }
 
-bool Frame::init(int width, int height, std::string title, bool mode)
+bool Frame::init(bool mode, int width, int height, std::string title)
 {
-    if (!glewInital())
+    if (!glfwInital())
         return false;
     if (mode)
         window = glfwCreateWindow(width, height, title.c_str(), glfwGetPrimaryMonitor(), NULL);
@@ -62,6 +73,8 @@ bool Frame::init(int width, int height, std::string title, bool mode)
 
     if (!glewInital())
         return false;
+
+    mainLoop();
 
     return true;
 }

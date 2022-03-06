@@ -30,11 +30,15 @@ namespace Engine
 
     public:
         // Constructor and desctructor
-        Frame(/* args */) = default;
+        Frame(/* args */) { endFlag = false; }
         ~Frame();
 
         // Public methods
-        bool init(int width, int height, std::string title, bool mode);
+        bool init(bool mode = false, int width = 1024, int height = 768, std::string title = "PGKPR");
+
+        void reloadFrame();
+
+        void closeFrame();
 
         // setters
         void setWidth(int width) { this->width = width; }
