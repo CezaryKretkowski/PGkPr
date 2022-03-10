@@ -44,6 +44,9 @@ void Frame::reloadFrame()
 
 void Frame::mainLoop()
 {
+    for (std::list<Component *>::iterator i = components.begin(); i != components.end(); i++)
+        (*i)->setUp(this);
+
     glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
     while (!endFlag)
     {
@@ -51,10 +54,14 @@ void Frame::mainLoop()
         if (!glfwWindowShouldClose(window) == 0)
             endFlag = true;
 
+        for (std::list<Component *>::iterator i = components.begin(); i != components.end(); i++)
+            (*i)->run(this);
         glClear(GL_COLOR_BUFFER_BIT);
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
+    for (std::list<Component *>::iterator i = components.begin(); i != components.end(); i++)
+        (*i)->clean(this);
 }
 
 bool Frame::init(bool mode, int width, int height, std::string title)
@@ -77,6 +84,10 @@ bool Frame::init(bool mode, int width, int height, std::string title)
     mainLoop();
 
     return true;
+}
+void Frame::add(Component *c)
+{
+    components.push_front(c);
 }
 Frame::~Frame()
 {

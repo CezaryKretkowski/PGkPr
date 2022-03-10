@@ -5,6 +5,8 @@
 #include <iostream>
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include <list>
+#include "Component.h"
 
 namespace Engine
 {
@@ -20,7 +22,7 @@ namespace Engine
         int height = 768;
         std::string title = "PGKPR";
         bool endFlag = false;
-
+        std::list<Component *> components;
         // Private metods
         bool glfwInital();
 
@@ -39,6 +41,8 @@ namespace Engine
         void reloadFrame();
 
         void closeFrame();
+
+        void add(Component *c);
 
         // setters
         void setWidth(int width) { this->width = width; }

@@ -14,12 +14,12 @@ using namespace glm;
 
 #include "shader.hpp"
 #include "src/Engine/Frame.h"
-
+#include "App.h"
 int main(void)
 {
-
+    App *app = new App();
     Engine::Frame frame;
-
+    frame.add(app);
     if (!frame.init())
     {
         puts("Somthing wnet wrong");
