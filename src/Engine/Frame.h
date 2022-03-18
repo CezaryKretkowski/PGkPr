@@ -23,6 +23,7 @@ namespace Engine
         std::string title = "PGKPR";
         bool endFlag = false;
         std::list<Component *> components;
+
         // Private metods
         bool glfwInital();
 
@@ -55,6 +56,8 @@ namespace Engine
         int getWidth() { return width; }
 
         int getHeight() { return height; }
+
+        GLFWwindow *getWindow() { return window; }
 
         std::string getTitle() { return title; }
     };

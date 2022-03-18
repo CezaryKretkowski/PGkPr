@@ -44,10 +44,10 @@ void Frame::reloadFrame()
 
 void Frame::mainLoop()
 {
+    double posX, posY;
     for (std::list<Component *>::iterator i = components.begin(); i != components.end(); i++)
         (*i)->setUp(this);
 
-    glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
     while (!endFlag)
     {
 
@@ -56,7 +56,7 @@ void Frame::mainLoop()
 
         for (std::list<Component *>::iterator i = components.begin(); i != components.end(); i++)
             (*i)->run(this);
-        glClear(GL_COLOR_BUFFER_BIT);
+
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
