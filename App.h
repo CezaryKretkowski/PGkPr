@@ -2,6 +2,8 @@
 #define APP_H
 #include "src/Engine/Component.h"
 #include "src/Camera/Camera.h"
+#include "src/RenderableObject/RenderableObject.h"
+
 class App : public Engine::Component
 {
 private:
@@ -10,7 +12,12 @@ private:
     double lastTime;
     float speed = 3.0f; // 3 units / second
     float mouseSpeed = 0.0005f;
-
+    GLuint programID;
+    GLuint MatrixID;
+    GLuint ViewMatrixID;
+    GLuint ModelMatrixID;
+    RenderableObject obj;
+    GLuint LightID;
     /* data */
 public:
     App(/* args */);
@@ -18,6 +25,15 @@ public:
     void run(Engine::Frame *super)
     {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        glUseProgram(programID);
+
+        // Set our "myTextureSampler" sampler to use Texture Unit 0
+
+        glm::vec3 lightPos = glm::vec3(-4, 4, -4);
+        glUniform3f(LightID, lightPos.x, lightPos.y, lightPos.z);
+        obj.draw(MatrixID, ViewMatrixID, ModelMatrixID);
+        glBindVertexArray(0);
+        // control(super->getWindow());
     }
     void setUp(Engine::Frame *super)
     {
@@ -34,7 +50,22 @@ public:
 
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+        programID = LoadShaders("../../shaders/StandardShading.vertexshader", "../../shaders/StandardShading.fragmentshader");
+
+        MatrixID = glGetUniformLocation(programID, "MVP");
+        ViewMatrixID = glGetUniformLocation(programID, "V");
+        ModelMatrixID = glGetUniformLocation(programID, "M");
+
+        obj.intFromFile("../../resources/suzanne.obj", programID, "../../resources/uvmap.png", "myTextureSampler");
+
         lastTime = glfwGetTime();
+        glUseProgram(programID);
+        LightID = glGetUniformLocation(programID, "LightPosition_worldspace");
+
+        // camera.upDateView(); // Camera matrix
+
+        obj.setProjectionMatrix(camera.getProjectionMatrix());
+        obj.setViewMatrix(camera.getViewMatrix());
     }
     void clean(Engine::Frame *super) { puts("działa clean"); }
     void control(GLFWwindow *w);
@@ -58,11 +89,11 @@ void App::control(GLFWwindow *w)
     {
         camera.setPosytion(camera.getPosytion() - camera.getDirection() * deltaTime * speed);
     }
-    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+    if (glfwGetKey(w, GLFW_KEY_A) == GLFW_PRESS)
     {
         camera.setPosytion(camera.getPosytion() - camera.getRight() * deltaTime * speed);
     }
-    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+    if (glfwGetKey(w, GLFW_KEY_D) == GLFW_PRESS)
     {
         camera.setPosytion(camera.getPosytion() + camera.getRight() * deltaTime * speed);
     }

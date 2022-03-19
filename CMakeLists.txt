@@ -18,10 +18,10 @@ add_executable(PGKPr main.cpp shader.cpp
     dependeces/Common/objloader.hpp
     src/Engine/Frame.cpp
     src/Engine/Component.h
-    src/Camera/Camera.h
-    src/Camera/Camera.cpp
     src/RenderableObject/RenderableObject.h
     src/RenderableObject/RenderableObject.cpp
+    src/Camera/Camera.cpp
+    src/Camera/Camera.h
     App.h
 )
 

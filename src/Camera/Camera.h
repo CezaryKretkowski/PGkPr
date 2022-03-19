@@ -1,5 +1,6 @@
 #ifndef CAMERA_H
 #define CAMERA_H
+
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
@@ -33,8 +34,8 @@ public:
     void setVerticalAngle(float angle) { this->verticalAngle = angle; }
     void upDateView();
 
-    Camera(float intialFov = 0.45f, float horizontalAngle = 3.14f, float verticalAngle = 0.0f);
-    ~Camera();
+    Camera(float intialFov = 45.0f, float horizontalAngle = 3.14f, float verticalAngle = 0.0f);
+    ~Camera(){};
 };
 
 #endif;
