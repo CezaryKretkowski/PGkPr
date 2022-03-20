@@ -15,9 +15,10 @@ using namespace glm;
 #include "shader.hpp"
 #include "src/Engine/Frame.h"
 #include "App.h"
+#include "src/Scenes/Lab02.h"
 int main(void)
 {
-    App *app = new App();
+    Lab02 *app = new Lab02();
     Engine::Frame frame;
     frame.add(app);
     if (!frame.init())

@@ -1,0 +1,22 @@
+#version 330 core
+
+// Interpolated values from the vertex shaders
+in vec4 setColor;
+
+
+// Ouput data
+out vec4 color;
+
+// Values that stay constant for the whole mesh.
+uniform sampler2D myTextureSampler;
+uniform mat4 MV;
+uniform vec3 LightPosition_worldspace;
+uniform vec4 ourColor;
+
+void main(){
+
+	
+	
+	color = ourColor;
+
+}

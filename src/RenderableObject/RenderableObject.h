@@ -40,6 +40,7 @@ public:
     void translate(glm::vec3 vector);
     void scale(glm::vec3 vector);
     void draw(GLuint MatrixID, GLuint ViewMatrixID, GLuint ModelMatrixID);
+    void drawColor(GLuint MatrixID, GLuint ViewMatrixID, GLuint ModelMatrixID);
 
     void setProjectionMatrix(glm::mat4 matrix) { projectionMatrix = matrix; }
     void setViewMatrix(glm::mat4 matrix) { viewMatrix = matrix; }

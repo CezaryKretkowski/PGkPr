@@ -5,7 +5,7 @@ Camera::Camera(float intialFov, float horizontalAngle, float verticalAngle)
     this->intialFov = intialFov;
     this->horizontalAngle = horizontalAngle;
     this->verticalAngle = verticalAngle;
-    this->posytion = glm::vec3(0, 0, 4);
+    this->posytion = glm::vec3(4, 4, 3);
     this->up = glm::vec3(0, 1, 0);
 
     projectionMatrix = glm::perspective(glm::radians(intialFov), 4.0f / 3.0f, 0.1f, 100.0f);

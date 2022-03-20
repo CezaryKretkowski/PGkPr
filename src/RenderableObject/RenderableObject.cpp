@@ -2,7 +2,7 @@
 
 void RenderableObject::translate(glm::vec3 vector)
 {
-    modelMatrix = glm::translate(glm::mat4(), vector);
+    modelMatrix = glm::translate(modelMatrix, vector);
 }
 void RenderableObject::scale(glm::vec3 vector)
 {
@@ -18,6 +18,8 @@ bool RenderableObject::initFromArrary(std::vector<glm::vec3> vertices, std::vect
     this->vertexCount = vertices.size();
     this->textureID = glGetUniformLocation(shederID, name);
 
+    glGenTextures(1, &texture);
+    glBindTexture(GL_TEXTURE_2D, texture);
     int width, height, nchan;
     unsigned char *dt = stbi_load(texturePath.c_str(), &width, &height, &nchan, 0);
     if (!dt)
@@ -40,6 +42,9 @@ bool RenderableObject::intFromFile(std::string path, GLuint shaderID, std::strin
     loadOBJ(path.c_str(), vertices, uvs, normals);
     this->vertexCount = vertices.size();
     this->textureID = glGetUniformLocation(shaderID, name);
+
+    glGenTextures(1, &texture);
+    glBindTexture(GL_TEXTURE_2D, texture);
 
     int width, height, nchan;
     unsigned char *dt = stbi_load(texturePath.c_str(), &width, &height, &nchan, 0);
@@ -91,6 +96,22 @@ void RenderableObject::draw(GLuint MatrixID, GLuint ViewMatrixID, GLuint ModelMa
 
     glDrawArrays(GL_TRIANGLES, 0, vertexCount);
 }
+void RenderableObject::drawColor(GLuint MatrixID, GLuint ViewMatrixID, GLuint ModelMatrixID)
+{
+    glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &MVP[0][0]);
+    glUniformMatrix4fv(ModelMatrixID, 1, GL_FALSE, &modelMatrix[0][0]);
+    glUniformMatrix4fv(ViewMatrixID, 1, GL_FALSE, &viewMatrix[0][0]);
+
+    glBindVertexArray(vao);
+
+    MVP = projectionMatrix * viewMatrix * modelMatrix;
+
+    glUniformMatrix4fv(ModelMatrixID, 1, GL_FALSE, &modelMatrix[0][0]);
+    glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &MVP[0][0]);
+
+    glDrawArrays(GL_TRIANGLES, 0, vertexCount);
+}
+
 void RenderableObject::initBuffers()
 {
     glGenVertexArrays(1, &vao);

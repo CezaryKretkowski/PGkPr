@@ -16,12 +16,15 @@ add_executable(PGKPr main.cpp shader.cpp
     dependeces/Common/stb_image.h
     dependeces/Common/objloader.cpp
     dependeces/Common/objloader.hpp
+    src/Laby/Particles.h
+    src/Laby/Particles.cpp
     src/Engine/Frame.cpp
     src/Engine/Component.h
     src/RenderableObject/RenderableObject.h
     src/RenderableObject/RenderableObject.cpp
     src/Camera/Camera.cpp
     src/Camera/Camera.h
+    src/Scenes/Lab02.h
     App.h
 )
 

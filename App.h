@@ -4,6 +4,37 @@
 #include "src/Camera/Camera.h"
 #include "src/RenderableObject/RenderableObject.h"
 
+std::vector<glm::vec3> floarVec1;
+std::vector<glm::vec3> floarVec2;
+std::vector<glm::vec2> floarVec3;
+
+std::vector<glm::vec3> floarVec = {
+    glm::vec3(-10.0f, 0.0f, 10.0f),
+    glm::vec3(-10.0f, 0.0f, -10.0f),
+    glm::vec3(10.0f, 0.0f, -10.0f),
+
+    glm::vec3(10.0f, 0.0f, -10.0f),
+    glm::vec3(10.0f, 0.0f, 10.0f),
+    glm::vec3(-10.0f, 0.0f, 10.0f)};
+
+std::vector<glm::vec3> floarNormal = {
+    glm::vec3(0.0f, 1.0f, 0.0f),
+    glm::vec3(0.0f, 1.0f, 0.0f),
+    glm::vec3(0.0f, 1.0f, 0.0f),
+    glm::vec3(0.0f, 1.0f, 0.0f),
+    glm::vec3(0.0f, 1.0f, 0.0f),
+    glm::vec3(0.0f, 1.0f, 0.0f)};
+
+std::vector<glm::vec2> floarUV = {
+    glm::vec2(0.0f, 1.0f),
+    glm::vec2(0.0f, 0.0f),
+    glm::vec2(1.0f, 0.0f),
+
+    glm::vec2(1.0f, 0.0f),
+    glm::vec2(1.0f, 1.0f),
+    glm::vec2(0.0f, 1.0f)
+
+};
 class App : public Engine::Component
 {
 private:
@@ -17,7 +48,10 @@ private:
     GLuint ViewMatrixID;
     GLuint ModelMatrixID;
     RenderableObject obj;
+    RenderableObject malpa;
+    RenderableObject floor;
     GLuint LightID;
+    float vv[3] = {5.0f, 3.0f, 0.0f};
     /* data */
 public:
     App(/* args */);
@@ -26,12 +60,22 @@ public:
     {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glUseProgram(programID);
-
+        control(super->getWindow(), super->getWidth(), super->getHeight());
+        camera.upDateView();
+        obj.setProjectionMatrix(camera.getProjectionMatrix());
+        obj.setViewMatrix(camera.getViewMatrix());
+        floor.setProjectionMatrix(camera.getProjectionMatrix());
+        floor.setViewMatrix(camera.getViewMatrix());
+        malpa.setProjectionMatrix(camera.getProjectionMatrix());
+        malpa.setViewMatrix(camera.getViewMatrix());
         // Set our "myTextureSampler" sampler to use Texture Unit 0
 
         glm::vec3 lightPos = glm::vec3(-4, 4, -4);
         glUniform3f(LightID, lightPos.x, lightPos.y, lightPos.z);
         obj.draw(MatrixID, ViewMatrixID, ModelMatrixID);
+        floor.draw(MatrixID, ViewMatrixID, ModelMatrixID);
+        malpa.draw(MatrixID, ViewMatrixID, ModelMatrixID);
+
         glBindVertexArray(0);
         // control(super->getWindow());
     }
@@ -39,7 +83,10 @@ public:
     {
         glfwSetInputMode(super->getWindow(), GLFW_STICKY_KEYS, GL_TRUE);
         // Hide the mouse and enable unlimited mouvement
-        glfwSetInputMode(super->getWindow(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+        glfwSetInputMode(super->getWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
+        glfwPollEvents();
+        glfwSetCursorPos(super->getWindow(), 1024 / 2, 768 / 2);
         // glfwSetCursorPos(window, 1024 / 2, 768 / 2);
         glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
         glEnable(GL_DEPTH_TEST);
@@ -57,29 +104,40 @@ public:
         ModelMatrixID = glGetUniformLocation(programID, "M");
 
         obj.intFromFile("../../resources/suzanne.obj", programID, "../../resources/uvmap.png", "myTextureSampler");
+        malpa.intFromFile("../../resources/suzanne.obj", programID, "../../resources/uvmap.png", "myTextureSampler");
+        obj.translate(glm::vec3(0.0f, -1.0f, 0.0f));
+        obj.scale(glm::vec3(1.0f, -1.0f, 1.0f));
+        malpa.translate(glm::vec3(0.0f, 1.0f, 0.0f));
+        floor.initFromArrary(floarVec, floarNormal, floarUV, programID, "../../resources/floor.png", "myTextureSampler");
 
         lastTime = glfwGetTime();
         glUseProgram(programID);
         LightID = glGetUniformLocation(programID, "LightPosition_worldspace");
 
-        // camera.upDateView(); // Camera matrix
+        camera.upDateView(); // Camera matrix
 
         obj.setProjectionMatrix(camera.getProjectionMatrix());
         obj.setViewMatrix(camera.getViewMatrix());
+        floor.setProjectionMatrix(camera.getProjectionMatrix());
+        floor.setViewMatrix(camera.getViewMatrix());
+        malpa.setProjectionMatrix(camera.getProjectionMatrix());
+        malpa.setViewMatrix(camera.getViewMatrix());
     }
     void clean(Engine::Frame *super) { puts("działa clean"); }
-    void control(GLFWwindow *w);
+    void control(GLFWwindow *w, int width, int hight);
 };
 
-void App::control(GLFWwindow *w)
+void App::control(GLFWwindow *w, int width, int hight)
 {
     double currentTime = glfwGetTime();
     float deltaTime = float(currentTime - lastTime);
     double xpos, ypos;
     glfwGetCursorPos(w, &xpos, &ypos);
 
-    camera.setHorizontalAngle(camera.getHorizontalAngle() + (mouseSpeed * float(1024 / 2 - xpos)));
-    camera.setVerticalAngle(camera.getVerticalAngle() + (mouseSpeed * float(1024 / 2 - xpos)));
+    glfwSetCursorPos(w, 1024 / 2, 768 / 2);
+
+    camera.setHorizontalAngle(camera.getHorizontalAngle() + (mouseSpeed * float(width / 2 - xpos)));
+    camera.setVerticalAngle(camera.getVerticalAngle() + (mouseSpeed * float(hight / 2 - ypos)));
 
     if (glfwGetKey(w, GLFW_KEY_W) == GLFW_PRESS)
     {
@@ -98,6 +156,7 @@ void App::control(GLFWwindow *w)
         camera.setPosytion(camera.getPosytion() + camera.getRight() * deltaTime * speed);
     }
     camera.upDateView();
+    lastTime = currentTime;
 }
 App::App(/* args */)
 {
