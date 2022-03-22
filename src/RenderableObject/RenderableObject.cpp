@@ -96,21 +96,7 @@ void RenderableObject::draw(GLuint MatrixID, GLuint ViewMatrixID, GLuint ModelMa
 
     glDrawArrays(GL_TRIANGLES, 0, vertexCount);
 }
-void RenderableObject::drawColor(GLuint MatrixID, GLuint ViewMatrixID, GLuint ModelMatrixID)
-{
-    glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &MVP[0][0]);
-    glUniformMatrix4fv(ModelMatrixID, 1, GL_FALSE, &modelMatrix[0][0]);
-    glUniformMatrix4fv(ViewMatrixID, 1, GL_FALSE, &viewMatrix[0][0]);
-
-    glBindVertexArray(vao);
-
-    MVP = projectionMatrix * viewMatrix * modelMatrix;
-
-    glUniformMatrix4fv(ModelMatrixID, 1, GL_FALSE, &modelMatrix[0][0]);
-    glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &MVP[0][0]);
-
-    glDrawArrays(GL_TRIANGLES, 0, vertexCount);
-}
+//
 
 void RenderableObject::initBuffers()
 {

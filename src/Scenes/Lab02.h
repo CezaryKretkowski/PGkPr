@@ -2,6 +2,7 @@
 #define LAB02_H
 #include "../Engine/Component.h"
 #include "../Laby/Particles.h"
+#include "../Laby/ParticleSystem.h"
 #include "../Camera/Camera.h"
 class Lab02 : public Engine::Component
 {
@@ -14,6 +15,7 @@ private:
     float lastTime;
     GLuint programID;
     GLuint MatrixID;
+
     GLuint ViewMatrixID;
     GLuint ModelMatrixID;
     GLuint LightID;
@@ -73,10 +75,10 @@ public:
                 // printf("live %f\n", particles[i].getLive());
 
                 glUniform4f(colorID, colors[0], colors[1], colors[2], particles[i].getLive());
-                Particles[i].setModelMatrix(glm::mat4(1.0));
-                Particles[i].translate(particles[i].getPos());
+                particles[i].getObj()->setModelMatrix(glm::mat4(1.0));
+                particles[i].getObj()->translate(particles[i].getPos());
 
-                Particles[i].drawColor(MatrixID, ViewMatrixID, ModelMatrixID);
+                particles[i].getObj()->draw(MatrixID, ViewMatrixID, ModelMatrixID);
                 // Particles[i].translate(glm::vec3(-float(i), 0.0f, 0.f));
             }
         }
@@ -106,16 +108,16 @@ public:
         ViewMatrixID = glGetUniformLocation(programID, "V");
         ModelMatrixID = glGetUniformLocation(programID, "M");
         for (int i = 0; i < MAX_PART; i++)
-            Particles[i].intFromFile("../../resources/cube.obj", programID, "../../resources/uvmap.png", "myTextureSampler");
+            particles[i].getObj()->intFromFile("../../resources/cube.obj", programID, "../../resources/uvmap.png", "myTextureSampler");
 
         glUseProgram(programID);
         LightID = glGetUniformLocation(programID, "LightPosition_worldspace");
         colorID = glGetUniformLocation(programID, "ourColor");
         for (int i = 0; i < MAX_PART; i++)
         {
-            particles[i].setEmiterPos(glm::vec3(-1.0f, -1.0f, 1.0f));
-            Particles[i].setProjectionMatrix(camera.getProjectionMatrix());
-            Particles[i].setViewMatrix(camera.getViewMatrix());
+            particles[i].setEmiterPos(glm::vec3(0.0f, 0.0f, 0.0f));
+            particles[i].getObj()->setProjectionMatrix(camera.getProjectionMatrix());
+            particles[i].getObj()->setViewMatrix(camera.getViewMatrix());
         }
 
         lastTime = glfwGetTime();

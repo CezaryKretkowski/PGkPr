@@ -16,6 +16,7 @@ add_executable(PGKPr main.cpp shader.cpp
     dependeces/Common/stb_image.h
     dependeces/Common/objloader.cpp
     dependeces/Common/objloader.hpp
+    src/Laby/ParticleSystem.h
     src/Laby/Particles.h
     src/Laby/Particles.cpp
     src/Engine/Frame.cpp

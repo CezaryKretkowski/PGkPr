@@ -1,6 +1,7 @@
 #ifndef PARTICLES_H
 #define PARTICLES_H
 #include <glm/glm.hpp>
+#include "../RenderableObject/RenderableObject.h"
 
 class Particles
 {
@@ -16,6 +17,8 @@ private:
 
     glm::vec3 emiterPos;
 
+    RenderableObject obj;
+
 public:
     Particles(/* args */);
     ~Particles();
@@ -28,6 +31,8 @@ public:
     float getSize() { return size; }
     void setActive(bool active) { this->active = active; }
     void zeroPos() { pos = glm::vec3(0.0f, 0.0f, 0.0f); }
+
+    RenderableObject *getObj() { return &obj; }
     glm::vec3 getColor() { return color; }
     glm::vec3 getPos() { return pos; }
     glm::vec3 getDirection() { return direction; }
