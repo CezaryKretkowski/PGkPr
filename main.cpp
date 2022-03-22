@@ -16,9 +16,11 @@ using namespace glm;
 #include "src/Engine/Frame.h"
 #include "App.h"
 #include "src/Scenes/Lab02.h"
+#include "src/Scenes/Rain.h"
+
 int main(void)
 {
-    Lab02 *app = new Lab02();
+    Rain *app = new Rain();
     Engine::Frame frame;
     frame.add(app);
     if (!frame.init())

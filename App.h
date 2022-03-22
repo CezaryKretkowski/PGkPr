@@ -60,7 +60,7 @@ public:
     {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glUseProgram(programID);
-        control(super->getWindow(), super->getWidth(), super->getHeight());
+        camera.control(super->getWindow(), super->getWidth(), super->getHeight());
         camera.upDateView();
         obj.setProjectionMatrix(camera.getProjectionMatrix());
         obj.setViewMatrix(camera.getViewMatrix());
@@ -97,18 +97,18 @@ public:
 
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-        programID = LoadShaders("../../shaders/StandardShading.vertexshader", "../../shaders/StandardShading.fragmentshader");
+        programID = LoadShaders("shaders/StandardShading.vertexshader", "shaders/StandardShading.fragmentshader");
 
         MatrixID = glGetUniformLocation(programID, "MVP");
         ViewMatrixID = glGetUniformLocation(programID, "V");
         ModelMatrixID = glGetUniformLocation(programID, "M");
 
-        obj.intFromFile("../../resources/suzanne.obj", programID, "../../resources/uvmap.png", "myTextureSampler");
-        malpa.intFromFile("../../resources/suzanne.obj", programID, "../../resources/uvmap.png", "myTextureSampler");
+        obj.intFromFile("resources/suzanne.obj", programID, "resources/uvmap.png", "myTextureSampler");
+        malpa.intFromFile("resources/suzanne.obj", programID, "resources/uvmap.png", "myTextureSampler");
         obj.translate(glm::vec3(0.0f, -1.0f, 0.0f));
         obj.scale(glm::vec3(1.0f, -1.0f, 1.0f));
         malpa.translate(glm::vec3(0.0f, 1.0f, 0.0f));
-        floor.initFromArrary(floarVec, floarNormal, floarUV, programID, "../../resources/floor.png", "myTextureSampler");
+        floor.initFromArrary(floarVec, floarNormal, floarUV, programID, "resources/floor.png", "myTextureSampler");
 
         lastTime = glfwGetTime();
         glUseProgram(programID);

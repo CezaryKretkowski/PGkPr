@@ -1,5 +1,5 @@
 #include "Particles.h"
-
+#include <math.h>
 void Particles::setEmiterPos(glm::vec3 emiterPos = glm::vec3(0.0f, 0.0f, 0.0f)) {
     this->emiterPos = emiterPos;
 }
@@ -17,6 +17,8 @@ Particles::Particles(int mode) {
     color = glm::vec3(1.0f, F_RAND(), F_RAND());
     active = false;
     size = F_RAND() * 5.0f + 0.5f;
+    speed=50.0f;
+    gravity = glm::vec3(0.0f, -10.0f, 0.0f);
 }
 
 void Particles::activate() {
@@ -26,20 +28,20 @@ void Particles::activate() {
     fade = 0.05f + F_RAND() * 0.4f;
 
     pos = calculatePosition();
-    float fi = 3.14f / 4.0f;
-    float psi = F_RAND() * (3.14f / 2.0f);
-    float rr = F_RAND() * 12.0f + 16.0f;
+    float fi = 3.14/ 4.0f;
+    float psi = F_RAND() * (3.14f * 2);
+    float rr = F_RAND() * 12 + 16;
     direction = glm::vec3(rr * cos(fi) * cos(psi), rr * sin(fi), rr * cos(fi) * sin(psi));
 
-    gravity = glm::vec3(0.0f, -10.0f, 0.0f);
+
 }
 
 void Particles::live(float tt) {
-    pos += direction * (tt / speed);
-    direction += gravity * (tt / offset);
+    pos += direction * (tt/speed) ;
+    direction += gravity*(tt/speed);
     life -= fade * tt;
     // printf("%f\n", life);
-    if (life < 0.05f) {
+    if (life <= 0.0f) {
         activate();
     }
 }

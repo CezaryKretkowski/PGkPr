@@ -15,8 +15,7 @@ private:
     bool active;
     float life, fade;
     float size;
-    float offset=1.0f;
-    float speed=40.0f;
+    float speed;
     glm::vec3 color;
     glm::vec3 pos;
     glm::vec3 direction;
@@ -37,6 +36,7 @@ public:
     float getLive() { return life; }
     float getFade() { return fade; }
     float getSize() { return size; }
+    void setSpeed(float fs){speed=fs;}
     void setActive(bool active) { this->active = active; }
 
     RenderableObject *getObj() { return &obj; }
@@ -46,6 +46,7 @@ public:
     glm::vec3 getGravity() { return gravity; }
     void setGravity(glm::vec3 gravity){this->gravity=gravity;}
     void setDimension(glm::vec3 dimension){this->dimensions=dimension;}
+    void setDirection(glm::vec3 dimension){this->direction=dimension;}
     void setEmiterPos(glm::vec3 emiterPos);
     void setMode(int mode){this->mode=mode;}
 

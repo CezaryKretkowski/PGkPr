@@ -26,6 +26,7 @@ add_executable(PGKPr main.cpp shader.cpp
     src/Camera/Camera.cpp
     src/Camera/Camera.h
     src/Scenes/Lab02.h
+    src/Scenes/Rain.h
     App.h
 )
 
