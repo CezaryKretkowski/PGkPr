@@ -1,6 +1,7 @@
 #ifndef PARTICLES_H
 #define PARTICLES_H
 #include <glm/glm.hpp>
+
 class Particles
 {
 private:
@@ -12,6 +13,8 @@ private:
     glm::vec3 pos;
     glm::vec3 direction;
     glm::vec3 gravity;
+
+    glm::vec3 emiterPos;
 
 public:
     Particles(/* args */);
@@ -29,7 +32,10 @@ public:
     glm::vec3 getPos() { return pos; }
     glm::vec3 getDirection() { return direction; }
     glm::vec3 getGravity() { return gravity; }
+    void setEmiterPos(glm::vec3 emiterPos);
+
     float F_RAND();
+    float F_RAND(float end);
 };
 
 #endif;

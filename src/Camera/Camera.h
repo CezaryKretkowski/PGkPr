@@ -34,7 +34,7 @@ public:
     void setVerticalAngle(float angle) { this->verticalAngle = angle; }
     void upDateView();
 
-    Camera(float intialFov = 45.0f, float horizontalAngle = 3.14f, float verticalAngle = 0.0f);
+    Camera(glm::vec3 pos = glm::vec3(3, 3, 3), float intialFov = 45.0f, float horizontalAngle = 3.14f, float verticalAngle = 0.0f);
     ~Camera(){};
 };
 

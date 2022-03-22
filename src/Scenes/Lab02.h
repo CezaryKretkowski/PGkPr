@@ -106,13 +106,14 @@ public:
         ViewMatrixID = glGetUniformLocation(programID, "V");
         ModelMatrixID = glGetUniformLocation(programID, "M");
         for (int i = 0; i < MAX_PART; i++)
-            Particles[i].intFromFile("../../resources/particle.obj", programID, "../../resources/uvmap.png", "myTextureSampler");
+            Particles[i].intFromFile("../../resources/cube.obj", programID, "../../resources/uvmap.png", "myTextureSampler");
 
         glUseProgram(programID);
         LightID = glGetUniformLocation(programID, "LightPosition_worldspace");
         colorID = glGetUniformLocation(programID, "ourColor");
         for (int i = 0; i < MAX_PART; i++)
         {
+            particles[i].setEmiterPos(glm::vec3(-1.0f, -1.0f, 1.0f));
             Particles[i].setProjectionMatrix(camera.getProjectionMatrix());
             Particles[i].setViewMatrix(camera.getViewMatrix());
         }
