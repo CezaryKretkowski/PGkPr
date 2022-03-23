@@ -28,6 +28,6 @@ add_executable(PGKPr main.cpp shader.cpp
     src/Scenes/Lab02.h
     src/Scenes/Rain.h
     App.h
-)
+        src/Scenes/Smoke.h)
 
 target_link_libraries(${PROJECT_NAME} glew32s glew32 OpenGL32 glfw3 glm)

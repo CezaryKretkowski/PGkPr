@@ -1,5 +1,9 @@
-#ifndef RAIN_H
-#define RAIN_H
+//
+// Created by Lothar on 23.03.2022.
+//
+
+#ifndef PGKPR_SMOKE_H
+#define PGKPR_SMOKE_H
 #include "../../dependeces/Common/objloader.hpp"
 #include "../Engine/Component.h"
 #include "../Laby/Particles.h"
@@ -8,11 +12,10 @@
 
 #include "App.h"
 
-class Rain : public Engine::Component {
-private:
+class Smoke: public Engine::Component{
     Camera camera;
-    int MAX_PART = 400;
-    Particles particles[400];
+    int MAX_PART = 2000;
+    Particles particles[2000];
     float ACTIVATE_TIME = 0.01f;
     float act_time = 0.0f;
     float lastTime;
@@ -20,6 +23,7 @@ private:
     std::vector<glm::vec2> uvs;
     GLuint programID;
     GLuint programID1;
+    float x;
     GLuint MatrixID;
     GLuint MatrixID1;
     glm::vec2 dimensions;
@@ -33,9 +37,9 @@ private:
     glm::vec4 color = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f);
     /* data */
 public:
-    Rain(/* args */){};
+    Smoke(/* args */){};
 
-    ~Rain(){};
+    ~Smoke(){};
 
     void run(Engine::Frame *super) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -64,9 +68,10 @@ public:
             if (particles[i].isActive()) {
 
                 glm::vec3 vec = particles[i].getPos();
-
+                particles[i].setGravity(glm::vec3(F_RAND(1.0f),10.0f,1.0f));
                 particles[i].live(times);
-                particles[i].setDirection(glm::vec3(vec[1],-10,vec[2]));
+
+                particles[i].setDirection(glm::vec3(vec[1],10,vec[2]));
 
             } else {
                 if (act_time >= ACTIVATE_TIME) {
@@ -82,7 +87,7 @@ public:
                 glm::vec3 colors = particles[i].getColor();
 
 
-                glUniform4f(colorID, 0.0f, 0.0f, 1.0f, 1.0f);
+                glUniform4f(colorID, 0.0f, 0.0f, 0.0f, 1.0f);
                 particles[i].getObj()->setProjectionMatrix(camera.getProjectionMatrix());
                 particles[i].getObj()->setViewMatrix(camera.getViewMatrix());
                 particles[i].getObj()->setModelMatrix(glm::mat4(1.0));
@@ -137,15 +142,16 @@ public:
 
         colorID = glGetUniformLocation(programID, "ourColor");
 
-
+        x= F_RAND(1.0f);
 
         floor.initFromArrary(floarVec, floarNormal, floarUV, programID, "resources/floor.png", "myTextureSampler");
         for (int i = 0; i < MAX_PART; i++) {
-            particles[i].setEmiterPos(glm::vec3(0.0f, 10.0f, 0.0f));
+            particles[i].setEmiterPos(glm::vec3(0.0f, -6.0f, 0.0f));
             particles[i].setMode(SQUARE);
             particles[i].setSpeed(4.0);
-            particles[i].setGravity(glm::vec3(-1.0f,-10.0f,1.0f));
-            particles[i].setDimension(glm::vec3(2.0f,2.0f,2.0f));
+
+            particles[i].setGravity(glm::vec3(F_RAND(1.0f),10.0f,1.0f));
+            particles[i].setDimension(glm::vec3(1.0f,1.0f,1.0f));
             particles[i].getObj()->setProjectionMatrix(camera.getProjectionMatrix());
             particles[i].getObj()->setViewMatrix(camera.getViewMatrix());
         }
@@ -160,10 +166,9 @@ public:
     void clean(Engine::Frame *super) {}
     float F_RAND(float end)
     {
-        return static_cast<float>(std::rand()) / static_cast<float>(RAND_MAX / end);
+        float w;
+        w= static_cast<float>(std::rand()) / static_cast<float>(RAND_MAX / end);
+        return w-1.0f;
     }
 };
-
-
-
-#endif;
+#endif //PGKPR_SMOKE_H

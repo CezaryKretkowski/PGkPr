@@ -1,5 +1,6 @@
 #ifndef RENDERABLE_OBJECT_H
 #define RENDERABLE_OBJECT_H
+
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
@@ -9,8 +10,7 @@
 #include "../../dependeces/Common/stb_image.h"
 #include "../../dependeces/Common/objloader.hpp"
 
-class RenderableObject
-{
+class RenderableObject {
 private:
     std::vector<glm::vec3> vertices, normals;
     std::vector<glm::vec2> uvs;
@@ -31,19 +31,29 @@ private:
 
 public:
     RenderableObject(/* args */);
+
     ~RenderableObject();
 
     bool initFromArrary(std::vector<glm::vec3> vertices, std::vector<glm::vec3> normals,
                         std::vector<glm::vec2> uvs, GLuint shederID, std::string texturePath, GLchar *name);
+
     bool intFromFile(std::string path, GLuint shaderID, std::string texturePath, GLchar *name);
 
     void translate(glm::vec3 vector);
+
     void scale(glm::vec3 vector);
+
     void draw(GLuint MatrixID, GLuint ViewMatrixID, GLuint ModelMatrixID);
 
     void setProjectionMatrix(glm::mat4 matrix) { projectionMatrix = matrix; }
+
     void setViewMatrix(glm::mat4 matrix) { viewMatrix = matrix; }
+
     void setModelMatrix(glm::mat4 matrix) { modelMatrix = matrix; }
+
+    void loadParticles(std::vector<glm::vec3> vertices, std::vector<glm::vec3> normals,std::vector<glm::vec2> uvs) ;
+
+
 };
 
 #endif;
