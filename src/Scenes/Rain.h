@@ -63,7 +63,8 @@ public:
                 glm::vec3 vec = particles[i].getPos();
 
                 particles[i].live(times);
-                particles[i].set()
+                particles[i].setDirection(glm::vec3(vec[1],-10,vec[2]));
+
             } else {
                 if (act_time >= ACTIVATE_TIME) {
                     act_time = 0.0f;
@@ -78,11 +79,11 @@ public:
                 glm::vec3 colors = particles[i].getColor();
 
 
-                glUniform4f(colorID, colors[0], colors[1], colors[2], particles[i].getLive());
+                glUniform4f(colorID, 0.0f, 0.0f, 1.0f, 1.0f);
                 particles[i].getObj()->setProjectionMatrix(camera.getProjectionMatrix());
                 particles[i].getObj()->setViewMatrix(camera.getViewMatrix());
                 particles[i].getObj()->setModelMatrix(glm::mat4(1.0));
-                particles[i].getObj()->translate(particles[i].getPos()*glm::vec3(1.0f,-1.0f,1.0f));
+                particles[i].getObj()->translate(particles[i].getPos());
 
                 particles[i].getObj()->draw(MatrixID, ViewMatrixID, ModelMatrixID);
 
@@ -104,7 +105,7 @@ public:
         glfwPollEvents();
         glfwSetCursorPos(super->getWindow(), 1024 / 2, 768 / 2);
         // glfwSetCursorPos(window, 1024 / 2, 768 / 2);
-        glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
+        glClearColor(0.8f, 0.8f, 1.0f, 0.0f);
         glEnable(GL_DEPTH_TEST);
         // Accept fragment if it closer to the camera than the former one
         glDepthFunc(GL_LESS);
@@ -137,17 +138,17 @@ public:
 
         floor.initFromArrary(floarVec, floarNormal, floarUV, programID, "resources/floor.png", "myTextureSampler");
         for (int i = 0; i < MAX_PART; i++) {
-            particles[i].setEmiterPos(glm::vec3(0.0f, 3.0f, 0.0f));
+            particles[i].setEmiterPos(glm::vec3(0.0f, 10.0f, 0.0f));
             particles[i].setMode(SQUARE);
-            particles[i].setSpeed(15.0);
+            particles[i].setSpeed(4.0);
             particles[i].setGravity(glm::vec3(-1.0f,-10.0f,1.0f));
-            particles[i].setDimension(glm::vec3(1.0f,1.0f,1.0f));
+            particles[i].setDimension(glm::vec3(2.0f,2.0f,2.0f));
             particles[i].getObj()->setProjectionMatrix(camera.getProjectionMatrix());
             particles[i].getObj()->setViewMatrix(camera.getViewMatrix());
         }
         glUseProgram(programID1);
         LightID = glGetUniformLocation(programID1, "LightPosition_worldspace");
-        floor.translate(glm::vec3(0.0,-2.0,0.0));
+        floor.translate(glm::vec3(0.0,-6.0,0.0));
         floor.setProjectionMatrix(camera.getProjectionMatrix());
         floor.setViewMatrix(camera.getViewMatrix());
         lastTime = glfwGetTime();
