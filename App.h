@@ -51,6 +51,7 @@ private:
     RenderableObject malpa;
     RenderableObject floor;
     GLuint LightID;
+
     float vv[3] = {5.0f, 3.0f, 0.0f};
     /* data */
 public:
@@ -104,11 +105,13 @@ public:
         ModelMatrixID = glGetUniformLocation(programID, "M");
 
         obj.intFromFile("resources/suzanne.obj", programID, "resources/uvmap.png", "myTextureSampler");
-        malpa.intFromFile("resources/suzanne.obj", programID, "resources/uvmap.png", "myTextureSampler");
+        malpa.loadTexture(programID, "resources/uvmap.png", "myTextureSampler");
+        malpa.intFromFile("resources/suzanne.obj");
         obj.translate(glm::vec3(0.0f, -1.0f, 0.0f));
         obj.scale(glm::vec3(1.0f, -1.0f, 1.0f));
         malpa.translate(glm::vec3(0.0f, 1.0f, 0.0f));
-        floor.initFromArrary(floarVec, floarNormal, floarUV, programID, "resources/floor.png", "myTextureSampler");
+        floor.loadTexture(programID, "resources/floor.png", "myTextureSampler");
+        floor.initFromArrary(floarVec, floarNormal, floarUV);
 
         lastTime = glfwGetTime();
         glUseProgram(programID);

@@ -10,8 +10,9 @@
 #include "../../dependeces/Common/stb_image.h"
 #include "../../dependeces/Common/objloader.hpp"
 
+bool LoadTexture(GLuint shederID, std::string texturePath, GLchar *name,GLint out[]);
 class RenderableObject {
-private:
+protected:
     std::vector<glm::vec3> vertices, normals;
     std::vector<glm::vec2> uvs;
     size_t vertexCount;
@@ -34,10 +35,18 @@ public:
 
     ~RenderableObject();
 
+    bool loadTexture( GLuint shederID, std::string texturePath, GLchar *name);
+
+    void setTexture(GLuint textureID,GLuint texture);
+
     bool initFromArrary(std::vector<glm::vec3> vertices, std::vector<glm::vec3> normals,
                         std::vector<glm::vec2> uvs, GLuint shederID, std::string texturePath, GLchar *name);
 
+    bool initFromArrary(std::vector<glm::vec3> vertices, std::vector<glm::vec3> normals,
+                        std::vector<glm::vec2> uvs);
+
     bool intFromFile(std::string path, GLuint shaderID, std::string texturePath, GLchar *name);
+    bool intFromFile(std::string path);
 
     void translate(glm::vec3 vector);
 
@@ -51,7 +60,6 @@ public:
 
     void setModelMatrix(glm::mat4 matrix) { modelMatrix = matrix; }
 
-    void loadParticles(std::vector<glm::vec3> vertices, std::vector<glm::vec3> normals,std::vector<glm::vec2> uvs) ;
 
 
 };

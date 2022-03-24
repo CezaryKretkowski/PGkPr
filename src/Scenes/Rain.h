@@ -11,11 +11,11 @@
 class Rain : public Engine::Component {
 private:
     Camera camera;
-    int MAX_PART = 400;
-    Particles particles[400];
-    float ACTIVATE_TIME = 0.01f;
-    float act_time = 0.0f;
-    float lastTime;
+    long int MAX_PART = 100000;
+    Particles particles[100000];
+    double ACTIVATE_TIME = 0.00000001f;
+    double act_time = 0.0f;
+    double lastTime;
     std::vector<glm::vec3> vertices, normals;
     std::vector<glm::vec2> uvs;
     GLuint programID;

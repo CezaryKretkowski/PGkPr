@@ -5,10 +5,13 @@
 #include "../Laby/Particles.h"
 #include "../Laby/ParticleSystem.h"
 #include "../Camera/Camera.h"
-
+#define M_PI 3.14
 class Lab02 : public Engine::Component {
 private:
     Camera camera;
+    std::vector<glm::vec3> vertices, normals;
+    std::vector<glm::vec2> uvs;
+
     int MAX_PART = 110;
     Particles particles[110];
     float ACTIVATE_TIME = 0.01f;
@@ -22,6 +25,8 @@ private:
     GLuint LightID;
     GLuint colorID;
     glm::vec4 color = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f);
+
+
     /* data */
 public:
     Lab02(/* args */);
@@ -45,6 +50,11 @@ public:
         for (int i = 0; i < MAX_PART; i++) {
 
             if (particles[i].isActive()) {
+                float fi = M_PI/4; // 45 stopni w górę
+                float psi = F_RAND(0.0f,1.0f) * (M_PI*2); // 0-360 stopni wokół osi Y
+                float rr = F_RAND(0.0f,1.0f) * 12 + 16;
+                glm::vec3 direction(rr * cos(fi) * cos(psi),rr * sin(fi),rr * cos(fi) * sin(psi));
+                particles[i].direction=direction;
                 particles[i].live(times);
             } else {
                 if (act_time >= ACTIVATE_TIME) {
@@ -57,15 +67,15 @@ public:
         }
         for (int i = 0; i < MAX_PART; i++) {
             if (particles[i].isActive()) {
-                glm::vec3 colors = particles[i].getColor();
+                glm::vec3 colors = particles[i].color;
 
 
                 glUniform4f(colorID, colors[0], colors[1], colors[2], particles[i].getLive());
-                particles[i].getObj()->setModelMatrix(glm::mat4(1.0));
-                particles[i].getObj()->setViewMatrix(camera.getViewMatrix());
-                particles[i].getObj()->setModelMatrix(glm::mat4(1.0));
-                particles[i].getObj()->translate(particles[i].getPos());
-                particles[i].getObj()->draw(MatrixID, ViewMatrixID, ModelMatrixID);
+                particles[i].setModelMatrix(glm::mat4(1.0));
+                particles[i].setViewMatrix(camera.getViewMatrix());
+                particles[i].setModelMatrix(glm::mat4(1.0));
+                particles[i].translate(particles[i].getPos());
+                particles[i].draw(MatrixID, ViewMatrixID, ModelMatrixID);
 
             }
         }
@@ -95,29 +105,31 @@ public:
         MatrixID = glGetUniformLocation(programID, "MVP");
         ViewMatrixID = glGetUniformLocation(programID, "V");
         ModelMatrixID = glGetUniformLocation(programID, "M");
-        for (int i = 0; i < MAX_PART; i++)
-            particles[i].getObj()->intFromFile("resources/a_to_jez_jak_kulka.obj", programID, "resources/uvmap.png",
-                                               "myTextureSampler");
+        loadOBJ("resources/kula.obj",vertices,uvs,normals);
+        GLint  out[2];
+        LoadTexture(programID,"resources/uvmap.png","myTextureSampler",out);
+
+        for (int i = 0; i < MAX_PART; i++){
+            particles[i].initFromArrary(vertices,normals,uvs);
+            particles[i].setTexture(out[0],out[1]);
+        }
 
         glUseProgram(programID);
         LightID = glGetUniformLocation(programID, "LightPosition_worldspace");
         colorID = glGetUniformLocation(programID, "ourColor");
         for (int i = 0; i < MAX_PART; i++) {
-            particles[i].setEmiterPos(glm::vec3(0.0f, 0.0f, 0.0f));
+            particles[i].setEmitterPosition(glm::vec3(0.0f, 0.0f, 0.0f));
             particles[i].setMode(POINT);
             particles[i].setDimension(glm::vec3(1,1,1));
-            particles[i].getObj()->setProjectionMatrix(camera.getProjectionMatrix());
-            particles[i].getObj()->setViewMatrix(camera.getViewMatrix());
+            particles[i].setProjectionMatrix(camera.getProjectionMatrix());
+            particles[i].setViewMatrix(camera.getViewMatrix());
         }
 
         lastTime = glfwGetTime();
     }
 
     void clean(Engine::Frame *super) {}
-    float F_RAND(float end)
-    {
-        return static_cast<float>(std::rand()) / static_cast<float>(RAND_MAX / end);
-    }
+
 };
 
 Lab02::Lab02(/* args */) {
