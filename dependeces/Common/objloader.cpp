@@ -8,7 +8,7 @@
 #include "objloader.hpp"
 
 // Very, VERY simple OBJ loader.
-// Here is a short list of features a real function would provide : 
+// Here is a short list of features a real function would provide :
 // - Binary files. Reading a model should be just a few memcpy's away, not parsing a file at runtime. In short : OBJ is not very great.
 // - Animations & bones (includes bones weights)
 // - Multiple UVs
@@ -18,15 +18,15 @@
 // - Loading from memory, stream, etc
 
 bool loadOBJ(
-	const char * path, 
-	std::vector<glm::vec3> & out_vertices, 
+	const char * path,
+	std::vector<glm::vec3> & out_vertices,
 	std::vector<glm::vec2> & out_uvs,
 	std::vector<glm::vec3> & out_normals
 ){
 	printf("Loading OBJ file %s...\n", path);
 
 	std::vector<unsigned int> vertexIndices, uvIndices, normalIndices;
-	std::vector<glm::vec3> temp_vertices; 
+	std::vector<glm::vec3> temp_vertices;
 	std::vector<glm::vec2> temp_uvs;
 	std::vector<glm::vec3> temp_normals;
 
@@ -40,14 +40,14 @@ bool loadOBJ(
 
 	while( 1 ){
 
-		char lineHeader[128];
+		char lineHeader[1024];
 		// read the first word of the line
 		int res = fscanf(file, "%s", lineHeader);
 		if (res == EOF)
 			break; // EOF = End Of File. Quit the loop.
 
 		// else : parse lineHeader
-		
+
 		if ( strcmp( lineHeader, "v" ) == 0 ){
 			glm::vec3 vertex;
 			fscanf(file, "%f %f %f\n", &vertex.x, &vertex.y, &vertex.z );
@@ -81,8 +81,8 @@ bool loadOBJ(
 			normalIndices.push_back(normalIndex[2]);
 		}else{
 			// Probably a comment, eat up the rest of the line
-			char stupidBuffer[1000];
-			fgets(stupidBuffer, 1000, file);
+			char stupidBuffer[100000];
+			fgets(stupidBuffer, 100000, file);
 		}
 
 	}
@@ -94,17 +94,17 @@ bool loadOBJ(
 		unsigned int vertexIndex = vertexIndices[i];
 		unsigned int uvIndex = uvIndices[i];
 		unsigned int normalIndex = normalIndices[i];
-		
+
 		// Get the attributes thanks to the index
 		glm::vec3 vertex = temp_vertices[ vertexIndex-1 ];
 		glm::vec2 uv = temp_uvs[ uvIndex-1 ];
 		glm::vec3 normal = temp_normals[ normalIndex-1 ];
-		
+
 		// Put the attributes in buffers
 		out_vertices.push_back(vertex);
 		out_uvs     .push_back(uv);
 		out_normals .push_back(normal);
-	
+
 	}
 	fclose(file);
 	return true;
@@ -119,7 +119,7 @@ bool loadOBJ(
 #include <assimp/postprocess.h>     // Post processing flags
 
 bool loadAssImp(
-	const char * path, 
+	const char * path,
 	std::vector<unsigned short> & indices,
 	std::vector<glm::vec3> & vertices,
 	std::vector<glm::vec2> & uvs,
@@ -166,7 +166,7 @@ bool loadAssImp(
 		indices.push_back(mesh->mFaces[i].mIndices[1]);
 		indices.push_back(mesh->mFaces[i].mIndices[2]);
 	}
-	
+
 	// The "scene" pointer will be deleted automatically by "importer"
 	return true;
 }

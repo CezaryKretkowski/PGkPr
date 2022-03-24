@@ -5,7 +5,7 @@
 #include <iostream>
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
-#include <list>
+#include <stack>
 #include "Component.h"
 
 namespace Engine
@@ -22,7 +22,7 @@ namespace Engine
         int height = 768;
         std::string title = "PGKPR";
         bool endFlag = false;
-        std::list<Component *> components;
+        std::stack<Component *> components;
 
         // Private metods
         bool glfwInital();

@@ -45,8 +45,9 @@ void Frame::reloadFrame()
 void Frame::mainLoop()
 {
     double posX, posY;
-    for (std::list<Component *>::iterator i = components.begin(); i != components.end(); i++)
-        (*i)->setUp(this);
+    //for (std::sta<Component *>::iterator i = components.begin(); i != components.end(); i++)
+      //  (*i)->setUp(this);
+      components.top()->setUp(this);
 
     while (!endFlag)
     {
@@ -54,14 +55,14 @@ void Frame::mainLoop()
         if (!glfwWindowShouldClose(window) == 0)
             endFlag = true;
 
-        for (std::list<Component *>::iterator i = components.begin(); i != components.end(); i++)
-            (*i)->run(this);
+       // for (std::list<Component *>::iterator i = components.begin(); i != components.end(); i++)
+        components.top()->run(this);
 
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
-    for (std::list<Component *>::iterator i = components.begin(); i != components.end(); i++)
-        (*i)->clean(this);
+    //for (std::list<Component *>::iterator i = components.begin(); i != components.end(); i++)
+        components.top()->clean(this);
 }
 
 bool Frame::init(bool mode, int width, int height, std::string title)
@@ -87,7 +88,7 @@ bool Frame::init(bool mode, int width, int height, std::string title)
 }
 void Frame::add(Component *c)
 {
-    components.push_front(c);
+    components.push(c);
 }
 Frame::~Frame()
 {

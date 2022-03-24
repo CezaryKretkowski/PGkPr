@@ -19,12 +19,12 @@ using namespace glm;
 #include "src/Scenes/Lab02.h"
 #include "src/Scenes/Rain.h"
 
-//#include "src/Scenes/Smoke.h"
+#include "src/Scenes/Smoke.h"
 
 int main(void)
 {
 
-    Rain *app = new Rain();
+    Smoke *app = new Smoke();
     Engine::Frame frame;
     frame.add(app);
     if (!frame.init())

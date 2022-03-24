@@ -5,36 +5,46 @@
 #ifndef PGKPR_SMOKE_H
 #define PGKPR_SMOKE_H
 #include "../../dependeces/Common/objloader.hpp"
+#include "glm/glm.hpp"
+#include "glm/gtc/matrix_transform.hpp"
 #include "../Engine/Component.h"
 #include "../Laby/Particles.h"
 #include "../Laby/ParticleSystem.h"
 #include "../Camera/Camera.h"
 
 #include "App.h"
+class SmokeEffect : public DirectionStrategy {
+
+    glm::vec3 calculateDirection() override{
+
+        glm::vec3 direction(F_RAND(-0.1,0.1), 1.0, F_RAND(-0.1,0.1));
+        return direction;
+    }
+};
 
 class Smoke: public Engine::Component{
     Camera camera;
-    int MAX_PART = 2000;
-    Particles particles[2000];
-    float ACTIVATE_TIME = 0.01f;
-    float act_time = 0.0f;
-    float lastTime;
     std::vector<glm::vec3> vertices, normals;
     std::vector<glm::vec2> uvs;
+
+    int MAX_PART = 10000;
+    Particles particles[10000];
+
+    float ACTIVATE_TIME = 0.0000001f;
+    float act_time = 0.0f;
+    float lastTime;
+    float MaxPart_per=1000;
     GLuint programID;
-    GLuint programID1;
-    float x;
     GLuint MatrixID;
-    GLuint MatrixID1;
     glm::vec2 dimensions;
     GLuint ViewMatrixID;
     GLuint ModelMatrixID;
-    GLuint ViewMatrixID1;
-    GLuint ModelMatrixID1;
     GLuint LightID;
     GLuint colorID;
     RenderableObject floor;
     glm::vec4 color = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f);
+
+
     /* data */
 public:
     Smoke(/* args */){};
@@ -43,63 +53,56 @@ public:
 
     void run(Engine::Frame *super) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        glm::vec3 lightPos = glm::vec3(-4, 4, -4);
-        glUseProgram(programID1);
-        glUniform3f(LightID, lightPos.x, lightPos.y, lightPos.z);
-        floor.setProjectionMatrix(camera.getProjectionMatrix());
-        floor.setViewMatrix(camera.getViewMatrix());
-        floor.draw(MatrixID1, ViewMatrixID1, ModelMatrixID1);
-
         glUseProgram(programID);
+
         camera.control(super->getWindow(), super->getWidth(), super->getHeight());
-
-
-
+        glm::vec3 lightPos = glm::vec3(-4, 4, -4);
         glUniform3f(LightID, lightPos.x, lightPos.y, lightPos.z);
 
-
+        int i=0;
         glm::mat4 modelMat = glm::mat4(1.0);
         float nowTime = glfwGetTime();
         float times = (nowTime - lastTime);
         act_time += times;
 
-        for (int i = 0; i < MAX_PART; i++) {
+        while(i<MAX_PART) {//(int i = 0; i < MAX_PART; i++) {
 
             if (particles[i].isActive()) {
-
-                glm::vec3 vec = particles[i].getPos();
-                particles[i].setGravity(glm::vec3(F_RAND(1.0f),10.0f,1.0f));
+             //   particles[i].direction=vec3(F_RAND(-1.0,1.0), 1.0, F_RAND(-1.0,1.0));
+              //  particles[i].direction+=particles[i].getExternals();
                 particles[i].live(times);
-
-                particles[i].setDirection(glm::vec3(vec[1],10,vec[2]));
-
+             //   particles[i].direction=particles[i].getGravity();
             } else {
                 if (act_time >= ACTIVATE_TIME) {
-                    act_time = 0.0f;
+                    act_time=0.0f;
+                   // particles[i].color=glm::vec3 (1.0f,F_RAND(0.0f,1.0f),F_RAND(0.0f,1.0f));
                     particles[i].activate();
+
                     // puts("Aktywana");
                 }
-                break;
+                //break;
             }
+            i++;
         }
+
         for (int i = 0; i < MAX_PART; i++) {
             if (particles[i].isActive()) {
-                glm::vec3 colors = particles[i].getColor();
+                glm::vec3 colors = particles[i].color;
 
 
-                glUniform4f(colorID, 0.0f, 0.0f, 0.0f, 1.0f);
-                particles[i].getObj()->setProjectionMatrix(camera.getProjectionMatrix());
-                particles[i].getObj()->setViewMatrix(camera.getViewMatrix());
-                particles[i].getObj()->setModelMatrix(glm::mat4(1.0));
-                particles[i].getObj()->translate(particles[i].getPos());
+                glUniform4f(colorID, 1.0-particles[i].getLive(), 1.0-particles[i].getLive(), 1.0-particles[i].getLive(), particles[i].getLive()/particles[i].speed);
+                //glUniform1f(colorID,particles[i].getLive());
+                particles[i].setModelMatrix(glm::mat4(1.0));
+                particles[i].setViewMatrix(camera.getViewMatrix());
 
-                particles[i].getObj()->draw(MatrixID, ViewMatrixID, ModelMatrixID);
+                particles[i].translate(particles[i].getPos());
 
+
+
+                particles[i].draw(MatrixID, ViewMatrixID, ModelMatrixID);
 
             }
         }
-
-
         lastTime = nowTime;
         glBindVertexArray(0);
     }
@@ -107,7 +110,6 @@ public:
     void setUp(Engine::Frame *super) {
         // Hide the mouse and enable unlimited mouvement
         glfwSetInputMode(super->getWindow(), GLFW_STICKY_KEYS, GL_TRUE);
-        // Hide the mouse and enable unlimited mouvement
         glfwSetInputMode(super->getWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
         glfwPollEvents();
@@ -123,52 +125,46 @@ public:
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
         programID = LoadShaders("shaders/StandardShading.vertexshader", "shaders/MyShader.fragmentshader");
-        programID1 = LoadShaders("shaders/StandardShading.vertexshader", "shaders/StandardShading.fragmentshader");
 
         MatrixID = glGetUniformLocation(programID, "MVP");
         ViewMatrixID = glGetUniformLocation(programID, "V");
         ModelMatrixID = glGetUniformLocation(programID, "M");
+        loadOBJ("resources/cloud.obj", vertices, uvs, normals);
+        GLint out[2];
+        LoadTexture(programID, "resources/smokeTexture.png", "myTextureSampler", out);
+        SmokeEffect *effect=new SmokeEffect();
+        for (int i = 0; i < MAX_PART; i++) {
 
-        MatrixID1 = glGetUniformLocation(programID1, "MVP");
-        ViewMatrixID1 = glGetUniformLocation(programID1, "V");
-        ModelMatrixID1 = glGetUniformLocation(programID1, "M");
 
-        loadOBJ("resources/a_to_jez_jak_kulka.obj",vertices,uvs,normals);
-        for (int i = 0; i < MAX_PART; i++)
-            particles[i].getObj()->loadParticles(vertices,normals,uvs);
+            particles[i].initFromArrary(vertices, normals, uvs);
+            particles[i].color = glm::vec3(0.3f, 0.3f, 0.3f);
 
+            particles[i].setDirectionStrategy(effect);
+            particles[i].setTexture(out[0], out[1]);
+            particles[i].setGravity(glm::vec3(0.0f,0.0f,0.0f));
+            particles[i].setExternal(glm::vec3(-0.1f,0.0f,0.0f));
+
+
+        }
+        //FountainEffect *strategy=new FountainEffect();
         glUseProgram(programID);
         LightID = glGetUniformLocation(programID, "LightPosition_worldspace");
-
         colorID = glGetUniformLocation(programID, "ourColor");
-
-        x= F_RAND(1.0f);
-
-        floor.initFromArrary(floarVec, floarNormal, floarUV, programID, "resources/floor.png", "myTextureSampler");
         for (int i = 0; i < MAX_PART; i++) {
-            particles[i].setEmiterPos(glm::vec3(0.0f, -6.0f, 0.0f));
-            particles[i].setMode(SQUARE);
-            particles[i].setSpeed(4.0);
+            particles[i].setEmitterPosition(glm::vec3(0.0f, 0.0f, 0.0f));
+            particles[i].setMode(POINT);
+            particles[i].speed=2.0;
+             particles[i].setDirectionStrategy(effect);
+            particles[i].setDimension(glm::vec3(0.3, 0.3, 0.3));
+            particles[i].setProjectionMatrix(camera.getProjectionMatrix());
+            particles[i].setViewMatrix(camera.getViewMatrix());
 
-            particles[i].setGravity(glm::vec3(F_RAND(1.0f),10.0f,1.0f));
-            particles[i].setDimension(glm::vec3(1.0f,1.0f,1.0f));
-            particles[i].getObj()->setProjectionMatrix(camera.getProjectionMatrix());
-            particles[i].getObj()->setViewMatrix(camera.getViewMatrix());
         }
-        glUseProgram(programID1);
-        LightID = glGetUniformLocation(programID1, "LightPosition_worldspace");
-        floor.translate(glm::vec3(0.0,-6.0,0.0));
-        floor.setProjectionMatrix(camera.getProjectionMatrix());
-        floor.setViewMatrix(camera.getViewMatrix());
+
         lastTime = glfwGetTime();
     }
 
     void clean(Engine::Frame *super) {}
-    float F_RAND(float end)
-    {
-        float w;
-        w= static_cast<float>(std::rand()) / static_cast<float>(RAND_MAX / end);
-        return w-1.0f;
-    }
+
 };
 #endif //PGKPR_SMOKE_H

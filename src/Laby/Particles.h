@@ -56,6 +56,8 @@ public:
 
     glm::vec3 getGravity() { return gravity; }
 
+    glm::vec3 getExternals() { return externals; }
+
     glm::vec3 getDimension() { return gravity; }
 
     glm::vec3 getEmitterPosition() { return gravity; }
@@ -67,6 +69,7 @@ public:
     void setEmitterPosition(glm::vec3 emitterPos);
 
     void setMode(int mode) { this->mode = mode; }
+    void setExternal(glm::vec3 external) { this->externals = external; }
 
     void loadParticle(std::vector<glm::vec3> vertices, std::vector<glm::vec3> normals, std::vector<glm::vec2> uvs);
 };

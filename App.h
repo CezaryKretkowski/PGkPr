@@ -9,13 +9,13 @@ std::vector<glm::vec3> floarVec2;
 std::vector<glm::vec2> floarVec3;
 
 std::vector<glm::vec3> floarVec = {
-    glm::vec3(-10.0f, 0.0f, 10.0f),
-    glm::vec3(-10.0f, 0.0f, -10.0f),
-    glm::vec3(10.0f, 0.0f, -10.0f),
+    glm::vec3(-5.0f, 0.0f, 5.0f),
+    glm::vec3(-5.0f, 0.0f, -5.0f),
+    glm::vec3(5.0f, 0.0f, -5.0f),
 
-    glm::vec3(10.0f, 0.0f, -10.0f),
-    glm::vec3(10.0f, 0.0f, 10.0f),
-    glm::vec3(-10.0f, 0.0f, 10.0f)};
+    glm::vec3(5.0f, 0.0f, -5.0f),
+    glm::vec3(5.0f, 0.0f, 5.0f),
+    glm::vec3(-5.0f, 0.0f, 5.0f)};
 
 std::vector<glm::vec3> floarNormal = {
     glm::vec3(0.0f, 1.0f, 0.0f),
@@ -71,7 +71,7 @@ public:
         malpa.setViewMatrix(camera.getViewMatrix());
         // Set our "myTextureSampler" sampler to use Texture Unit 0
 
-        glm::vec3 lightPos = glm::vec3(-4, 4, -4);
+        glm::vec3 lightPos = glm::vec3(4, 4, 4);
         glUniform3f(LightID, lightPos.x, lightPos.y, lightPos.z);
         obj.draw(MatrixID, ViewMatrixID, ModelMatrixID);
         floor.draw(MatrixID, ViewMatrixID, ModelMatrixID);
@@ -104,12 +104,14 @@ public:
         ViewMatrixID = glGetUniformLocation(programID, "V");
         ModelMatrixID = glGetUniformLocation(programID, "M");
 
-        obj.intFromFile("resources/suzanne.obj", programID, "resources/uvmap.png", "myTextureSampler");
+        obj.intFromFile("resources/cube1.obj", programID, "resources/uvmap.png", "myTextureSampler");
         malpa.loadTexture(programID, "resources/uvmap.png", "myTextureSampler");
-        malpa.intFromFile("resources/suzanne.obj");
-        obj.translate(glm::vec3(0.0f, -1.0f, 0.0f));
+        malpa.intFromFile("resources/cube1.obj");
+        obj.translate(glm::vec3(0.0f, -2.0f, 0.0f));
+
         obj.scale(glm::vec3(1.0f, -1.0f, 1.0f));
-        malpa.translate(glm::vec3(0.0f, 1.0f, 0.0f));
+        malpa.translate(glm::vec3(0.0f, 2.0f, 0.0f));
+
         floor.loadTexture(programID, "resources/floor.png", "myTextureSampler");
         floor.initFromArrary(floarVec, floarNormal, floarUV);
 

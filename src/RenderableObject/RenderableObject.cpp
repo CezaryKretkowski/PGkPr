@@ -12,6 +12,9 @@ void RenderableObject::setTexture(GLuint textureID, GLuint texture) {
     this->textureID=textureID;
     this->texture=texture;
 }
+void RenderableObject::rotate(glm::vec3 vector, float angle) {
+    modelMatrix = glm::rotate(modelMatrix,glm::radians(angle),vector);
+}
 bool RenderableObject::initFromArrary(std::vector<glm::vec3> vertices, std::vector<glm::vec3> normals,
                                       std::vector<glm::vec2> uvs, GLuint shederID, std::string texturePath,
                                       GLchar *name) {

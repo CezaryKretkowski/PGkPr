@@ -16,7 +16,7 @@ private:
 
     int MAX_PART = 10000;
     Particles particles[10000];
-    float ACTIVATE_TIME = 0.000001f;
+    float ACTIVATE_TIME = 0.0000001f;
     float act_time = 0.0f;
     float lastTime;
     GLuint programID;
@@ -26,7 +26,6 @@ private:
     GLuint ModelMatrixID;
     GLuint LightID;
     GLuint colorID;
-    int count=0;
     glm::vec4 color = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f);
     /* data */
 public:
@@ -42,16 +41,16 @@ public:
         glm::vec3 lightPos = glm::vec3(-4, 4, -4);
         glUniform3f(LightID, lightPos.x, lightPos.y, lightPos.z);
 
-
+        int i=0;
         glm::mat4 modelMat = glm::mat4(1.0);
         float nowTime = glfwGetTime();
         float times = (nowTime - lastTime);
         act_time += times;
 
-        for (int i = 0; i < MAX_PART; i++) {
+        while(i<MAX_PART) {//(int i = 0; i < MAX_PART; i++) {
 
             if (particles[i].isActive()) {
-                count++;
+
                 particles[i].live(times);
             } else {
                 if (act_time >= ACTIVATE_TIME) {
@@ -60,11 +59,11 @@ public:
                     particles[i].activate();
                     // puts("Aktywana");
                 }
-                break;
+                //break;
             }
+            i++;
         }
-        printf("Particle count %d ",count);
-        count=0;
+
         for (int i = 0; i < MAX_PART; i++) {
             if (particles[i].isActive()) {
                 glm::vec3 colors = particles[i].color;
@@ -110,18 +109,20 @@ public:
         LoadTexture(programID, "resources/uvmap.png", "myTextureSampler", out);
 
         for (int i = 0; i < MAX_PART; i++) {
+
             particles[i].initFromArrary(vertices, normals, uvs);
             particles[i].color = glm::vec3(0.0f, 0.0f, 1.0f);
             particles[i].setTexture(out[0], out[1]);
+            particles[i].setGravity(glm::vec3(0.0f,-3.0f,0.0f));
         }
         //FountainEffect *strategy=new FountainEffect();
         glUseProgram(programID);
         LightID = glGetUniformLocation(programID, "LightPosition_worldspace");
         colorID = glGetUniformLocation(programID, "ourColor");
         for (int i = 0; i < MAX_PART; i++) {
-            particles[i].setEmitterPosition(glm::vec3(0.0f, 0.0f, 0.0f));
+            particles[i].setEmitterPosition(glm::vec3(0.0f, 10.0f, 0.0f));
             particles[i].setMode(SQUARE);
-            particles[i].speed=10.0;
+            particles[i].speed=1.0;
            // particles[i].setDirectionStrategy(strategy);
             particles[i].setDimension(glm::vec3(1, 1, 1));
             particles[i].setProjectionMatrix(camera.getProjectionMatrix());

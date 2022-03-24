@@ -22,7 +22,7 @@ Particles::Particles(int mode) {
     color = glm::vec4(1.0f, 0.0f, 1.0f,1.0f);
     active = false;
     speed=50.0f;
-    externals=glm::vec3(1.0f, 1.0f, 1.0f);
+    externals=glm::vec3(0.0f, 0.0f, 0.0f);
     gravity = glm::vec3(0.0f, -10.0f, 0.0f);
 }
 

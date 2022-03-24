@@ -50,6 +50,8 @@ public:
 
     void translate(glm::vec3 vector);
 
+    void rotate(glm::vec3 vector,float angle);
+
     void scale(glm::vec3 vector);
 
     void draw(GLuint MatrixID, GLuint ViewMatrixID, GLuint ModelMatrixID);
@@ -59,6 +61,8 @@ public:
     void setViewMatrix(glm::mat4 matrix) { viewMatrix = matrix; }
 
     void setModelMatrix(glm::mat4 matrix) { modelMatrix = matrix; }
+
+    glm::mat4 getModelMatrix(){return modelMatrix;}
 
 
 
