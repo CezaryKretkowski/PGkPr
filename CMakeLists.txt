@@ -26,9 +26,9 @@ add_executable(PGKPr main.cpp shader.cpp
     src/Camera/Camera.cpp
     src/Camera/Camera.h
     src/Scenes/Lab02.h
-    #src/Scenes/Rain.h
+    src/Scenes/Rain.h
     App.h
      #   src/Scenes/Smoke.h
-        )
+        src/Laby/DirectionStrategy.h)
 
 target_link_libraries(${PROJECT_NAME} glew32s glew32 OpenGL32 glfw3 glm)

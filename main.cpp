@@ -17,14 +17,14 @@ using namespace glm;
 #include "App.h"
 #include "src/Laby/Particles.h"
 #include "src/Scenes/Lab02.h"
-//#include "src/Scenes/Rain.h"
+#include "src/Scenes/Rain.h"
 
 //#include "src/Scenes/Smoke.h"
 
 int main(void)
 {
 
-    Lab02 *app = new Lab02();
+    Rain *app = new Rain();
     Engine::Frame frame;
     frame.add(app);
     if (!frame.init())

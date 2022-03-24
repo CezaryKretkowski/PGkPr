@@ -8,7 +8,7 @@ float F_RAND(float LO,float HI){
         HI=LO;
         LO=tmp;
     }
-    srand (static_cast <unsigned> (time(0)));
+    //srand (static_cast <unsigned> (time(0)));
     float out=LO + static_cast <float> (std::rand()) /( static_cast <float> (RAND_MAX/(HI-LO)));
     return out;
 }
@@ -22,6 +22,7 @@ Particles::Particles(int mode) {
     color = glm::vec4(1.0f, 0.0f, 1.0f,1.0f);
     active = false;
     speed=50.0f;
+    externals=glm::vec3(1.0f, 1.0f, 1.0f);
     gravity = glm::vec3(0.0f, -10.0f, 0.0f);
 }
 
@@ -29,6 +30,10 @@ void Particles::activate() {
 
     active = true;
     life = 1.0f;
+    if(strategy!=NULL)
+        direction =strategy->calculateDirection();
+    else
+        direction=gravity;
     fade = 0.05f + F_RAND(0.0f,1.0f) * 0.4f;
     pos = calculatePosition();
 }
@@ -38,7 +43,6 @@ void Particles::live(float tt) {
     direction += gravity*(tt/speed);
     direction += externals*(tt/speed);
     life -= fade * tt;
-    // printf("%f\n", life);
     if (life <= 0.0f) {
         activate();
     }
@@ -60,5 +64,5 @@ glm::vec3 Particles::calculatePosition() {
 }
 
 Particles::~Particles() {
-
+    delete this->strategy;
 }

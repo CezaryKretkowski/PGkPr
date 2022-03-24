@@ -5,15 +5,29 @@
 #include "../Laby/Particles.h"
 #include "../Laby/ParticleSystem.h"
 #include "../Camera/Camera.h"
+#include "../Laby/DirectionStrategy.h"
+
 #define M_PI 3.14
+
+class FountainEffect : public DirectionStrategy {
+
+    glm::vec3 calculateDirection() override{
+        float fi = M_PI / 4; // 45 stopni w górę
+        float psi = F_RAND(0.0f, 1.0f) * (M_PI * 2); // 0-360 stopni wokół osi Y
+        float rr = F_RAND(0.0f, 1.0f) * 12 + 16;
+        glm::vec3 direction(rr * cos(fi) * cos(psi), rr * sin(fi), rr * cos(fi) * sin(psi));
+        return direction;
+    }
+};
+
 class Lab02 : public Engine::Component {
 private:
     Camera camera;
     std::vector<glm::vec3> vertices, normals;
     std::vector<glm::vec2> uvs;
 
-    int MAX_PART = 110;
-    Particles particles[110];
+    int MAX_PART = 1010;
+    Particles particles[1010];
     float ACTIVATE_TIME = 0.01f;
     float act_time = 0.0f;
     float lastTime;
@@ -50,15 +64,11 @@ public:
         for (int i = 0; i < MAX_PART; i++) {
 
             if (particles[i].isActive()) {
-                float fi = M_PI/4; // 45 stopni w górę
-                float psi = F_RAND(0.0f,1.0f) * (M_PI*2); // 0-360 stopni wokół osi Y
-                float rr = F_RAND(0.0f,1.0f) * 12 + 16;
-                glm::vec3 direction(rr * cos(fi) * cos(psi),rr * sin(fi),rr * cos(fi) * sin(psi));
-                particles[i].direction=direction;
                 particles[i].live(times);
             } else {
                 if (act_time >= ACTIVATE_TIME) {
                     act_time = 0.0f;
+                    particles[i].color=glm::vec3 (1.0f,F_RAND(0.0f,1.0f),F_RAND(0.0f,1.0f));
                     particles[i].activate();
                     // puts("Aktywana");
                 }
@@ -105,22 +115,25 @@ public:
         MatrixID = glGetUniformLocation(programID, "MVP");
         ViewMatrixID = glGetUniformLocation(programID, "V");
         ModelMatrixID = glGetUniformLocation(programID, "M");
-        loadOBJ("resources/kula.obj",vertices,uvs,normals);
-        GLint  out[2];
-        LoadTexture(programID,"resources/uvmap.png","myTextureSampler",out);
+        loadOBJ("resources/kula.obj", vertices, uvs, normals);
+        GLint out[2];
+        LoadTexture(programID, "resources/uvmap.png", "myTextureSampler", out);
 
-        for (int i = 0; i < MAX_PART; i++){
-            particles[i].initFromArrary(vertices,normals,uvs);
-            particles[i].setTexture(out[0],out[1]);
+        for (int i = 0; i < MAX_PART; i++) {
+            particles[i].initFromArrary(vertices, normals, uvs);
+            particles[i].color = glm::vec3(1.0f, 1.0f, 0.0f);
+            particles[i].setTexture(out[0], out[1]);
         }
-
+        FountainEffect *strategy=new FountainEffect();
         glUseProgram(programID);
         LightID = glGetUniformLocation(programID, "LightPosition_worldspace");
         colorID = glGetUniformLocation(programID, "ourColor");
         for (int i = 0; i < MAX_PART; i++) {
             particles[i].setEmitterPosition(glm::vec3(0.0f, 0.0f, 0.0f));
-            particles[i].setMode(POINT);
-            particles[i].setDimension(glm::vec3(1,1,1));
+            particles[i].setMode(LINE);
+            particles[i].speed=25.0;
+            particles[i].setDirectionStrategy(strategy);
+            particles[i].setDimension(glm::vec3(1, 1, 1));
             particles[i].setProjectionMatrix(camera.getProjectionMatrix());
             particles[i].setViewMatrix(camera.getViewMatrix());
         }
