@@ -20,11 +20,13 @@ using namespace glm;
 #include "src/Scenes/Rain.h"
 
 #include "src/Scenes/Smoke.h"
+#include "src/Scenes/Fog.h"
+#include "src/Scenes/Key.h"
 
 int main(void)
 {
 
-    Smoke *app = new Smoke();
+    Key *app = new Key();
     Engine::Frame frame;
     frame.add(app);
     if (!frame.init())
