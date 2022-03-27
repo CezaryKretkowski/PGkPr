@@ -14,6 +14,7 @@ out vec4 color;
 uniform sampler2D myTextureSampler;
 uniform mat4 MV;
 uniform vec3 LightPosition_worldspace;
+uniform float alpha;
 
 void main(){
 
@@ -55,11 +56,9 @@ void main(){
 		// Ambient : simulates indirect lighting
 		//MaterialAmbientColor +
 		// Diffuse : "color" of the object
-		//MaterialDiffuseColor * LightColor * LightPower * cosTheta / (distance*distance) +
+	//	MaterialDiffuseColor * LightColor * LightPower * cosTheta / (distance*distance) +
 		// Specular : reflective highlight, like a mirror
 		//MaterialSpecularColor * LightColor * LightPower * pow(cosAlpha,5) / (distance*distance);
-    if(buff[3]>1.0)
-        discard;
-     else
-     color=buff;
+
+     color=vec4(buff[0],buff[1],buff[2],buff[3]*alpha);
 }

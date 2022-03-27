@@ -22,11 +22,13 @@ using namespace glm;
 #include "src/Scenes/Smoke.h"
 #include "src/Scenes/Fog.h"
 #include "src/Scenes/Key.h"
+#include <math.h>
 
 int main(void)
 {
+    //printf("Wynik %f",  calculateDistance(glm::vec3(-4,0,1),glm::vec3(1,-3,2)));
 
-    Key *app = new Key();
+    Fog *app = new Fog();
     Engine::Frame frame;
     frame.add(app);
     if (!frame.init())

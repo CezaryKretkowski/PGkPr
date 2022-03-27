@@ -1,5 +1,13 @@
 #include "RenderableObject.h"
-
+float calculateDistance(glm::vec3 from,glm::vec3 to){
+    float distance,a,b,c,deltaY;
+    a=from[0]-to[0];
+    b=from[2]-to[2];
+    c=(a*a)+(b*b);
+    deltaY=from[1]-to[1];
+    distance=(deltaY*deltaY)+c;
+    return sqrt(distance);
+}
 void RenderableObject::translate(glm::vec3 vector) {
     modelMatrix = glm::translate(modelMatrix, vector);
 }

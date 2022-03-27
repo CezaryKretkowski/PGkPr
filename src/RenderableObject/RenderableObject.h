@@ -9,7 +9,7 @@
 #include <iostream>
 #include "../../dependeces/Common/stb_image.h"
 #include "../../dependeces/Common/objloader.hpp"
-
+float calculateDistance(glm::vec3 from,glm::vec3 to);
 bool LoadTexture(GLuint shederID, std::string texturePath, GLchar *name,GLint out[]);
 class RenderableObject {
 protected:
@@ -29,6 +29,7 @@ protected:
     glm::mat4 modelMatrix, MVP;
 
     void initBuffers();
+    void initBuffersQUAD();
 
 public:
     RenderableObject(/* args */);
@@ -55,6 +56,7 @@ public:
     void scale(glm::vec3 vector);
 
     void draw(GLuint MatrixID, GLuint ViewMatrixID, GLuint ModelMatrixID);
+    void drawQUAD(GLuint MatrixID, GLuint ViewMatrixID, GLuint ModelMatrixID);
 
     void setProjectionMatrix(glm::mat4 matrix) { projectionMatrix = matrix; }
 

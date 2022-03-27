@@ -12,16 +12,33 @@
 #include "../Laby/Particles.h"
 #include "../Laby/ParticleSystem.h"
 #include "../Camera/Camera.h"
-
+#include "Lab02.h"
 #include "App.h"
+#include <set>
+struct Node{
+    int id;
+    float distance;
+};
+bool operator <(const  Node & v,const  Node & w){
+    return v.distance<w.distance;
 
+}
+class FogEffect:public DirectionStrategy{
+    glm::vec3 calculateDirection() override{
+        float fi = M_PI / 4; // 45 stopni w górę
+        float psi = F_RAND(0.0f, 1.0f) * (M_PI * 2); // 0-360 stopni wokół osi Y
+        float rr = F_RAND(0.0f, 1.0f) * 12 + 16;
+        glm::vec3 direction(rr * cos(fi) * cos(psi), rr * sin(fi), rr * cos(fi) * sin(psi));
+        return direction;
+    }
+};
 class Fog:public Engine::Component{
     Camera camera;
     std::vector<glm::vec3> vertices, normals;
     std::vector<glm::vec2> uvs;
 
-    int MAX_PART = 10;
-    Particles particles[10];
+    int MAX_PART = 100;
+    Particles particles[100];
 
     float ACTIVATE_TIME = 0.0000001f;
     float act_time = 0.0f;
@@ -37,14 +54,22 @@ class Fog:public Engine::Component{
     GLuint colorID;
     RenderableObject floor;
     glm::vec4 color = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f);
-    void sort(){}
 
+    std::set<Node> particlesMap;
     /* data */
 public:
     Fog(/* args */){};
 
     ~Fog(){};
-
+    void sortParticles(){
+        particlesMap.clear();
+        for (int i=0;i<MAX_PART;i++){
+            Node n;
+            n.id=i;
+            n.distance= calculateDistance(camera.getPosytion(),particles[i].getPos());
+            particlesMap.insert(n);
+        }
+    }
     void run(Engine::Frame *super) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glUseProgram(programID);
@@ -78,25 +103,27 @@ public:
             }
             i++;
         }
-
-        for (int i = 0; i < MAX_PART; i++) {
-            if (particles[i].isActive()) {
-                glm::vec3 colors = particles[i].color;
+        sortParticles();
+        for (std::set<Node>::reverse_iterator i= particlesMap.rbegin(); i != particlesMap.rend(); i++) {
+            if (particles[i->id].isActive()) {
+                glm::vec3 colors = particles[i->id].color;
 
 
                 //glUniform4f(colorID, 1.0-particles[i].getLive(), 1.0-particles[i].getLive(), 1.0-particles[i].getLive(), particles[i].getLive()/particles[i].speed);
-                glUniform1f(colorID,particles[i].getLive());
-                particles[i].setModelMatrix(glm::mat4(1.0));
-                particles[i].setViewMatrix(camera.getViewMatrix());
+                glUniform1f(colorID,particles[i->id].getLive());
+                particles[i->id].setModelMatrix(glm::mat4(1.0));
+                particles[i->id].setViewMatrix(camera.getViewMatrix());
 
-                particles[i].translate(particles[i].getPos());
-                particles[i].rotate(glm::vec3(0,0,1),90.0f);
-                particles[i].rotate(glm::vec3(1,0,0),deag[i]);
+                particles[i->id].translate(particles[i->id].getPos());
+                //particles[i].rotate(glm::vec3(1,0,0),90.0f);
+               // particles[i].rotate(glm::vec3(0,0,1),this->deag[i]);
 
 
-                particles[i].draw(MatrixID, ViewMatrixID, ModelMatrixID);
-
+                particles[i->id].draw(MatrixID, ViewMatrixID, ModelMatrixID);
+//                printf("%f \n",i->distance);
             }
+;
+
         }
         lastTime = nowTime;
         glBindVertexArray(0);
@@ -123,14 +150,14 @@ public:
         MatrixID = glGetUniformLocation(programID, "MVP");
         ViewMatrixID = glGetUniformLocation(programID, "V");
         ModelMatrixID = glGetUniformLocation(programID, "M");
-        loadOBJ("resources/cloud.obj", vertices, uvs, normals);
+        loadOBJ("resources/sphere.obj", vertices, uvs, normals);
         GLint out[2];
-        LoadTexture(programID, "resources/smokeTexture.png", "myTextureSampler", out);
+        LoadTexture(programID, "resources/ParticleCloudWhite.png", "myTextureSampler", out);
 
         for (int i = 0; i < MAX_PART; i++) {
 
 
-            particles[i].initFromArrary(floarVec, floarNormal, floarUV);
+            particles[i].initFromArrary(vertices, normals, uvs);
             particles[i].color = glm::vec3(0.3f, 0.3f, 0.3f);
 
 
@@ -146,10 +173,10 @@ public:
         colorID = glGetUniformLocation(programID, "alpha");
         for (int i = 0; i < MAX_PART; i++) {
             particles[i].setEmitterPosition(glm::vec3(0.0f, 0.0f, 0.0f));
-            particles[i].setMode(SQUARE);
-            particles[i].speed=2.0;
-
-            particles[i].setDimension(glm::vec3(5.3, 5.3, 5.3));
+            particles[i].setMode(CUBE);
+            particles[i].speed=700.0;
+            particles[i].setDirectionStrategy(new FogEffect());
+            particles[i].setDimension(glm::vec3(2.0f, 2.0f, 2.0f));
             particles[i].setProjectionMatrix(camera.getProjectionMatrix());
             particles[i].setViewMatrix(camera.getViewMatrix());
 
