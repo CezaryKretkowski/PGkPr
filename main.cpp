@@ -35,6 +35,10 @@ int main(void)
     {
         puts("Somthing wnet wrong");
     }
+
+
+
+
     // Initialise GLFW
     // if (!glfwInit())
     // {

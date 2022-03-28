@@ -29,6 +29,6 @@ add_executable(PGKPr main.cpp shader.cpp
     src/Scenes/Rain.h
     App.h
      #   src/Scenes/Smoke.h
-        src/Laby/DirectionStrategy.h src/Scenes/Fog.h src/Scenes/Key.h)
+        src/Laby/DirectionStrategy.h src/Scenes/Fog.h src/Scenes/Key.h dependeces/Common/quickSort.h)
 
 target_link_libraries(${PROJECT_NAME} glew32s glew32 OpenGL32 glfw3 glm)
