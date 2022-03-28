@@ -25,6 +25,7 @@ public:
     glm::mat4 getViewMatrix() { return viewMatrix; }
     glm::mat4 getProjectionMatrix() { return projectionMatrix; }
     glm::vec3 getDirection() { return direction; }
+    glm::vec3 getUp() { return up; }
     glm::vec3 getPosytion() { return posytion; }
     glm::vec3 getRight() { return right; }
     float getVerticalAngle() { return verticalAngle; }

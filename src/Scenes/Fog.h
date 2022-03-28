@@ -30,7 +30,8 @@ class FogEffect:public DirectionStrategy{
         float psi = F_RAND(0.0f, 1.0f) * (M_PI * 2); // 0-360 stopni wokół osi Y
         float rr = F_RAND(0.0f, 1.0f) * 12 + 16;
         glm::vec3 direction(rr * cos(fi) * cos(psi), rr * sin(fi), rr * cos(fi) * sin(psi));
-        return direction;
+       // return direction;
+       return glm::vec3(0.0f,0.0f,0.0f);
     }
 };
 class Fog:public Engine::Component{
@@ -38,9 +39,9 @@ class Fog:public Engine::Component{
     std::vector<glm::vec3> vertices, normals;
     std::vector<glm::vec2> uvs;
 
-    int MAX_PART = 1000;
-    Particles particles[1000];
-
+    int MAX_PART = 1;
+    Particles particles[1];
+    float deagree[500];
     float ACTIVATE_TIME = 0.0000001f;
     float act_time = 0.0f;
     float lastTime;
@@ -56,7 +57,15 @@ class Fog:public Engine::Component{
     glm::vec4 color = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f);
 
     std::vector<Node> particlesMap;
-    /* data */
+
+    glm::mat4 RemoveRotation(glm::mat4 &M) {
+
+        glm::mat4 MX(1.0);
+
+        MX[3] = M[3];
+        return MX;
+    }
+
 public:
     Fog(/* args */){};
 
@@ -119,7 +128,8 @@ public:
             if (particles[i->id].isActive()) {
                 glm::vec3 colors = particles[i->id].color;
 
-
+               std::cout<<"Direction"<<camera.getDirection()[0]<<"|"<<camera.getDirection()[1]<<"|"<<camera.getDirection()[2]<<std::endl;
+               std::cout<<"UP"<<camera.getUp()[0]<<"|"<<camera.getUp()[1]<<"|"<<camera.getUp()[2]<<std::endl;
                 //glUniform4f(colorID, 1.0-particles[i].getLive(), 1.0-particles[i].getLive(), 1.0-particles[i].getLive(), particles[i].getLive()/particles[i].speed);
                 if(particles[i->id].getLive()>0.7)
                     glUniform4f(colorID,0.7f,0.7f,0.7f,1-particles[i->id].getLive()-0.3);
@@ -127,13 +137,14 @@ public:
                     glUniform4f(colorID,0.7f,0.7f,0.7f,0.5f);
                 else
                     glUniform4f(colorID,0.7f,0.7f,0.7f,particles[i->id].getLive());
-
+                particles[i->id].setProjectionMatrix(camera.getProjectionMatrix());
                 particles[i->id].setModelMatrix(glm::mat4(1.0));
                 particles[i->id].setViewMatrix(camera.getViewMatrix());
+                glm::mat4 mat=glm::lookAt(particles[i->id].getPos(),particles[i->id].getPos()+camera.getPosytion(),glm::vec3(0,1,0));
 
                 particles[i->id].translate(particles[i->id].getPos());
-                //particles[i].rotate(glm::vec3(1,0,0),90.0f);
-               // particles[i].rotate(glm::vec3(0,0,1),this->deag[i]);
+                particles[i->id].rotate(glm::vec3(1,0,0),90.0f);
+               // particles[i->id].rotate(glm::vec3(0,0,1),deagree[i->id]);
 
 
                 particles[i->id].draw(MatrixID, ViewMatrixID, ModelMatrixID);
@@ -169,20 +180,20 @@ public:
         ViewMatrixID = glGetUniformLocation(programID, "V");
         ModelMatrixID = glGetUniformLocation(programID, "M");
         cube.intFromFile("resources/cube1.obj",programID,"resources/uvmap.png","myTextureSampler");
-        loadOBJ("resources/sphere1.obj", vertices, uvs, normals);
+        loadOBJ("resources/circle3.obj", vertices, uvs, normals);
         GLint out[2];
         LoadTexture(programID, "resources/ParticleCloudWhite.png", "myTextureSampler", out);
 
         for (int i = 0; i < MAX_PART; i++) {
 
 
-            particles[i].initFromArrary(vertices, normals, uvs);
+            particles[i].initFromArrary(floarVec ,floarNormal, floarUV);
             particles[i].color = glm::vec3(0.3f, 0.3f, 0.3f);
 
 
             particles[i].setTexture(out[0], out[1]);
             particles[i].setGravity(glm::vec3(0.0f,0.0f,0.0f));
-
+           // deagree[i]= F_RAND(0.0f,360.0f);
 
 
         }
