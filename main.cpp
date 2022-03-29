@@ -37,7 +37,8 @@ int main(void)
     }
 
 
-
+    float out[2];
+    printf("angle %f ", calculateAngle(glm::vec3(0,0,0),glm::vec3(0,-3,5),out));
 
     // Initialise GLFW
     // if (!glfwInit())

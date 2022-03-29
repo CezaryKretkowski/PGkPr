@@ -10,6 +10,7 @@
 #include "../../dependeces/Common/stb_image.h"
 #include "../../dependeces/Common/objloader.hpp"
 float calculateDistance(glm::vec3 from,glm::vec3 to);
+float calculateAngle(glm::vec3 from,glm::vec3 to,float out[]);
 bool LoadTexture(GLuint shederID, std::string texturePath, GLchar *name,GLint out[]);
 class RenderableObject {
 protected:

@@ -30,8 +30,8 @@ class FogEffect:public DirectionStrategy{
         float psi = F_RAND(0.0f, 1.0f) * (M_PI * 2); // 0-360 stopni wokół osi Y
         float rr = F_RAND(0.0f, 1.0f) * 12 + 16;
         glm::vec3 direction(rr * cos(fi) * cos(psi), rr * sin(fi), rr * cos(fi) * sin(psi));
-       // return direction;
-       return glm::vec3(0.0f,0.0f,0.0f);
+        return direction;
+       //return glm::vec3(0.0f,0.0f,0.0f);
     }
 };
 class Fog:public Engine::Component{
@@ -39,21 +39,28 @@ class Fog:public Engine::Component{
     std::vector<glm::vec3> vertices, normals;
     std::vector<glm::vec2> uvs;
 
-    int MAX_PART = 1;
-    Particles particles[1];
+    int MAX_PART = 100;
+    Particles particles[100];
     float deagree[500];
     float ACTIVATE_TIME = 0.0000001f;
     float act_time = 0.0f;
     float lastTime;
 
     GLuint programID;
+    GLuint programID2;
     GLuint MatrixID;
     glm::vec2 dimensions;
     GLuint ViewMatrixID;
     GLuint ModelMatrixID;
     GLuint LightID;
+
+    GLuint MatrixID1;
+    GLuint ViewMatrixID1;
+    GLuint ModelMatrixID1;
+    GLuint LightID1;
     GLuint colorID;
     RenderableObject cube;
+    RenderableObject cube1;
     glm::vec4 color = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f);
 
     std::vector<Node> particlesMap;
@@ -61,7 +68,9 @@ class Fog:public Engine::Component{
     glm::mat4 RemoveRotation(glm::mat4 &M) {
 
         glm::mat4 MX(1.0);
-
+        MX[0][3]=M[0][3];
+        MX[1][3]=M[1][3];
+        MX[2][3]=M[2][3];
         MX[3] = M[3];
         return MX;
     }
@@ -87,6 +96,17 @@ public:
     }
     void run(Engine::Frame *super) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        glUseProgram(programID2);
+        glm::vec3 lightPos1 = glm::vec3(-4, 4, -4);
+        glUniform3f(LightID1, lightPos1.x, lightPos1.y, lightPos1.z);
+        cube.setProjectionMatrix(camera.getProjectionMatrix());
+        cube.setViewMatrix(camera.getViewMatrix());
+        cube.draw(MatrixID1, ViewMatrixID1, ModelMatrixID1);
+
+        cube1.setProjectionMatrix(camera.getProjectionMatrix());
+        cube1.setViewMatrix(camera.getViewMatrix());
+        cube1.draw(MatrixID1, ViewMatrixID1, ModelMatrixID1);
+
         glUseProgram(programID);
 
         camera.control(super->getWindow(), super->getWidth(), super->getHeight());
@@ -120,31 +140,37 @@ public:
         }
 
         glUniform4f(colorID,1.0f,0.0f,1.0f,1.0f);
-        cube.setProjectionMatrix(camera.getProjectionMatrix());
-        cube.setViewMatrix(camera.getViewMatrix());
-        cube.draw(MatrixID, ViewMatrixID, ModelMatrixID);
+
         sortParticles();
+
+        glm::mat4 view=camera.getViewMatrix();
+
+        view= RemoveRotation(view);
+
+
         for (std::vector<Node>::reverse_iterator i= particlesMap.rbegin(); i != particlesMap.rend(); i++) {
             if (particles[i->id].isActive()) {
                 glm::vec3 colors = particles[i->id].color;
 
-               std::cout<<"Direction"<<camera.getDirection()[0]<<"|"<<camera.getDirection()[1]<<"|"<<camera.getDirection()[2]<<std::endl;
-               std::cout<<"UP"<<camera.getUp()[0]<<"|"<<camera.getUp()[1]<<"|"<<camera.getUp()[2]<<std::endl;
+                glm::mat4 model=particles[i->id].getModelMatrix();
+                model= RemoveRotation(model);
                 //glUniform4f(colorID, 1.0-particles[i].getLive(), 1.0-particles[i].getLive(), 1.0-particles[i].getLive(), particles[i].getLive()/particles[i].speed);
                 if(particles[i->id].getLive()>0.7)
-                    glUniform4f(colorID,0.7f,0.7f,0.7f,1-particles[i->id].getLive()-0.3);
+                    glUniform1f(colorID,1-particles[i->id].getLive()-0.3);
                 else if(particles[i->id].getLive()<0.7&&particles[i->id].getLive()>0.4)
-                    glUniform4f(colorID,0.7f,0.7f,0.7f,0.5f);
+                    glUniform1f(colorID,0.5f);
                 else
-                    glUniform4f(colorID,0.7f,0.7f,0.7f,particles[i->id].getLive());
+                    glUniform1f(colorID,particles[i->id].getLive());
                 particles[i->id].setProjectionMatrix(camera.getProjectionMatrix());
                 particles[i->id].setModelMatrix(glm::mat4(1.0));
-                particles[i->id].setViewMatrix(camera.getViewMatrix());
-                glm::mat4 mat=glm::lookAt(particles[i->id].getPos(),particles[i->id].getPos()+camera.getPosytion(),glm::vec3(0,1,0));
+                particles[i->id].setViewMatrix(view);
+
 
                 particles[i->id].translate(particles[i->id].getPos());
                 particles[i->id].rotate(glm::vec3(1,0,0),90.0f);
-               // particles[i->id].rotate(glm::vec3(0,0,1),deagree[i->id]);
+
+                //particles[i->id].rotate(glm::vec3(0,0,1),out[1]);
+
 
 
                 particles[i->id].draw(MatrixID, ViewMatrixID, ModelMatrixID);
@@ -176,10 +202,18 @@ public:
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
         programID = LoadShaders("shaders/StandardShading.vertexshader", "shaders/myShader2.fragmentshader");
+        programID2 = LoadShaders("shaders/StandardShading.vertexshader", "shaders/StandardShading.fragmentshader");
         MatrixID = glGetUniformLocation(programID, "MVP");
         ViewMatrixID = glGetUniformLocation(programID, "V");
         ModelMatrixID = glGetUniformLocation(programID, "M");
-        cube.intFromFile("resources/cube1.obj",programID,"resources/uvmap.png","myTextureSampler");
+
+        MatrixID1 = glGetUniformLocation(programID2, "MVP");
+        ViewMatrixID1 = glGetUniformLocation(programID2, "V");
+        ModelMatrixID1 = glGetUniformLocation(programID2, "M");
+
+        cube.intFromFile("resources/cube1.obj",programID2,"resources/uvmap.png","myTextureSampler");
+        cube1.intFromFile("resources/cube1.obj",programID2,"resources/uvmap.png","myTextureSampler");
+        cube1.translate(glm::vec3(4,0,0));
         loadOBJ("resources/circle3.obj", vertices, uvs, normals);
         GLint out[2];
         LoadTexture(programID, "resources/ParticleCloudWhite.png", "myTextureSampler", out);
@@ -200,13 +234,17 @@ public:
 
         glUseProgram(programID);
         LightID = glGetUniformLocation(programID, "LightPosition_worldspace");
-        colorID = glGetUniformLocation(programID, "ourColor");
+        colorID = glGetUniformLocation(programID, "alpha");
+        glUseProgram(0);
+        glUseProgram(programID2);
+        LightID1 = glGetUniformLocation(programID2, "LightPosition_worldspace");
+        glUseProgram(0);
         for (int i = 0; i < MAX_PART; i++) {
-            particles[i].setEmitterPosition(glm::vec3(-15.0f, -2.0f, -15.0f));
+            particles[i].setEmitterPosition(glm::vec3(-2.0f, 0.0f, -2.0f));
             particles[i].setMode(CUBE);
-            particles[i].speed=50.0;
+            particles[i].speed=500.0;
             particles[i].setDirectionStrategy(new FogEffect());
-            particles[i].setDimension(glm::vec3(2.0f, 2.0f, 2.0f));
+            particles[i].setDimension(glm::vec3(7.0f, 2.0f, 7.0f));
             particles[i].setProjectionMatrix(camera.getProjectionMatrix());
             particles[i].setViewMatrix(camera.getViewMatrix());
 

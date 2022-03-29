@@ -8,6 +8,19 @@ float calculateDistance(glm::vec3 from,glm::vec3 to){
     distance=(deltaY*deltaY)+c;
     return sqrt(distance);
 }
+float calculateAngle(glm::vec3 from,glm::vec3 to,float out[]){
+    float distance,a,b,c,deltaY;
+    a=from[0]-to[0];
+    b=from[2]-to[2];
+    c=(a*a)+(b*b);
+
+    deltaY=from[1]-to[1];
+    distance=(deltaY*deltaY)+c;
+    float c1= sqrt(distance);
+    out[0]=glm::degrees(asin(deltaY/c1));
+    out[1]=glm::degrees(a/ sqrt(c));
+    return glm::degrees(asin(deltaY/c1));
+}
 void RenderableObject::translate(glm::vec3 vector) {
     modelMatrix = glm::translate(modelMatrix, vector);
 }

@@ -43,14 +43,14 @@ void Camera::control(GLFWwindow *w, int width, int hight) {
     float deltaTime = float(currentTime - lastTime);
     double xpos, ypos;
     float speed = 3.0f; // 3 units / second
-    float mouseSpeed = 0.0005f;
+    float mouseSpeed = 0.5f;
 
     glfwGetCursorPos(w, &xpos, &ypos);
 
     glfwSetCursorPos(w, 1024 / 2, 768 / 2);
 
-    setHorizontalAngle(getHorizontalAngle() + (mouseSpeed * float(width / 2 - xpos)));
-    setVerticalAngle(getVerticalAngle() + (mouseSpeed * float(hight / 2 - ypos)));
+    //setHorizontalAngle(getHorizontalAngle() + (mouseSpeed * float(width / 2 - xpos)));
+  //  setVerticalAngle(getVerticalAngle() + (mouseSpeed * float(hight / 2 - ypos)));
 
     if (glfwGetKey(w, GLFW_KEY_W) == GLFW_PRESS)
     {
@@ -67,6 +67,22 @@ void Camera::control(GLFWwindow *w, int width, int hight) {
     if (glfwGetKey(w, GLFW_KEY_D) == GLFW_PRESS)
     {
         setPosytion(getPosytion() + getRight() * deltaTime * speed);
+    }
+    if (glfwGetKey(w, GLFW_KEY_LEFT) == GLFW_PRESS)
+    {
+        setHorizontalAngle(getHorizontalAngle() + deltaTime * mouseSpeed);
+    }
+    if (glfwGetKey(w, GLFW_KEY_RIGHT) == GLFW_PRESS)
+    {
+        setHorizontalAngle(getHorizontalAngle() - deltaTime * mouseSpeed);
+    }
+    if (glfwGetKey(w, GLFW_KEY_UP) == GLFW_PRESS)
+    {
+        setVerticalAngle(getVerticalAngle() + deltaTime * mouseSpeed);
+    }
+    if (glfwGetKey(w, GLFW_KEY_DOWN) == GLFW_PRESS)
+    {
+        setVerticalAngle(getVerticalAngle() - deltaTime * mouseSpeed);
     }
     upDateView();
     lastTime = currentTime;

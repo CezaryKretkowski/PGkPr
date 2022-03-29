@@ -9,13 +9,13 @@ std::vector<glm::vec3> floarVec2;
 std::vector<glm::vec2> floarVec3;
 
 std::vector<glm::vec3> floarVec = {
-    glm::vec3(-5.0f, 0.0f, 5.0f),
-    glm::vec3(-5.0f, 0.0f, -5.0f),
-    glm::vec3(5.0f, 0.0f, -5.0f),
+    glm::vec3(-2.0f, 0.0f, 2.0f),
+    glm::vec3(-2.0f, 0.0f, -2.0f),
+    glm::vec3(2.0f, 0.0f, -2.0f),
 
-    glm::vec3(5.0f, 0.0f, -5.0f),
-    glm::vec3(5.0f, 0.0f, 5.0f),
-    glm::vec3(-5.0f, 0.0f, 5.0f)};
+    glm::vec3(2.0f, 0.0f, -2.0f),
+    glm::vec3(2.0f, 0.0f, 2.0f),
+    glm::vec3(-2.0f, 0.0f, 2.0f)};
 
 std::vector<glm::vec3> floarNormal = {
     glm::vec3(0.0f, 1.0f, 0.0f),

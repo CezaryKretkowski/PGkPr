@@ -34,7 +34,7 @@ void Particles::activate() {
         direction =strategy->calculateDirection();
     else
         direction=gravity;
-    fade = 0.05f + F_RAND(0.0f,1.0f) * 0.4f;
+    fade = 0.0005f + F_RAND(0.0f,1.0f) * 0.4f;
     pos = calculatePosition();
 }
 
@@ -65,4 +65,16 @@ glm::vec3 Particles::calculatePosition() {
 
 Particles::~Particles() {
     delete this->strategy;
+}
+void Particles::drawParticles(GLuint CameraRight_worldspace_ID,GLuint CameraUp_worldspace_ID,GLuint  ViewProjMatrixID ) {
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, texture);
+    // Set our "myTextureSampler" sampler to user Texture Unit 0
+    glUniform1i(textureID, 0);
+    glm::mat4 ViewProjectionMatrix = projectionMatrix * viewMatrix;
+    // Same as the billboards tutorial
+    glUniform3f(CameraRight_worldspace_ID, viewMatrix[0][0], viewMatrix[1][0], viewMatrix[2][0]);
+    glUniform3f(CameraUp_worldspace_ID   , viewMatrix[0][1], viewMatrix[1][1], viewMatrix[2][1]);
+
+    glUniformMatrix4fv(ViewProjMatrixID, 1, GL_FALSE, &ViewProjectionMatrix[0][0]);
 }

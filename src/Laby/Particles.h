@@ -72,6 +72,7 @@ public:
     void setExternal(glm::vec3 external) { this->externals = external; }
 
     void loadParticle(std::vector<glm::vec3> vertices, std::vector<glm::vec3> normals, std::vector<glm::vec2> uvs);
+    void drawParticles(GLuint MatrixID, GLuint ViewMatrixID, GLuint ModelMatrixID );
 };
 
 #endif;
