@@ -16,7 +16,7 @@ void Camera::upDateView()
 {
     direction = glm::vec3(
         cos(verticalAngle) * sin(horizontalAngle),
-        sin(verticalAngle),
+        -0.70f,
         cos(verticalAngle) * cos(horizontalAngle));
 
     right = glm::vec3(
@@ -34,7 +34,7 @@ void Camera::upDateView()
     viewMatrix = glm::lookAt(
         posytion,             // Camera is here
         posytion + direction, // and looks here : at the same position, plus "direction"
-        up                    // Head is up (set to 0,-1,0 to look upside-down)
+        glm::vec3(0.0f,1.0f,0.0f)                   // Head is up (set to 0,-1,0 to look upside-down)
     );
     glm::vec3 var = posytion + direction;
 }
@@ -54,11 +54,15 @@ void Camera::control(GLFWwindow *w, int width, int hight) {
 
     if (glfwGetKey(w, GLFW_KEY_W) == GLFW_PRESS)
     {
+        direction=glm::vec3 (direction[0],0.0f,direction[2]);
         setPosytion(getPosytion() + getDirection() * deltaTime * speed);
     }
     if (glfwGetKey(w, GLFW_KEY_S) == GLFW_PRESS)
     {
-        setPosytion(getPosytion() - getDirection() * deltaTime * speed);
+        direction=glm::vec3 (direction[0],0.0f,direction[2]);
+        setPosytion(getPosytion()-getDirection() * deltaTime * speed);
+
+
     }
     if (glfwGetKey(w, GLFW_KEY_A) == GLFW_PRESS)
     {
@@ -76,14 +80,7 @@ void Camera::control(GLFWwindow *w, int width, int hight) {
     {
         setHorizontalAngle(getHorizontalAngle() - deltaTime * mouseSpeed);
     }
-    if (glfwGetKey(w, GLFW_KEY_UP) == GLFW_PRESS)
-    {
-        setVerticalAngle(getVerticalAngle() + deltaTime * mouseSpeed);
-    }
-    if (glfwGetKey(w, GLFW_KEY_DOWN) == GLFW_PRESS)
-    {
-        setVerticalAngle(getVerticalAngle() - deltaTime * mouseSpeed);
-    }
+
     upDateView();
     lastTime = currentTime;
 

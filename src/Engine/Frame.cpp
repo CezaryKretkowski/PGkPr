@@ -45,24 +45,23 @@ void Frame::reloadFrame()
 void Frame::mainLoop()
 {
     double posX, posY;
-    //for (std::sta<Component *>::iterator i = components.begin(); i != components.end(); i++)
-      //  (*i)->setUp(this);
-      components.top()->setUp(this);
+    for (std::list<Component *>::iterator i = components.begin(); i != components.end(); i++)
+        (*i)->setUp(this);
 
     while (!endFlag)
     {
-
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         if (!glfwWindowShouldClose(window) == 0)
             endFlag = true;
 
-       // for (std::list<Component *>::iterator i = components.begin(); i != components.end(); i++)
-        components.top()->run(this);
-
+        for (std::list<Component *>::iterator i = components.begin(); i != components.end(); i++)
+            (*i)->run(this);
+        glFinish();
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
-    //for (std::list<Component *>::iterator i = components.begin(); i != components.end(); i++)
-        components.top()->clean(this);
+    for (std::list<Component *>::iterator i = components.begin(); i != components.end(); i++)
+        (*i)->clean(this);
 }
 
 bool Frame::init(bool mode, int width, int height, std::string title)
@@ -81,16 +80,20 @@ bool Frame::init(bool mode, int width, int height, std::string title)
 
     if (!glewInital())
         return false;
-
+    glfwSwapInterval(1);
     mainLoop();
 
     return true;
 }
 void Frame::add(Component *c)
 {
-    components.push(c);
+    components.push_back(c);
 }
 Frame::~Frame()
 {
     glfwTerminate();
+}
+void Frame::clearColor(glm::vec4 color)
+{
+    glClearColor(color[0], color[1], color[2], color[3]);
 }

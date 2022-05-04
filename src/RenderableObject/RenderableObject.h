@@ -9,10 +9,9 @@
 #include <iostream>
 #include "../../dependeces/Common/stb_image.h"
 #include "../../dependeces/Common/objloader.hpp"
-float calculateDistance(glm::vec3 from,glm::vec3 to);
-float calculateAngle(glm::vec3 from,glm::vec3 to,float out[]);
-bool LoadTexture(GLuint shederID, std::string texturePath, GLchar *name,GLint out[]);
-class RenderableObject {
+
+class RenderableObject
+{
 protected:
     std::vector<glm::vec3> vertices, normals;
     std::vector<glm::vec2> uvs;
@@ -23,41 +22,34 @@ protected:
     GLuint normalBuff;
 
     GLuint texture;
-
     GLuint textureID;
     glm::mat4 projectionMatrix;
     glm::mat4 viewMatrix;
     glm::mat4 modelMatrix, MVP;
 
-    void initBuffers();
-    void initBuffersQUAD();
+    virtual void initBuffers();
 
 public:
     RenderableObject(/* args */);
 
-    ~RenderableObject();
+    virtual ~RenderableObject();
 
-    bool loadTexture( GLuint shederID, std::string texturePath, GLchar *name);
+    bool loadTexture(GLuint shederID, std::string texturePath, GLchar *name);
 
-    void setTexture(GLuint textureID,GLuint texture);
-
-    bool initFromArrary(std::vector<glm::vec3> vertices, std::vector<glm::vec3> normals,
-                        std::vector<glm::vec2> uvs, GLuint shederID, std::string texturePath, GLchar *name);
+    void setTexture(GLuint textureID, GLuint texture);
 
     bool initFromArrary(std::vector<glm::vec3> vertices, std::vector<glm::vec3> normals,
                         std::vector<glm::vec2> uvs);
 
-    bool intFromFile(std::string path, GLuint shaderID, std::string texturePath, GLchar *name);
     bool intFromFile(std::string path);
 
     void translate(glm::vec3 vector);
 
-    void rotate(glm::vec3 vector,float angle);
+    void rotate(glm::vec3 vector, float angle);
 
     void scale(glm::vec3 vector);
 
-    void draw(GLuint MatrixID, GLuint ViewMatrixID, GLuint ModelMatrixID);
-    void drawQUAD(GLuint MatrixID, GLuint ViewMatrixID, GLuint ModelMatrixID);
+    virtual void draw(GLuint MatrixID, GLuint ViewMatrixID, GLuint ModelMatrixID);
 
     void setProjectionMatrix(glm::mat4 matrix) { projectionMatrix = matrix; }
 
@@ -65,10 +57,7 @@ public:
 
     void setModelMatrix(glm::mat4 matrix) { modelMatrix = matrix; }
 
-    glm::mat4 getModelMatrix(){return modelMatrix;}
-
-
-
+    glm::mat4 getModelMatrix() { return modelMatrix; }
 };
 
 #endif;

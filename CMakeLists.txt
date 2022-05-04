@@ -14,21 +14,26 @@ find_package(OpenGL REQUIRED)
 add_executable(PGKPr main.cpp shader.cpp
     dependeces/Common/stb_image.c
     dependeces/Common/stb_image.h
+    dependeces/Common/OBJ_Loader.h
+    dependeces/Common/Loader.h
+
     dependeces/Common/objloader.cpp
     dependeces/Common/objloader.hpp
-   # src/Laby/ParticleSystem.h
-    src/Laby/Particles.h
-    src/Laby/Particles.cpp
+    src/Engine/Frame.h
     src/Engine/Frame.cpp
     src/Engine/Component.h
     src/RenderableObject/RenderableObject.h
     src/RenderableObject/RenderableObject.cpp
     src/Camera/Camera.cpp
     src/Camera/Camera.h
-    src/Scenes/Lab02.h
-    src/Scenes/Rain.h
+    src/RenderableObject/Skybox.h
+    src/RenderableObject/Skybox.cpp
+    src/GameObject/GameObject.cpp
+    src/GameObject/GameObject.h
+
     App.h
-     #   src/Scenes/Smoke.h
-        src/Laby/DirectionStrategy.h src/Scenes/Fog.h src/Scenes/Key.h dependeces/Common/quickSort.h)
+
+    src/Scene/Scene.h
+)
 
 target_link_libraries(${PROJECT_NAME} glew32s glew32 OpenGL32 glfw3 glm)

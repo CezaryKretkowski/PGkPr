@@ -36,7 +36,7 @@ public:
     void setVerticalAngle(float angle) { this->verticalAngle = angle; }
     void upDateView();
 
-    Camera(glm::vec3 pos = glm::vec3(0, 0, 19), float intialFov = 45.0f, float horizontalAngle = 3.14f, float verticalAngle = 0.0f);
+    Camera(glm::vec3 pos = glm::vec3(0, 10, 19), float intialFov = 45.0f, float horizontalAngle = 3.14f, float verticalAngle = 0.0f);
     ~Camera(){};
 
     void control(GLFWwindow *w, int width, int hight);

@@ -6,6 +6,8 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <stack>
+#include <list>
+#include "glm/glm.hpp"
 #include "Component.h"
 
 namespace Engine
@@ -22,7 +24,7 @@ namespace Engine
         int height = 768;
         std::string title = "PGKPR";
         bool endFlag = false;
-        std::stack<Component *> components;
+        std::list<Component *> components;
 
         // Private metods
         bool glfwInital();
@@ -60,6 +62,8 @@ namespace Engine
         GLFWwindow *getWindow() { return window; }
 
         std::string getTitle() { return title; }
+
+        void clearColor(glm::vec4 color);
     };
 }
 #endif;
