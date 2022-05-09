@@ -16,9 +16,23 @@ add_executable(PGKPr main.cpp shader.cpp
     dependeces/Common/stb_image.h
     dependeces/Common/OBJ_Loader.h
     dependeces/Common/Loader.h
-
+    dependeces/imgui/backends/imgui_impl_glfw.h
+    dependeces/imgui/backends/imgui_impl_glfw.cpp
+    dependeces/imgui/backends/imgui_impl_opengl3.h
+    dependeces/imgui/backends/imgui_impl_opengl3.cpp
+    dependeces/imgui/imgui.h
+    dependeces/imgui/imgui.cpp
+    dependeces/imgui/imgui_demo.cpp
+    dependeces/imgui/imgui_draw.cpp
+    dependeces/imgui/imgui_internal.h
+    dependeces/imgui/imgui_tables.cpp
+    dependeces/imgui/imgui_widgets.cpp
+    dependeces/imgui/imstb_rectpack.h
+    dependeces/imgui/imstb_textedit.h
+    dependeces/imgui/imstb_truetype.h
     dependeces/Common/objloader.cpp
     dependeces/Common/objloader.hpp
+    src/UI/DialogModelSelection.h
     src/Engine/Frame.h
     src/Engine/Frame.cpp
     src/Engine/Component.h
@@ -30,6 +44,8 @@ add_executable(PGKPr main.cpp shader.cpp
     src/RenderableObject/Skybox.cpp
     src/GameObject/GameObject.cpp
     src/GameObject/GameObject.h
+    src/UI/UI.cpp
+    src/UI/UI.h
 
     App.h
 

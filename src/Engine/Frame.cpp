@@ -1,5 +1,5 @@
 #include "Frame.h"
-
+#include "../UI/UI.h"
 using namespace Engine;
 
 bool Frame::glewInital()
@@ -47,6 +47,7 @@ void Frame::mainLoop()
     double posX, posY;
     for (std::list<Component *>::iterator i = components.begin(); i != components.end(); i++)
         (*i)->setUp(this);
+    setUpGUI(this);
 
     while (!endFlag)
     {
@@ -56,10 +57,12 @@ void Frame::mainLoop()
 
         for (std::list<Component *>::iterator i = components.begin(); i != components.end(); i++)
             (*i)->run(this);
+        runUpGUI(this);
         glFinish();
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
+    cleanGUI(this);
     for (std::list<Component *>::iterator i = components.begin(); i != components.end(); i++)
         (*i)->clean(this);
 }

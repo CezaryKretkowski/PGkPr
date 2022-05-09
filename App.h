@@ -84,10 +84,10 @@ public:
     {
         glfwSetInputMode(super->getWindow(), GLFW_STICKY_KEYS, GL_TRUE);
         // Hide the mouse and enable unlimited mouvement
-        glfwSetInputMode(super->getWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+        //   glfwSetInputMode(super->getWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
         glfwPollEvents();
-        glfwSetCursorPos(super->getWindow(), 1024 / 2, 768 / 2);
+        //  glfwSetCursorPos(super->getWindow(), 1024 / 2, 768 / 2);
         // glfwSetCursorPos(window, 1024 / 2, 768 / 2);
 
         glEnable(GL_DEPTH_TEST);
