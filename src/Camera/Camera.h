@@ -40,6 +40,7 @@ public:
     ~Camera(){};
 
     void control(GLFWwindow *w, int width, int hight);
+    void dailogControl(GLFWwindow *w, int width, int hight, double xpos, double ypos, int mode);
 };
 
 #endif;

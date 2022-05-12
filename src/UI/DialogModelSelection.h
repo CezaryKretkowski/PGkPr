@@ -3,6 +3,10 @@
 #include "UI.h"
 #include "../RenderableObject/RenderableObject.h"
 #include "../Camera/Camera.h"
+#include <string>
+#include <iostream>
+#include <filesystem>
+
 class DialogModelSelection : public UI
 {
 private:
@@ -17,7 +21,9 @@ private:
     GLuint modelMatrixID;
     GLuint lightID;
     RenderableObject obj;
+    std::vector<const char *> names;
     bool createFrambuffer();
+    void loadFileList();
 
 public:
     void renderOnFrameBuffer(Engine::Frame *super);

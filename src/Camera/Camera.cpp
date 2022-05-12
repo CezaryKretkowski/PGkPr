@@ -83,3 +83,69 @@ void Camera::control(GLFWwindow *w, int width, int hight)
     upDateView();
     lastTime = currentTime;
 }
+void Camera::dailogControl(GLFWwindow *w, int width, int hight, double xpos, double ypos, int mode)
+{
+    double currentTime = glfwGetTime();
+    float deltaTime = float(currentTime - lastTime);
+
+    float speed = 3.0f; // 3 units / second
+    float mouseSpeed = 0.5f;
+
+    // glfwSetCursorPos(w, 1024 / 2, 768 / 2);
+
+    // setHorizontalAngle(getHorizontalAngle() + (mouseSpeed * float(width / 2 - xpos)));
+    // setVerticalAngle(getVerticalAngle() + (mouseSpeed * float(hight / 2 - ypos)));
+
+    if (mode == 0)
+    {
+        direction = glm::vec3(direction[0], 0.0f, direction[2]);
+        setPosytion(getPosytion() + getDirection() * deltaTime * speed);
+    }
+    if (mode == 1)
+    {
+        direction = glm::vec3(direction[0], 0.0f, direction[2]);
+        setPosytion(getPosytion() - getDirection() * deltaTime * speed);
+    }
+    if (glfwGetKey(w, GLFW_KEY_A) == GLFW_PRESS)
+    {
+        setPosytion(getPosytion() - getRight() * deltaTime * speed);
+    }
+    if (glfwGetKey(w, GLFW_KEY_D) == GLFW_PRESS)
+    {
+        setPosytion(getPosytion() + getRight() * deltaTime * speed);
+    }
+    if (glfwGetKey(w, GLFW_KEY_LEFT) == GLFW_PRESS)
+    {
+        setHorizontalAngle(getHorizontalAngle() + deltaTime * mouseSpeed);
+    }
+    if (glfwGetKey(w, GLFW_KEY_RIGHT) == GLFW_PRESS)
+    {
+        setHorizontalAngle(getHorizontalAngle() - deltaTime * mouseSpeed);
+    }
+    // switch (mode)
+    // {
+    // case 0:
+    //     direction = glm::vec3(direction[0], 0.0f, direction[2]);
+    //     setPosytion(getPosytion() + getDirection() * deltaTime * speed);
+    //     break;
+    // case 1:
+    //     direction = glm::vec3(direction[0], 0.0f, direction[2]);
+    //     setPosytion(getPosytion() - getDirection() * deltaTime * speed);
+    //     break;
+    // case 2:
+    //     setPosytion(getPosytion() - getRight() * deltaTime * speed);
+    //     break;
+    // case 3:
+    //     setPosytion(getPosytion() + getRight() * deltaTime * speed);
+    //     break;
+    // case 4:
+    //     setHorizontalAngle(getHorizontalAngle() + deltaTime * mouseSpeed);
+    //     break;
+    // case 5:
+    //     setHorizontalAngle(getHorizontalAngle() - deltaTime * mouseSpeed);
+    //     break;
+    // }
+
+    upDateView();
+    lastTime = currentTime;
+}

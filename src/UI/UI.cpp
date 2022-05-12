@@ -31,7 +31,8 @@ void UI::run(Engine::Frame *super)
     // 2. Show a simple window that we create ourselves. We use a Begin/End pair to created a named window.
     {
 
-        ImGui::Begin(title.c_str()); // Create a window called "Hello, world!" and append into it.
+        ImGui::Begin(title.c_str());
+        // Create a window called "Hello, world!" and append into it.
         renderContent(super);
         ImGui::End();
     }
