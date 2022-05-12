@@ -87,8 +87,6 @@ public:
         //   glfwSetInputMode(super->getWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
         glfwPollEvents();
-        //  glfwSetCursorPos(super->getWindow(), 1024 / 2, 768 / 2);
-        // glfwSetCursorPos(window, 1024 / 2, 768 / 2);
 
         glEnable(GL_DEPTH_TEST);
         // Accept fragment if it closer to the camera than the former one

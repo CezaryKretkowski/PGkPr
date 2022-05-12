@@ -15,7 +15,7 @@ using namespace glm;
 #include "src/Engine/Frame.h"
 #include "App.h"
 #include "src/Scene/Scene.h"
-
+#include "src/UI/DialogModelSelection.h"
 #include <math.h>
 
 int main(void)
@@ -24,7 +24,10 @@ int main(void)
 
     App *app = new App();
     Engine::Frame frame;
+    DialogModelSelection *ui = new DialogModelSelection();
     frame.add(app);
+    frame.add(ui);
+    ui->setVisiblity(true);
     if (!frame.init())
     {
         puts("Somthing wnet wrong");

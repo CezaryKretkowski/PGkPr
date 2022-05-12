@@ -47,7 +47,7 @@ void Frame::mainLoop()
     double posX, posY;
     for (std::list<Component *>::iterator i = components.begin(); i != components.end(); i++)
         (*i)->setUp(this);
-    setUpGUI(this);
+    // setUpGUI(this);
 
     while (!endFlag)
     {
@@ -57,12 +57,12 @@ void Frame::mainLoop()
 
         for (std::list<Component *>::iterator i = components.begin(); i != components.end(); i++)
             (*i)->run(this);
-        runUpGUI(this);
+        // runUpGUI(this);
         glFinish();
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
-    cleanGUI(this);
+    // cleanGUI(this);
     for (std::list<Component *>::iterator i = components.begin(); i != components.end(); i++)
         (*i)->clean(this);
 }

@@ -33,6 +33,7 @@ add_executable(PGKPr main.cpp shader.cpp
     dependeces/Common/objloader.cpp
     dependeces/Common/objloader.hpp
     src/UI/DialogModelSelection.h
+    src/UI/DialogModelSelection.cpp
     src/Engine/Frame.h
     src/Engine/Frame.cpp
     src/Engine/Component.h

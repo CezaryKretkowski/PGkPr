@@ -1,24 +1,28 @@
 #ifndef DIALOGMODELSELECTION_H
 #define DIALOGMODELSELECTION_H
-#include "../dependeces/imgui/imgui.h"
-#include "../../dependeces/imgui/backends/imgui_impl_glfw.h"
-#include "../../dependeces/imgui/backends/imgui_impl_opengl3.h"
-#include "../Engine/Component.h"
-class DialogModelSelection : public Engine::Component
+#include "UI.h"
+#include "../RenderableObject/RenderableObject.h"
+#include "../Camera/Camera.h"
+class DialogModelSelection : public UI
 {
 private:
-    /* data */
+    /* data */ bool show_demo_window;
+    bool show_another_window;
+    int width, height;
+    Camera camera;
+    GLuint fbo, rbo, fboTex;
+    GLuint core;
+    GLuint matrixID;
+    GLuint viewMatrixID;
+    GLuint modelMatrixID;
+    GLuint lightID;
+    RenderableObject obj;
+    bool createFrambuffer();
+
 public:
-    DialogModelSelection(/* args */);
-    ~DialogModelSelection();
+    void renderOnFrameBuffer(Engine::Frame *super);
+    void setUpContent(Engine::Frame *super);
+    void renderContent(Engine::Frame *super);
 };
-
-DialogModelSelection::DialogModelSelection(/* args */)
-{
-}
-
-DialogModelSelection::~DialogModelSelection()
-{
-}
 
 #endif;
