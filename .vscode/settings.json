@@ -64,6 +64,12 @@
     "chrono": "cpp",
     "filesystem": "cpp",
     "ratio": "cpp",
-    "string_view": "cpp"
+    "string_view": "cpp",
+    "charconv": "cpp",
+    "format": "cpp",
+    "forward_list": "cpp",
+    "map": "cpp",
+    "optional": "cpp",
+    "xtree": "cpp"
   }
 }

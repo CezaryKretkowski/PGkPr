@@ -20,8 +20,14 @@ private:
     GLuint viewMatrixID;
     GLuint modelMatrixID;
     GLuint lightID;
+    int index = 0;
     RenderableObject obj;
-    std::vector<const char *> names;
+    std::vector<RenderableObject> objects;
+    std::vector<glm::vec3> ver, normals;
+    std::vector<glm::vec2> uv;
+    std::vector<std::string> names;
+    int size;
+    const char *items[100];
     bool createFrambuffer();
     void loadFileList();
 

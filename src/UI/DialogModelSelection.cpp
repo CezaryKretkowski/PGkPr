@@ -1,14 +1,41 @@
 #include "DialogModelSelection.h"
 #include "../../shader.hpp"
-namespace fs = std::experimental::filesystem;
+#include <cstring>
+#include "../../dependeces/Common/dirent.h"
+
 void DialogModelSelection::loadFileList()
 {
-    std::string path = "../../resources";
-    for (const auto &entry : fs::directory_iterator(path))
+    DIR *dir;
+    struct dirent *ent;
+    int i = 0;
+    if ((dir = opendir("../../resources/Models")) != NULL)
+    { /* print all the files and directories within directory */
+        while ((ent = readdir(dir)) != NULL)
+        {
+            if (strcmp(ent->d_name, ".") != 0 && strcmp(ent->d_name, "..") != 0)
+            {
+                std::string name(ent->d_name);
+
+                names.push_back(name);
+            }
+        }
+        i++;
+        closedir(dir);
+    }
+    else
     {
-        std::string name = entry.path().string();
-        std::cout << name.c_str() << std::endl;
-        names.push_back(name.c_str());
+        /* could not open directory */
+        perror("");
+    }
+    size = names.size();
+    if (size > 100)
+        size = 100;
+    int j = 0;
+    for (j; j < size; j++)
+    {
+        const char *name = names[j].c_str();
+        // printf("%s \n", name);
+        items[j] = name;
     }
 }
 void DialogModelSelection::renderOnFrameBuffer(Engine::Frame *super)
@@ -21,12 +48,12 @@ void DialogModelSelection::renderOnFrameBuffer(Engine::Frame *super)
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glUseProgram(core);
 
-    obj.setProjectionMatrix(camera.getProjectionMatrix());
-    obj.setViewMatrix(camera.getViewMatrix());
+    objects[index].setProjectionMatrix(camera.getProjectionMatrix());
+    objects[index].setViewMatrix(camera.getViewMatrix());
 
     glm::vec3 lightPos = glm::vec3(4, 4, 4);
     glUniform3f(lightID, lightPos.x, lightPos.y, lightPos.z);
-    obj.draw(matrixID, viewMatrixID, modelMatrixID);
+    objects[index].draw(matrixID, viewMatrixID, modelMatrixID);
 
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
     glViewport(0, 0, width, height);
@@ -36,8 +63,8 @@ void DialogModelSelection::renderContent(Engine::Frame *super)
 
     int counter = 0;
 
-    char *item[] = {"items1", "items1", "items1"};
     static int selectable = 0;
+
     float f = 0.0f;
 
     ImGui::Text("Model Selection."); // Display some text (you can use a format strings too)
@@ -58,7 +85,7 @@ void DialogModelSelection::renderContent(Engine::Frame *super)
         camera.dailogControl(super->getWindow(), super->getWidth(), super->getHeight(), 10, 10, 1);
 
     ImGui::PushItemWidth(120);
-    ImGui::ListBox("list Box", &selectable, &names[0], 23, 23);
+    ImGui::ListBox("list Box", &selectable, items, size, 23);
 
     ImGui::SetCursorPos(ImVec2(140, 90));
     ImGui::GetWindowDrawList()->AddImage(
@@ -69,7 +96,8 @@ void DialogModelSelection::renderContent(Engine::Frame *super)
         ImVec2(0, 1), ImVec2(1, 0));
 
     ImGui::SetCursorPos(ImVec2(200, 70));
-    ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+    index = selectable;
+    ImGui::Text("Application average %.3f ms/frame (%.1f FPS) %d", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate, index);
 }
 bool DialogModelSelection::createFrambuffer()
 {
@@ -117,9 +145,26 @@ void DialogModelSelection::setUpContent(Engine::Frame *super)
     modelMatrixID = glGetUniformLocation(core, "M");
     lightID = glGetUniformLocation(core, "LightPosition_worldspace");
 
-    obj.intFromFile("../../resources/cube1.obj");
-    obj.loadTexture(core, "../../resources/uvmap.png", "myTextureSampler");
-    obj.setProjectionMatrix(camera.getProjectionMatrix());
-    obj.setViewMatrix(camera.getViewMatrix());
+    std::string dirPath = "../../resources/Models/";
+    for (int i = 0; i < names.size(); i++)
+    {
+        RenderableObject object;
+        std::vector<glm::vec3> vert, normal;
+        std::vector<glm::vec2> uvs;
+
+        std::string path = dirPath + names[i];
+        printf("%s\n", path.c_str());
+        loadOBJ(path.c_str(), vert, uvs, normal);
+        object.initFromArrary(vert, normal, uvs);
+        object.loadTexture(core, "../../resources/uvmap.png", "myTextureSampler");
+        object.setProjectionMatrix(camera.getProjectionMatrix());
+        object.setViewMatrix(camera.getViewMatrix());
+        objects.push_back(object);
+    }
+    // obj.initFromArrary(ver, normals, uv);
+    // obj.loadTexture(core, "../../resources/uvmap.png", "myTextureSampler");
+    // obj.setProjectionMatrix(camera.getProjectionMatrix());
+    // obj.setViewMatrix(camera.getViewMatrix());
+
     createFrambuffer();
 }
