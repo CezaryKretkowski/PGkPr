@@ -1,3 +1,4 @@
+
 #include "DialogModelSelection.h"
 #include "../../shader.hpp"
 #include <cstring>
@@ -48,12 +49,12 @@ void DialogModelSelection::renderOnFrameBuffer(Engine::Frame *super)
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glUseProgram(core);
 
-    objects[index].setProjectionMatrix(camera.getProjectionMatrix());
-    objects[index].setViewMatrix(camera.getViewMatrix());
+    objects[index]->setProjectionMatrix(projection);
+    objects[index]->setViewMatrix(view);
 
     glm::vec3 lightPos = glm::vec3(4, 4, 4);
     glUniform3f(lightID, lightPos.x, lightPos.y, lightPos.z);
-    objects[index].draw(matrixID, viewMatrixID, modelMatrixID);
+    objects[index]->draw(matrixID, viewMatrixID, modelMatrixID);
 
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
     glViewport(0, 0, width, height);
@@ -70,19 +71,19 @@ void DialogModelSelection::renderContent(Engine::Frame *super)
     ImGui::Text("Model Selection."); // Display some text (you can use a format strings too)
     renderOnFrameBuffer(super);
     if (ImGui::Button("<-", ImVec2(50, 20)))
-        camera.dailogControl(super->getWindow(), super->getWidth(), super->getHeight(), 10, 10, 4);
+        control(4);
 
     ImGui::SameLine();
     if (ImGui::Button("->", ImVec2(50, 20))) // Buttons return true when clicked (most widgets return true when edited/activated)
-        camera.dailogControl(super->getWindow(), super->getWidth(), super->getHeight(), 10, 10, 5);
+        control(3);
 
     ImGui::SameLine();
-    if (ImGui::Button("^", ImVec2(50, 20))) // Buttons return true when clicked (most widgets return true when edited/activated)
-        camera.dailogControl(super->getWindow(), super->getWidth(), super->getHeight(), 10, 10, 0);
+    if (ImGui::Button("+", ImVec2(50, 20))) // Buttons return true when clicked (most widgets return true when edited/activated)
+        control(1);
 
     ImGui::SameLine();
-    if (ImGui::Button("V", ImVec2(50, 20))) // Buttons return true when clicked (most widgets return true when edited/activated)
-        camera.dailogControl(super->getWindow(), super->getWidth(), super->getHeight(), 10, 10, 1);
+    if (ImGui::Button("-", ImVec2(50, 20))) // Buttons return true when clicked (most widgets return true when edited/activated)
+        control(2);
 
     ImGui::PushItemWidth(120);
     ImGui::ListBox("list Box", &selectable, items, size, 23);
@@ -123,8 +124,15 @@ void DialogModelSelection::setUpContent(Engine::Frame *super)
 {
     width = super->getWidth();
     height = super->getHeight();
-    puts("dziala setup");
     loadFileList();
+    projection = glm::perspective(45.0f, 4.0f / 3.0f, 0.1f, 300.0f);
+    // Camera matrix
+    view = glm::lookAt(
+        glm::vec3(0.f, 3.f, 3.f),   // Camera is here
+        glm::vec3(0.f, 0.f, 0.f),   // and looks here : at the same position, plus "direction"
+        glm::vec3(0.0f, 1.0f, 0.0f) // Head is up (set to 0,-1,0 to look upside-down)
+    );
+    puts("dziala setup");
 
     glfwSetInputMode(super->getWindow(), GLFW_STICKY_KEYS, GL_TRUE);
 
@@ -146,25 +154,43 @@ void DialogModelSelection::setUpContent(Engine::Frame *super)
     lightID = glGetUniformLocation(core, "LightPosition_worldspace");
 
     std::string dirPath = "../../resources/Models/";
-    for (int i = 0; i < names.size(); i++)
+    for (std::list<Engine::Mesh>::iterator i = super->objects.begin(); i != super->objects.end(); i++)
     {
-        RenderableObject object;
+        RenderableObject *object = new RenderableObject();
+
+        // OBJLoad("../../resources/cube1.obj", vert, normals, uvs);
         std::vector<glm::vec3> vert, normal;
         std::vector<glm::vec2> uvs;
-
-        std::string path = dirPath + names[i];
-        printf("%s\n", path.c_str());
-        loadOBJ(path.c_str(), vert, uvs, normal);
-        object.initFromArrary(vert, normal, uvs);
-        object.loadTexture(core, "../../resources/uvmap.png", "myTextureSampler");
-        object.setProjectionMatrix(camera.getProjectionMatrix());
-        object.setViewMatrix(camera.getViewMatrix());
+        vert = (*i).vert;
+        normal = (*i).normal;
+        uvs = (*i).uvs;
+        object->initFromArrary(vert, normal, uvs);
+        object->loadTexture(core, "../../resources/uvmap.png", "myTextureSampler");
+        object->setProjectionMatrix(projection);
+        object->setViewMatrix(view);
         objects.push_back(object);
     }
-    // obj.initFromArrary(ver, normals, uv);
-    // obj.loadTexture(core, "../../resources/uvmap.png", "myTextureSampler");
-    // obj.setProjectionMatrix(camera.getProjectionMatrix());
-    // obj.setViewMatrix(camera.getViewMatrix());
 
     createFrambuffer();
+}
+void DialogModelSelection::control(int mode)
+{
+    switch (mode)
+    {
+    case 1:
+        objects[index]->translate(glm::vec3(0.0f, 0.1f, 0.1f));
+        break;
+    case 2:
+        objects[index]->translate(glm::vec3(0.0f, -0.1f, -0.1f));
+        break;
+    case 3:
+        objects[index]->rotate(glm::vec3(0.0f, 1.0f, 0.0f), 2.0f);
+        break;
+    case 4:
+        objects[index]->rotate(glm::vec3(0.0f, -1.0f, 0.0f), 2.0f);
+        break;
+
+    default:
+        break;
+    }
 }

@@ -3,6 +3,7 @@
 #include "src/Scene/Scene.h"
 #include "src/Camera/Camera.h"
 #include "src/RenderableObject/RenderableObject.h"
+#include "src/Engine/Frame.h"
 
 std::vector<glm::vec3> floarVec1;
 std::vector<glm::vec3> floarVec2;
@@ -74,7 +75,7 @@ public:
         glm::vec3 lightPos = glm::vec3(4, 4, 4);
         glUniform3f(LightID, lightPos.x, lightPos.y, lightPos.z);
         obj.draw(MatrixID, ViewMatrixID, ModelMatrixID);
-        //  floor.draw(MatrixID, ViewMatrixID, ModelMatrixID);
+        // floor.draw(MatrixID, ViewMatrixID, ModelMatrixID);
         malpa.draw(MatrixID, ViewMatrixID, ModelMatrixID);
 
         glBindVertexArray(0);
@@ -111,9 +112,12 @@ public:
         obj.scale(glm::vec3(1.0f, -1.0f, 1.0f));
         malpa.translate(glm::vec3(0.0f, 2.0f, 0.0f));
 
-        floor.loadTexture(programID, "../../resources/floor.png", "myTextureSampler");
-        floor.initFromArrary(floarVec, floarNormal, floarUV);
-        floor.scale(glm::vec3(50.0f, 2.0f, 50.0f));
+        std::vector<glm::vec3> ver, normal;
+        std::vector<glm::vec2> textCoard;
+        OBJLoad("../../resources/cube1.obj", ver, normal, textCoard);
+        floor.loadTexture(programID, "../../resources/green.png", "myTextureSampler");
+        floor.initFromArrary(ver, normal, textCoard);
+        // floor.scale(glm::vec3(0.0f, 0.0f, 0.0f));
 
         lastTime = glfwGetTime();
         glUseProgram(programID);

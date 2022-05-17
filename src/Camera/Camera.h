@@ -17,6 +17,8 @@ private:
     glm::vec3 right;
     glm::vec3 up;
 
+    float zoom;
+
     float horizontalAngle;
     float verticalAngle;
     float intialFov;

@@ -6,12 +6,19 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <stack>
+#include "../RenderableObject/RenderableObject.h"
 #include <list>
 #include "glm/glm.hpp"
+
 #include "Component.h"
 
 namespace Engine
 {
+    struct Mesh
+    {
+        std::vector<glm::vec3> vert, normal;
+        std::vector<glm::vec2> uvs;
+    };
 // macros
 #define FULL_SCREEN true
 #define WINDOW_MODE false
@@ -34,6 +41,7 @@ namespace Engine
         void mainLoop();
 
     public:
+        std::list<Mesh> objects;
         // Constructor and desctructor
         Frame(/* args */) { endFlag = false; }
         ~Frame();

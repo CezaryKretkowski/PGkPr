@@ -6,9 +6,9 @@
 #define PGKPR_SCENE_H
 
 #include "../Engine/Component.h"
-#include "dependeces/Common/stb_image.h"
+#include "../dependeces/Common/stb_image.h"
 #include "../RenderableObject/RenderableObject.h"
-#include "../dependeces/Common/Loader.h"
+#include "../Engine/Loader.h"
 #include "../RenderableObject/Skybox.h"
 #include "../Camera/Camera.h"
 namespace Engine

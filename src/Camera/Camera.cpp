@@ -1,4 +1,5 @@
 #include "Camera.h"
+#include <stdio.h>
 
 Camera::Camera(glm::vec3 pos, float intialFov, float horizontalAngle, float verticalAngle)
 {
@@ -29,7 +30,7 @@ void Camera::upDateView()
     float FoV = intialFov; // - 5 * glfwGetMouseWheel(); // Now GLFW 3 requires setting up a callback for this. It's a bit too complicated for this beginner's tutorial, so it's disabled instead.
 
     // Projection matrix : 45� Field of View, 4:3 ratio, display range : 0.1 unit <-> 100 units
-    projectionMatrix = glm::perspective(glm::radians(FoV), 4.0f / 3.0f, 0.1f, 100.0f);
+    projectionMatrix = glm::perspective(glm::radians(FoV), 4.0f / 3.0f, 0.1f, 300.0f);
     // Camera matrix
     viewMatrix = glm::lookAt(
         posytion,                   // Camera is here
@@ -56,11 +57,13 @@ void Camera::control(GLFWwindow *w, int width, int hight)
     if (glfwGetKey(w, GLFW_KEY_W) == GLFW_PRESS)
     {
         direction = glm::vec3(direction[0], 0.0f, direction[2]);
+        puts("do somthing W");
         setPosytion(getPosytion() + getDirection() * deltaTime * speed);
     }
     if (glfwGetKey(w, GLFW_KEY_S) == GLFW_PRESS)
     {
         direction = glm::vec3(direction[0], 0.0f, direction[2]);
+        puts("do somthing S");
         setPosytion(getPosytion() - getDirection() * deltaTime * speed);
     }
     if (glfwGetKey(w, GLFW_KEY_A) == GLFW_PRESS)
@@ -88,64 +91,16 @@ void Camera::dailogControl(GLFWwindow *w, int width, int hight, double xpos, dou
     double currentTime = glfwGetTime();
     float deltaTime = float(currentTime - lastTime);
 
-    float speed = 3.0f; // 3 units / second
-    float mouseSpeed = 0.5f;
+    float FoV = intialFov; // - 5 * glfwGetMouseWheel(); // Now GLFW 3 requires setting up a callback for this. It's a bit too complicated for this beginner's tutorial, so it's disabled instead.
 
-    // glfwSetCursorPos(w, 1024 / 2, 768 / 2);
+    // Projection matrix : 45� Field of View, 4:3 ratio, display range : 0.1 unit <-> 100 units
+    projectionMatrix = glm::perspective(glm::radians(FoV), 4.0f / 3.0f, 0.1f, 300.0f);
+    // Camera matrix
+    viewMatrix = glm::lookAt(
+        glm::vec3(4.f, 3.f, 3.f),   // Camera is here
+        glm::vec3(0.f, 0.f, 0.f),   // and looks here : at the same position, plus "direction"
+        glm::vec3(0.0f, 1.0f, 0.0f) // Head is up (set to 0,-1,0 to look upside-down)
+    );
 
-    // setHorizontalAngle(getHorizontalAngle() + (mouseSpeed * float(width / 2 - xpos)));
-    // setVerticalAngle(getVerticalAngle() + (mouseSpeed * float(hight / 2 - ypos)));
-
-    if (mode == 0)
-    {
-        direction = glm::vec3(direction[0], 0.0f, direction[2]);
-        setPosytion(getPosytion() + getDirection() * deltaTime * speed);
-    }
-    if (mode == 1)
-    {
-        direction = glm::vec3(direction[0], 0.0f, direction[2]);
-        setPosytion(getPosytion() - getDirection() * deltaTime * speed);
-    }
-    if (glfwGetKey(w, GLFW_KEY_A) == GLFW_PRESS)
-    {
-        setPosytion(getPosytion() - getRight() * deltaTime * speed);
-    }
-    if (glfwGetKey(w, GLFW_KEY_D) == GLFW_PRESS)
-    {
-        setPosytion(getPosytion() + getRight() * deltaTime * speed);
-    }
-    if (glfwGetKey(w, GLFW_KEY_LEFT) == GLFW_PRESS)
-    {
-        setHorizontalAngle(getHorizontalAngle() + deltaTime * mouseSpeed);
-    }
-    if (glfwGetKey(w, GLFW_KEY_RIGHT) == GLFW_PRESS)
-    {
-        setHorizontalAngle(getHorizontalAngle() - deltaTime * mouseSpeed);
-    }
-    // switch (mode)
-    // {
-    // case 0:
-    //     direction = glm::vec3(direction[0], 0.0f, direction[2]);
-    //     setPosytion(getPosytion() + getDirection() * deltaTime * speed);
-    //     break;
-    // case 1:
-    //     direction = glm::vec3(direction[0], 0.0f, direction[2]);
-    //     setPosytion(getPosytion() - getDirection() * deltaTime * speed);
-    //     break;
-    // case 2:
-    //     setPosytion(getPosytion() - getRight() * deltaTime * speed);
-    //     break;
-    // case 3:
-    //     setPosytion(getPosytion() + getRight() * deltaTime * speed);
-    //     break;
-    // case 4:
-    //     setHorizontalAngle(getHorizontalAngle() + deltaTime * mouseSpeed);
-    //     break;
-    // case 5:
-    //     setHorizontalAngle(getHorizontalAngle() - deltaTime * mouseSpeed);
-    //     break;
-    // }
-
-    upDateView();
     lastTime = currentTime;
 }

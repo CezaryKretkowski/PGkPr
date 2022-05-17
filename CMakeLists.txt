@@ -15,7 +15,6 @@ add_executable(PGKPr main.cpp shader.cpp
     dependeces/Common/stb_image.c
     dependeces/Common/stb_image.h
     dependeces/Common/OBJ_Loader.h
-    dependeces/Common/Loader.h
     dependeces/imgui/backends/imgui_impl_glfw.h
     dependeces/imgui/backends/imgui_impl_glfw.cpp
     dependeces/imgui/backends/imgui_impl_opengl3.h

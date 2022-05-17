@@ -2,10 +2,8 @@
 #define DIALOGMODELSELECTION_H
 #include "UI.h"
 #include "../RenderableObject/RenderableObject.h"
+
 #include "../Camera/Camera.h"
-#include <string>
-#include <iostream>
-#include <filesystem>
 
 class DialogModelSelection : public UI
 {
@@ -22,14 +20,19 @@ private:
     GLuint lightID;
     int index = 0;
     RenderableObject obj;
-    std::vector<RenderableObject> objects;
+    std::vector<RenderableObject *> objects;
     std::vector<glm::vec3> ver, normals;
     std::vector<glm::vec2> uv;
     std::vector<std::string> names;
     int size;
+    float zoom = 0.0f;
+    float angleVertical = 0.0f;
+    float angleHorizontal = 0.0f;
+    glm::mat4 view, projection;
     const char *items[100];
     bool createFrambuffer();
     void loadFileList();
+    void control(int mode);
 
 public:
     void renderOnFrameBuffer(Engine::Frame *super);
