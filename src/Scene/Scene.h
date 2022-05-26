@@ -21,7 +21,7 @@ namespace Engine
         GLuint skyShaderID;
         Skybox skybox;
         GLuint vp;
-        std::list<GameObject> objects;
+        std::vector<GameObject *> objects;
 
     protected:
         Camera camera;
@@ -37,7 +37,6 @@ namespace Engine
             skybox.initSkybox(skyShaderID);
             vp = glGetUniformLocation(skyShaderID, "VP");
             skybox.initFromArrary(vector, normal, uv);
-
             skybox.scale(glm::vec3(30.0f, 30.f, 30.f));
             initScene(super);
         }
@@ -55,6 +54,13 @@ namespace Engine
             skybox.draw(vp);
             glUseProgram(0);
             glDepthMask(GL_TRUE);
+            for (int i = 0; i < objects.size(); i++)
+            {
+                puts("Rysuje");
+                objects[i]->setProjectionMatrix(camera.getProjectionMatrix());
+                objects[i]->setViewMatrix(camera.getViewMatrix());
+                objects[i]->draw();
+            }
             upDateScene(super);
         }
 
@@ -73,7 +79,7 @@ namespace Engine
         {
             puts("Object was added!!!");
             GameObject obj(o->vert, o->normal, o->uvs);
-            objects.push_back(obj);
+            objects.push_back(&obj);
         }
 
         void virtual initScene(Engine::Frame *super) { puts("initScene"); }

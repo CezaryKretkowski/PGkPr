@@ -64,6 +64,23 @@ bool RenderableObject::loadTexture(GLuint shederID, std::string texturePath, GLc
     stbi_image_free(dt);
     return check;
 }
+GLuint RenderableObject::loadTexture(std::string texturePath)
+{
+    GLuint text;
+    glGenTextures(1, &text);
+    glBindTexture(GL_TEXTURE_2D, text);
+    int width, height, nchan;
+    unsigned char *dt = stbi_load(texturePath.c_str(), &width, &height, &nchan, 0);
+    if (!dt)
+    {
+        puts("Cannot load Texture");
+    }
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, dt);
+    glGenerateMipmap(GL_TEXTURE_2D);
+    stbi_image_free(dt);
+    return text;
+}
 bool RenderableObject::initFromArrary(std::vector<glm::vec3> vertices, std::vector<glm::vec3> normals,
                                       std::vector<glm::vec2> uvs)
 {

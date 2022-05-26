@@ -35,6 +35,8 @@ public:
 
     bool loadTexture(GLuint shederID, std::string texturePath, GLchar *name);
 
+    GLuint loadTexture(std::string texturePath);
+
     void setTexture(GLuint textureID, GLuint texture);
 
     bool initFromArrary(std::vector<glm::vec3> vertices, std::vector<glm::vec3> normals,
