@@ -51,9 +51,8 @@ void Skybox::draw(GLuint vp)
     // glUniform1i(textureID, 0);
     // glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_CUBE_MAP, texture);
-    glm::mat4 M2 = glm::scale(modelMatrix, glm::vec3(30, 30, 30));
-    M2 = glm::mat4(glm::mat3(M2));
-    glm::mat4 MatMVP = modelMatrix * M2;
+
+    scale(glm::vec3(30.f, 30.f, 30.f));
 
     glUniformMatrix4fv(vp, 1, GL_FALSE, &MVP[0][0]);
     glBindVertexArray(vao);

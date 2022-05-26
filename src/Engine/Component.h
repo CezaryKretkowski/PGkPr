@@ -6,12 +6,15 @@
 namespace Engine
 { // interface
     class Frame;
+    class Mesh;
+    // struct Mesh;
     class Component
     { /* data */
     public:
         virtual void run(Frame *super) {}
         virtual void setUp(Frame *super) {}
         virtual void clean(Frame *super) {}
+        virtual void addGameObject(Mesh *o) {}
     };
 }
 

@@ -11,6 +11,7 @@
 #include "../Engine/Loader.h"
 #include "../RenderableObject/Skybox.h"
 #include "../Camera/Camera.h"
+#include "../GameObject/GameObject.h"
 namespace Engine
 {
     class Scene : public Engine::Component
@@ -20,6 +21,7 @@ namespace Engine
         GLuint skyShaderID;
         Skybox skybox;
         GLuint vp;
+        std::list<GameObject> objects;
 
     protected:
         Camera camera;
@@ -35,9 +37,7 @@ namespace Engine
             skybox.initSkybox(skyShaderID);
             vp = glGetUniformLocation(skyShaderID, "VP");
             skybox.initFromArrary(vector, normal, uv);
-            camera.upDateView();
-            skybox.setViewMatrix(camera.getViewMatrix());
-            skybox.setProjectionMatrix(camera.getProjectionMatrix());
+
             skybox.scale(glm::vec3(30.0f, 30.f, 30.f));
             initScene(super);
         }
@@ -48,6 +48,10 @@ namespace Engine
             glDepthMask(GL_FALSE);
             glUseProgram(skyShaderID);
 
+            camera.upDateView();
+            skybox.setModelMatrix(glm::translate(glm::mat4(1), camera.getPosytion()));
+            skybox.setViewMatrix(camera.getViewMatrix());
+            skybox.setProjectionMatrix(camera.getProjectionMatrix());
             skybox.draw(vp);
             glUseProgram(0);
             glDepthMask(GL_TRUE);
@@ -65,6 +69,12 @@ namespace Engine
         }
 
         ~Scene() {}
+        void addGameObject(Engine::Mesh *o)
+        {
+            puts("Object was added!!!");
+            GameObject obj(o->vert, o->normal, o->uvs);
+            objects.push_back(obj);
+        }
 
         void virtual initScene(Engine::Frame *super) { puts("initScene"); }
 

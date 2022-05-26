@@ -99,6 +99,12 @@ void DialogModelSelection::renderContent(Engine::Frame *super)
     ImGui::SetCursorPos(ImVec2(200, 70));
     index = selectable;
     ImGui::Text("Application average %.3f ms/frame (%.1f FPS) %d", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate, index);
+    ImGui::SetCursorPos(ImVec2(8, 480));
+    if (ImGui::Button("Load", ImVec2(120, 20)))
+    {
+        super->addObjectTriger = true;
+        super->objectIndex = index;
+    }
 }
 bool DialogModelSelection::createFrambuffer()
 {
@@ -154,7 +160,7 @@ void DialogModelSelection::setUpContent(Engine::Frame *super)
     lightID = glGetUniformLocation(core, "LightPosition_worldspace");
 
     std::string dirPath = "../../resources/Models/";
-    for (std::list<Engine::Mesh>::iterator i = super->objects.begin(); i != super->objects.end(); i++)
+    for (std::vector<Engine::Mesh>::iterator i = super->objects.begin(); i != super->objects.end(); i++)
     {
         RenderableObject *object = new RenderableObject();
 

@@ -56,7 +56,14 @@ void Frame::mainLoop()
             endFlag = true;
 
         for (std::list<Component *>::iterator i = components.begin(); i != components.end(); i++)
+        {
+            if (addObjectTriger)
+            {
+                (*i)->addGameObject(&objects[objectIndex]);
+                addObjectTriger = false;
+            }
             (*i)->run(this);
+        }
         // runUpGUI(this);
         glFinish();
         glfwSwapBuffers(window);
@@ -99,4 +106,8 @@ Frame::~Frame()
 void Frame::clearColor(glm::vec4 color)
 {
     glClearColor(color[0], color[1], color[2], color[3]);
+}
+bool Frame::addObjectToScene(int index, bool add)
+{
+    return add;
 }

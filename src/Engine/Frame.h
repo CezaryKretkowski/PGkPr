@@ -14,8 +14,9 @@
 
 namespace Engine
 {
-    struct Mesh
+    class Mesh
     {
+    public:
         std::vector<glm::vec3> vert, normal;
         std::vector<glm::vec2> uvs;
     };
@@ -41,7 +42,9 @@ namespace Engine
         void mainLoop();
 
     public:
-        std::list<Mesh> objects;
+        bool addObjectTriger = false;
+        int objectIndex = 0;
+        std::vector<Mesh> objects;
         // Constructor and desctructor
         Frame(/* args */) { endFlag = false; }
         ~Frame();
@@ -72,6 +75,8 @@ namespace Engine
         std::string getTitle() { return title; }
 
         void clearColor(glm::vec4 color);
+
+        bool addObjectToScene(int index, bool add);
     };
 }
 #endif;
