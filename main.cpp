@@ -14,6 +14,7 @@ using namespace glm;
 #include "shader.hpp"
 #include "src/Engine/Frame.h"
 #include "App.h"
+#include "App2.h"
 #include "src/Scene/Scene.h"
 #include "src/Engine/Loader.h"
 #include "src/UI/DialogModelSelection.h"
@@ -64,7 +65,7 @@ int main(void)
 {
     // printf("Wynik %f",  calculateDistance(glm::vec3(-4,0,1),glm::vec3(1,-3,2)));
     loadName();
-    App *app = new App();
+    App2 *app = new App2();
     std::string dirPath = "../../resources/Models/";
     Engine::Frame frame;
     for (int i = 0; i < names.size(); i++)

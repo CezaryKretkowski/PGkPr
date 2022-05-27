@@ -21,6 +21,7 @@ public:
                std::vector<glm::vec2> uvs);
     ~GameObject();
     void draw();
+    void GameObject::draw(GLuint MatrixID, GLuint ViewMatrixID, GLuint ModelMatrixID);
 };
 
 #endif
