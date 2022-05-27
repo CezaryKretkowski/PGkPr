@@ -18,6 +18,7 @@ using namespace glm;
 #include "src/Scene/Scene.h"
 #include "src/Engine/Loader.h"
 #include "src/UI/DialogModelSelection.h"
+#include "src/UI/DialogObjectProp.h"
 #include <math.h>
 #include "dependeces/Common/dirent.h"
 std::vector<std::string> names;
@@ -65,7 +66,7 @@ int main(void)
 {
     // printf("Wynik %f",  calculateDistance(glm::vec3(-4,0,1),glm::vec3(1,-3,2)));
     loadName();
-    App2 *app = new App2();
+    App *app = new App();
     std::string dirPath = "../../resources/Models/";
     Engine::Frame frame;
     for (int i = 0; i < names.size(); i++)
@@ -76,8 +77,10 @@ int main(void)
         frame.objects.push_back(m);
     }
     DialogModelSelection *ui = new DialogModelSelection();
+    DialogObjectProp *prop = new DialogObjectProp();
     frame.add(app);
     frame.add(ui);
+    // frame.add(prop);
     ui->setVisiblity(true);
     if (!frame.init())
     {

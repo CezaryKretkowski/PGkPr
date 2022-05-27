@@ -33,7 +33,7 @@ namespace Engine
         std::string title = "PGKPR";
         bool endFlag = false;
         std::list<Component *> components;
-
+        glm::vec2 mousePos;
         // Private metods
         bool glfwInital();
 
@@ -44,6 +44,7 @@ namespace Engine
     public:
         bool addObjectTriger = false;
         int objectIndex = 0;
+        float deltaTime;
         std::vector<Mesh> objects;
         // Constructor and desctructor
         Frame(/* args */) { endFlag = false; }
@@ -74,9 +75,12 @@ namespace Engine
 
         std::string getTitle() { return title; }
 
+        glm::vec2 getMousePos() { return mousePos; }
+
         void clearColor(glm::vec4 color);
 
         bool addObjectToScene(int index, bool add);
+        void setUpUi();
     };
 }
 #endif;

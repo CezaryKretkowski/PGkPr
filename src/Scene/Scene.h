@@ -21,6 +21,9 @@ namespace Engine
         GLuint skyShaderID;
         Skybox skybox;
         GLuint vp;
+        int last;
+        int count = 0;
+        bool cancel;
         std::vector<GameObject *> objects;
 
     protected:
@@ -54,12 +57,23 @@ namespace Engine
             skybox.draw(vp);
             glUseProgram(0);
             glDepthMask(GL_TRUE);
+            last = objects.size() - 1;
             for (int i = 0; i < objects.size(); i++)
             {
-                puts("Rysuje");
+                objects[i]->setWindoSize(glm::vec2(super->getWidth(), super->getHeight()));
                 objects[i]->setProjectionMatrix(camera.getProjectionMatrix());
                 objects[i]->setViewMatrix(camera.getViewMatrix());
+                objects[i]->setMousePos(super->getMousePos());
                 objects[i]->draw();
+                if (glfwGetMouseButton(super->getWindow(), GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
+                {
+                    objects[i]->isInPlacing = false;
+                }
+                if (glfwGetMouseButton(super->getWindow(), GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS)
+                {
+                    if (objects[i]->isInPlacing)
+                        objects.erase(objects.begin() + last);
+                }
             }
             upDateScene(super);
         }
@@ -78,8 +92,8 @@ namespace Engine
         void addGameObject(Engine::Mesh *o)
         {
             puts("Object was added!!!");
-            GameObject obj(o->vert, o->normal, o->uvs);
-            objects.push_back(&obj);
+            GameObject *obj = new GameObject(o->vert, o->normal, o->uvs);
+            objects.push_back(obj);
         }
 
         void virtual initScene(Engine::Frame *super) { puts("initScene"); }

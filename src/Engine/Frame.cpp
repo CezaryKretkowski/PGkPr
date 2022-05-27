@@ -48,10 +48,17 @@ void Frame::mainLoop()
     for (std::list<Component *>::iterator i = components.begin(); i != components.end(); i++)
         (*i)->setUp(this);
     // setUpGUI(this);
-
+    setUpUi();
     while (!endFlag)
     {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        double x;
+        double y;
+        float currenTime = glfwGetTime();
+        deltaTime = float(currenTime - deltaTime);
+        glfwGetCursorPos(window, &x, &y);
+        mousePos.x = x;
+        mousePos.y = y;
         if (!glfwWindowShouldClose(window) == 0)
             endFlag = true;
 
@@ -68,6 +75,7 @@ void Frame::mainLoop()
         glFinish();
         glfwSwapBuffers(window);
         glfwPollEvents();
+        deltaTime = glfwGetTime();
     }
     // cleanGUI(this);
     for (std::list<Component *>::iterator i = components.begin(); i != components.end(); i++)
@@ -110,4 +118,14 @@ void Frame::clearColor(glm::vec4 color)
 bool Frame::addObjectToScene(int index, bool add)
 {
     return add;
+}
+void Frame::setUpUi()
+{
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+    ImGuiIO &io = ImGui::GetIO();
+    (void)io;
+    ImGui::StyleColorsDark();
+    ImGui_ImplGlfw_InitForOpenGL(window, true);
+    ImGui_ImplOpenGL3_Init("#version 330");
 }

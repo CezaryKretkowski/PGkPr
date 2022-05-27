@@ -5,13 +5,17 @@ class GameObject : public RenderableObject
 {
 private:
     std::string path;
-    bool isInPlacing;
+
     GLuint core;
     GLuint M;
     GLuint V;
     GLuint P;
+    glm::vec2 mousePos;
+    glm::vec2 windowSize;
+    std::string name;
 
 public:
+    bool isInPlacing;
     glm::vec3 translate;
     glm::vec3 scale;
     glm::vec3 rotate;
@@ -22,6 +26,10 @@ public:
     ~GameObject();
     void draw();
     void GameObject::draw(GLuint MatrixID, GLuint ViewMatrixID, GLuint ModelMatrixID);
+    void GameObject::followCursor();
+    void GameObject::setMousePos(glm::vec2 mousePos) { this->mousePos = mousePos; }
+    void GameObject::setWindoSize(glm::vec2 widowSize) { this->windowSize = widowSize; }
+    void GameObject::setName(std::string name) { this->name = name; }
 };
 
 #endif

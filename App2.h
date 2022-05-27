@@ -15,6 +15,7 @@ private:
     float speed = 3.0f; // 3 units / second
     float mouseSpeed = 0.0005f;
     GLuint programID;
+    GLuint programID2;
     GLuint M;
     GLuint V;
     GLuint P;
@@ -66,6 +67,7 @@ public:
 
         obj3 = new GameObject(ver, normal, textCoard);
         programID = LoadShaders("../../shaders/GameObjectVert.glsl", "../../shaders/GameObjectFrag.glsl");
+        programID2 = LoadShaders("../../shaders/GameObjectVert.glsl", "../../shaders/GameObjectFrag.glsl");
         M = glGetUniformLocation(programID, "M");
         V = glGetUniformLocation(programID, "V");
         P = glGetUniformLocation(programID, "P");

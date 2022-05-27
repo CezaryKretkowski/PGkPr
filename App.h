@@ -74,15 +74,15 @@ public:
         obj3->setProjectionMatrix(camera.getProjectionMatrix());
         obj3->setViewMatrix(camera.getViewMatrix());
         // obj3->draw(MatrixID, ViewMatrixID, ModelMatrixID);
-        obj3->draw();
-        glm::vec3 lightPos = glm::vec3(4, 4, 4);
-        glUniform3f(LightID, lightPos.x, lightPos.y, lightPos.z);
-        obj.draw(MatrixID, ViewMatrixID, ModelMatrixID);
+        // obj3->draw();
+        // glm::vec3 lightPos = glm::vec3(4, 4, 4);
+        // glUniform3f(LightID, lightPos.x, lightPos.y, lightPos.z);
+        // obj.draw(MatrixID, ViewMatrixID, ModelMatrixID);
         //        floor.draw(MatrixID, ViewMatrixID, ModelMatrixID);
-        malpa.draw(MatrixID, ViewMatrixID, ModelMatrixID);
+        // malpa.draw(MatrixID, ViewMatrixID, ModelMatrixID);
 
-        glBindVertexArray(0);
-        // control(super->getWindow());
+        // glBindVertexArray(0);
+        //  control(super->getWindow());
     }
     void initScene(Engine::Frame *super) override
     {

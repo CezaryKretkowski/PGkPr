@@ -9,13 +9,6 @@ UI::UI(std::string title, ImVec4 clearColor)
 }
 void UI::setUp(Engine::Frame *super)
 {
-    IMGUI_CHECKVERSION();
-    ImGui::CreateContext();
-    ImGuiIO &io = ImGui::GetIO();
-    (void)io;
-    ImGui::StyleColorsDark();
-    ImGui_ImplGlfw_InitForOpenGL(super->getWindow(), true);
-    ImGui_ImplOpenGL3_Init("#version 330");
     setUpContent(super);
 }
 void UI::run(Engine::Frame *super)

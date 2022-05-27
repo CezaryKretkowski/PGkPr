@@ -44,6 +44,8 @@ add_executable(PGKPr main.cpp shader.cpp
     src/RenderableObject/Skybox.cpp
     src/GameObject/GameObject.cpp
     src/GameObject/GameObject.h
+    src/UI/DialogObjectProp.h
+    src/UI/DialogObjectProp.cpp
     src/UI/UI.cpp
     src/UI/UI.h
 

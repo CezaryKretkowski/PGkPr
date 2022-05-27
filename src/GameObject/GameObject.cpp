@@ -6,6 +6,7 @@ GameObject::GameObject(std::vector<glm::vec3> vertices, std::vector<glm::vec3> n
 {
     core = LoadShaders("../../shaders/GameObjectVert.glsl", "../../shaders/GameObjectFrag.glsl");
     loadTexture(core, "../../resources/blank.png", "SamplerTexture");
+    name = "BlankGameObject";
     initFromArrary(vertices, normals, uvs);
     initBuffers();
     M = glGetUniformLocation(core, "M");
@@ -20,14 +21,17 @@ GameObject::GameObject(std::vector<glm::vec3> vertices, std::vector<glm::vec3> n
 }
 void GameObject::draw()
 {
+
     glUseProgram(core);
     glBindVertexArray(vao);
 
     glUniform1i(textureID, 0);
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, texture);
-    // modelMatrix = glm::translate(glm::mat4(1), translate);
-    // modelMatrix = glm::scale(glm::mat4(1), scale);
+    modelMatrix = glm::translate(glm::mat4(1.0), translate);
+    if (isInPlacing)
+        followCursor();
+    modelMatrix = glm::scale(modelMatrix, scale);
     // modelMatrix = glm::rotate(glm::mat4(1), glm::radians(angle), rotate);
 
     glUniformMatrix4fv(M, 1, GL_FALSE, &modelMatrix[0][0]);
@@ -35,7 +39,15 @@ void GameObject::draw()
     glUniformMatrix4fv(P, 1, GL_FALSE, &projectionMatrix[0][0]);
     glDrawArrays(GL_TRIANGLES, 0, vertexCount);
 
-    glUseProgram(0);
+    // glUseProgram(0);
+}
+void GameObject::followCursor()
+{
+    float posX = (-((windowSize.x / 2.0f) - mousePos.x)) / (windowSize.x / 20.0f);
+    float posY = -((windowSize.y / 2.0f) - mousePos.y) / (windowSize.y / 30.0f);
+    glm::vec3 direction(posX, 0.0f, posY);
+
+    translate = direction;
 }
 GameObject::~GameObject()
 {
