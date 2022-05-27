@@ -6,7 +6,7 @@ GameObject::GameObject(std::vector<glm::vec3> vertices, std::vector<glm::vec3> n
 {
     core = LoadShaders("../../shaders/GameObjectVert.glsl", "../../shaders/GameObjectFrag.glsl");
     loadTexture(core, "../../resources/blank.png", "SamplerTexture");
-    name = "BlankGameObject";
+    this->name = "BlankGameObject";
     initFromArrary(vertices, normals, uvs);
     initBuffers();
     M = glGetUniformLocation(core, "M");

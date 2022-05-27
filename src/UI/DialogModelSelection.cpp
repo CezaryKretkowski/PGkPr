@@ -105,6 +105,13 @@ void DialogModelSelection::renderContent(Engine::Frame *super)
         super->addObjectTriger = true;
         super->objectIndex = index;
     }
+    if (super->addObjectTriger)
+    {
+        addGameObject(super->objects[index]);
+    }
+    ImGui::Begin("ObjectPropertis");
+    gameObjectProp.renderContent(super);
+    ImGui::End();
 }
 bool DialogModelSelection::createFrambuffer()
 {
@@ -199,4 +206,10 @@ void DialogModelSelection::control(int mode)
     default:
         break;
     }
+}
+void DialogModelSelection::addGameObject(Engine::Mesh o)
+{
+    puts("Object was added!!!");
+    GameObject *obj = new GameObject(o.vert, o.normal, o.uvs);
+    gameObjectProp.addGameObject(obj);
 }

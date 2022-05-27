@@ -30,6 +30,7 @@ public:
     void GameObject::setMousePos(glm::vec2 mousePos) { this->mousePos = mousePos; }
     void GameObject::setWindoSize(glm::vec2 widowSize) { this->windowSize = widowSize; }
     void GameObject::setName(std::string name) { this->name = name; }
+    std::string GameObject::getName() { return name; }
 };
 
 #endif

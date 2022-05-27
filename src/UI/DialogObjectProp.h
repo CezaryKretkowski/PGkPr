@@ -2,23 +2,18 @@
 #define DIALOG_OBJECT_PROP_H
 #include "UI.h"
 #include "../GameObject/GameObject.h"
-class DialogObjectProp : public UI
+class DialogObjectProp
 {
 private:
     std::vector<GameObject *> objects;
-    void run(Engine::Frame *super) override;
-    void setUp(Engine::Frame *super) override;
-    void clean(Engine::Frame *super) override;
+    const char *item[100];
+    int size;
 
 public:
+    void addGameObject(GameObject *ObjectOnScenn);
     void setUpContent(Engine::Frame *super);
     void renderContent(Engine::Frame *super);
-    void addGameObject(Engine::Mesh *o)
-    {
-        puts("Object was added!!!");
-        GameObject *obj = new GameObject(o->vert, o->normal, o->uvs);
-        objects.push_back(obj);
-    }
+    void loadItems();
 };
 
 #endif

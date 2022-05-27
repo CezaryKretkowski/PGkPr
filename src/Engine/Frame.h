@@ -81,6 +81,7 @@ namespace Engine
 
         bool addObjectToScene(int index, bool add);
         void setUpUi();
+        void renderUi();
     };
 }
 #endif;

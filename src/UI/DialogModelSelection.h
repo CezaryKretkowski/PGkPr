@@ -2,7 +2,8 @@
 #define DIALOGMODELSELECTION_H
 #include "UI.h"
 #include "../RenderableObject/RenderableObject.h"
-
+#include "DialogObjectProp.h"
+#include "../GameObject/GameObject.h"
 #include "../Camera/Camera.h"
 
 class DialogModelSelection : public UI
@@ -18,6 +19,7 @@ private:
     GLuint viewMatrixID;
     GLuint modelMatrixID;
     GLuint lightID;
+    DialogObjectProp gameObjectProp;
     int index = 0;
     RenderableObject obj;
     std::vector<RenderableObject *> objects;
@@ -38,6 +40,7 @@ public:
     void renderOnFrameBuffer(Engine::Frame *super);
     void setUpContent(Engine::Frame *super);
     void renderContent(Engine::Frame *super);
+    void addGameObject(Engine::Mesh o);
 };
 
 #endif;

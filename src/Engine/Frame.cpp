@@ -71,6 +71,7 @@ void Frame::mainLoop()
             }
             (*i)->run(this);
         }
+
         // runUpGUI(this);
         glFinish();
         glfwSwapBuffers(window);
@@ -128,4 +129,12 @@ void Frame::setUpUi()
     ImGui::StyleColorsDark();
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init("#version 330");
+}
+void Frame::renderUi()
+{
+    ImGui::Render();
+    int display_w, display_h;
+    glfwGetFramebufferSize(window, &display_w, &display_h);
+    glViewport(0, 0, display_w, display_h);
+    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }

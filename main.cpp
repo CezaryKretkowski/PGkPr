@@ -77,11 +77,12 @@ int main(void)
         frame.objects.push_back(m);
     }
     DialogModelSelection *ui = new DialogModelSelection();
-    DialogObjectProp *prop = new DialogObjectProp();
+
     frame.add(app);
+
     frame.add(ui);
-    // frame.add(prop);
     ui->setVisiblity(true);
+
     if (!frame.init())
     {
         puts("Somthing wnet wrong");

@@ -26,6 +26,7 @@ public:
     ~UI() {}
     bool isVisible() { return visible; }
     void setVisiblity(bool vs) { visible = vs; }
+    void addGameObject(Engine::Mesh *o) override {}
     virtual void setUpContent(Engine::Frame *super) {}
     virtual void renderContent(Engine::Frame *super) {}
 };
