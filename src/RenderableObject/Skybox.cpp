@@ -2,6 +2,9 @@
 
 bool Skybox::initSkybox(GLuint skyShader)
 {
+
+    ambientStrenghtID = glGetUniformLocation(skyShader, "");
+    lightColorID = glGetUniformLocation(skyShader, "");
     GLuint TexCubicID[] = {
         GL_TEXTURE_CUBE_MAP_POSITIVE_X, // Prawo
         GL_TEXTURE_CUBE_MAP_NEGATIVE_X, // Lewo

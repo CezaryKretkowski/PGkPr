@@ -40,7 +40,6 @@ public:
     void renderOnFrameBuffer(Engine::Frame *super);
     void setUpContent(Engine::Frame *super);
     void renderContent(Engine::Frame *super);
-    void addGameObject(Engine::Mesh o);
 };
 
 #endif;

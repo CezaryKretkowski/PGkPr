@@ -7,6 +7,7 @@
 #include <GLFW/glfw3.h>
 #include <stack>
 #include "../RenderableObject/RenderableObject.h"
+#include "../GameObject/GameObject.h"
 #include <list>
 #include "glm/glm.hpp"
 
@@ -20,6 +21,7 @@ namespace Engine
         std::vector<glm::vec3> vert, normal;
         std::vector<glm::vec2> uvs;
     };
+
 // macros
 #define FULL_SCREEN true
 #define WINDOW_MODE false
@@ -45,7 +47,10 @@ namespace Engine
         bool addObjectTriger = false;
         int objectIndex = 0;
         float deltaTime;
+        LightProps lightProps;
         std::vector<Mesh> objects;
+        std::vector<GameObject *> gameObjects;
+
         // Constructor and desctructor
         Frame(/* args */) { endFlag = false; }
         ~Frame();

@@ -1,5 +1,6 @@
 #include "Frame.h"
 #include "../UI/UI.h"
+
 using namespace Engine;
 
 bool Frame::glewInital()
@@ -66,7 +67,8 @@ void Frame::mainLoop()
         {
             if (addObjectTriger)
             {
-                (*i)->addGameObject(&objects[objectIndex]);
+                GameObject *obj = new GameObject(objects[objectIndex].vert, objects[objectIndex].normal, objects[objectIndex].uvs);
+                gameObjects.push_back(obj);
                 addObjectTriger = false;
             }
             (*i)->run(this);
@@ -132,9 +134,4 @@ void Frame::setUpUi()
 }
 void Frame::renderUi()
 {
-    ImGui::Render();
-    int display_w, display_h;
-    glfwGetFramebufferSize(window, &display_w, &display_h);
-    glViewport(0, 0, display_w, display_h);
-    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }

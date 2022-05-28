@@ -12,27 +12,34 @@ GameObject::GameObject(std::vector<glm::vec3> vertices, std::vector<glm::vec3> n
     M = glGetUniformLocation(core, "M");
     V = glGetUniformLocation(core, "V");
     P = glGetUniformLocation(core, "P");
+    lightColorID = glGetUniformLocation(core, "lightColor");
+    ambientStrenghtID = glGetUniformLocation(core, "ambientStrength");
     translate = glm::vec3(0.0f, 0.0f, 0.0f);
-    rotate = glm::vec3(0.0f, 0.0f, 0.0f);
+    rotate = glm::vec3(1.0f, 1.0f, 1.0f);
     scale = glm::vec3(1.0f, 1.0f, 1.0f);
     modelMatrix = glm::mat4(1.0);
-    angle = 0;
+    angle = 1.0f;
     isInPlacing = true;
 }
 void GameObject::draw()
 {
 
-    glUseProgram(core);
     glBindVertexArray(vao);
 
     glUniform1i(textureID, 0);
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, texture);
+    // glUniform3f(lightColorID, lightColor.x, lightColor.y, lightColor.z);
+    // glUniform1f(ambientStrenghtID, ambientStringht);
+
     modelMatrix = glm::translate(glm::mat4(1.0), translate);
     if (isInPlacing)
         followCursor();
-    modelMatrix = glm::scale(modelMatrix, scale);
-    // modelMatrix = glm::rotate(glm::mat4(1), glm::radians(angle), rotate);
+    else
+    {
+        modelMatrix = glm::rotate(modelMatrix, glm::radians(angle), rotate);
+        modelMatrix = glm::scale(modelMatrix, scale);
+    }
 
     glUniformMatrix4fv(M, 1, GL_FALSE, &modelMatrix[0][0]);
     glUniformMatrix4fv(V, 1, GL_FALSE, &viewMatrix[0][0]);
@@ -72,4 +79,8 @@ void GameObject::draw(GLuint MatrixID, GLuint ViewMatrixID, GLuint ModelMatrixID
     glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &MVP[0][0]);
 
     glDrawArrays(GL_TRIANGLES, 0, vertexCount);
+}
+void GameObject::setLightProp(LightProps l)
+{
+    glUseProgram(core);
 }
