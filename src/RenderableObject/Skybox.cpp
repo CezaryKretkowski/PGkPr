@@ -3,8 +3,10 @@
 bool Skybox::initSkybox(GLuint skyShader)
 {
 
-    ambientStrenghtID = glGetUniformLocation(skyShader, "");
-    lightColorID = glGetUniformLocation(skyShader, "");
+    ambientStrenghtID = glGetUniformLocation(skyShader, "ambientStrength");
+    lightColorID = glGetUniformLocation(skyShader, "lightColor");
+    lightPosID = glGetUniformLocation(skyShader, "lightPos");
+    M = glGetUniformLocation(skyShader, "M");
     GLuint TexCubicID[] = {
         GL_TEXTURE_CUBE_MAP_POSITIVE_X, // Prawo
         GL_TEXTURE_CUBE_MAP_NEGATIVE_X, // Lewo
@@ -58,8 +60,15 @@ void Skybox::draw(GLuint vp)
     scale(glm::vec3(30.f, 30.f, 30.f));
 
     glUniformMatrix4fv(vp, 1, GL_FALSE, &MVP[0][0]);
+    glUniformMatrix4fv(M, 1, GL_FALSE, &modelMatrix[0][0]);
     glBindVertexArray(vao);
 
     MVP = projectionMatrix * viewMatrix * modelMatrix;
     glDrawArrays(GL_TRIANGLES, 0, vertexCount);
+}
+void Skybox::setLightProp(LightProps l)
+{
+    glUniform1f(ambientStrenghtID, l.ambientStringht);
+    glUniform3f(lightColorID, l.lightColor.x, l.lightColor.y, l.lightColor.z);
+    glUniform3f(lightPosID, l.lightPos.x, l.lightPos.y, l.lightPos.z);
 }

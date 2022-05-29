@@ -14,6 +14,7 @@ GameObject::GameObject(std::vector<glm::vec3> vertices, std::vector<glm::vec3> n
     P = glGetUniformLocation(core, "P");
     lightColorID = glGetUniformLocation(core, "lightColor");
     ambientStrenghtID = glGetUniformLocation(core, "ambientStrength");
+    lightPosID = glGetUniformLocation(core, "lightPos");
     translate = glm::vec3(0.0f, 0.0f, 0.0f);
     rotate = glm::vec3(1.0f, 1.0f, 1.0f);
     scale = glm::vec3(1.0f, 1.0f, 1.0f);
@@ -83,4 +84,7 @@ void GameObject::draw(GLuint MatrixID, GLuint ViewMatrixID, GLuint ModelMatrixID
 void GameObject::setLightProp(LightProps l)
 {
     glUseProgram(core);
+    glUniform1f(ambientStrenghtID, l.ambientStringht);
+    glUniform3f(lightColorID, l.lightColor.x, l.lightColor.y, l.lightColor.z);
+    glUniform3f(lightPosID, l.lightPos.x, l.lightPos.y, l.lightPos.z);
 }

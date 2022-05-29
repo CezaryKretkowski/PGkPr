@@ -11,6 +11,8 @@ private:
     // char *texFileNames[6];
     GLuint ambientStrenghtID;
     GLuint lightColorID;
+    GLuint lightPosID;
+    GLuint M;
 
 public:
     bool initSkybox(GLuint skyShader);
