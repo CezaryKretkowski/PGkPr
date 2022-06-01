@@ -40,9 +40,12 @@ void DialogLightSettings::renderContent(Engine::Frame *super)
 void DialogLightSettings::renderSkyboxTab(Engine::Frame *super)
 {
     ambientSkybox = super->lightPropsSkybox.ambientStringht;
-    lightColor[0] = super->lightProps.lightColor[0];
-    lightColor[1] = super->lightProps.lightColor[1];
-    lightColor[2] = super->lightProps.lightColor[2];
+    lightColor[0] = super->lightPropsSkybox.lightColor[0];
+    lightColor[1] = super->lightPropsSkybox.lightColor[1];
+    lightColor[2] = super->lightPropsSkybox.lightColor[2];
+    lightPos[0] = super->lightPropsSkybox.lightPos[0];
+    lightPos[1] = super->lightPropsSkybox.lightPos[1];
+    lightPos[2] = super->lightPropsSkybox.lightPos[2];
     if (ImGui::Checkbox("Light On", &lightSwichSkybox))
     {
         super->lightPropsSkybox.lightSwich = lightSwichSkybox;
@@ -55,6 +58,10 @@ void DialogLightSettings::renderSkyboxTab(Engine::Frame *super)
     {
         super->lightPropsSkybox.lightColor = glm::vec3(lightColor[0], lightColor[1], lightColor[2]);
     }
+    if (ImGui::InputFloat3("Light position", lightPos))
+    {
+        super->lightPropsSkybox.lightPos = glm::vec3(lightPos[0], lightPos[1], lightPos[2]);
+    }
 }
 void DialogLightSettings::renderObjectTab(Engine::Frame *super)
 {
@@ -62,6 +69,9 @@ void DialogLightSettings::renderObjectTab(Engine::Frame *super)
     lightColor[0] = super->lightProps.lightColor[0];
     lightColor[1] = super->lightProps.lightColor[1];
     lightColor[2] = super->lightProps.lightColor[2];
+    lightPos[0] = super->lightProps.lightPos[0];
+    lightPos[1] = super->lightProps.lightPos[1];
+    lightPos[2] = super->lightProps.lightPos[2];
     if (ImGui::Checkbox("Light On", &lightSwich))
     {
         super->lightProps.lightSwich = lightSwich;
@@ -73,6 +83,10 @@ void DialogLightSettings::renderObjectTab(Engine::Frame *super)
     if (ImGui::SliderFloat3("lightColor", lightColor, 0.0, 1.0))
     {
         super->lightProps.lightColor = glm::vec3(lightColor[0], lightColor[1], lightColor[2]);
+    }
+    if (ImGui::InputFloat3("Light position", lightPos))
+    {
+        super->lightProps.lightPos = glm::vec3(lightPos[0], lightPos[1], lightPos[2]);
     }
 }
 void DialogLightSettings::renderMainSettingsTab(Engine::Frame *super)

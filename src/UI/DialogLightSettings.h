@@ -10,6 +10,7 @@ private:
     bool drawSkybox;
     float clearColor[3];
     float lightColor[3];
+    float lightPos[3];
     float ambient;
     float ambientSkybox;
 
