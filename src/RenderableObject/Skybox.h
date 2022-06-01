@@ -13,6 +13,7 @@ private:
     GLuint lightColorID;
     GLuint lightPosID;
     GLuint lightSwichID;
+    GLuint cameraPos;
     GLuint M;
 
 public:

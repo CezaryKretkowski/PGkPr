@@ -10,6 +10,7 @@ uniform float ambientStrength = 0.1;
 uniform vec3 lightColor=vec3(1.0,1.0,1.0);
 uniform vec3 lightPos=vec3(0.0,4.0,0.0); 
 uniform bool lightSwich;
+uniform vec3 viewPos;
 
 void main(){
     

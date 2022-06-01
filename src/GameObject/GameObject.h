@@ -7,6 +7,7 @@ public:
     float ambientStringht = 0.1f;
     glm::vec3 lightColor = glm::vec3(1.0f, 1.0f, 1.0f);
     glm::vec3 lightPos = glm::vec3(0.0f, 4.0f, 0.0f);
+    glm::vec3 cameraPos = glm::vec3(0.0f, 4.0f, 0.0f);
     bool lightSwich = false;
 };
 class GameObject : public RenderableObject
@@ -22,6 +23,7 @@ private:
     GLuint lightColorID;
     GLuint lightPosID;
     GLuint lightSwich;
+    GLuint CameraPos;
     glm::vec2 mousePos;
     glm::vec2 windowSize;
     std::string name;
