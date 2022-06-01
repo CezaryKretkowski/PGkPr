@@ -3,6 +3,7 @@
 #include "UI.h"
 #include "../RenderableObject/RenderableObject.h"
 #include "DialogObjectProp.h"
+#include "DialogLightSettings.h"
 #include "../GameObject/GameObject.h"
 #include "../Camera/Camera.h"
 
@@ -20,6 +21,7 @@ private:
     GLuint modelMatrixID;
     GLuint lightID;
     DialogObjectProp gameObjectProp;
+    DialogLightSettings lightSetting;
     int index = 0;
     RenderableObject obj;
     std::vector<RenderableObject *> objects;

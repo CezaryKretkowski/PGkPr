@@ -53,9 +53,9 @@ namespace Engine
             skybox.setModelMatrix(glm::translate(glm::mat4(1), camera.getPosytion()));
             skybox.setViewMatrix(camera.getViewMatrix());
             skybox.setProjectionMatrix(camera.getProjectionMatrix());
-            LightProps l = super->lightProps;
-            skybox.setLightProp(l);
-            skybox.draw(vp);
+            skybox.setLightProp(super->lightPropsSkybox);
+            if (super->drawSkyBox)
+                skybox.draw(vp);
             glUseProgram(0);
             glDepthMask(GL_TRUE);
 

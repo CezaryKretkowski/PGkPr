@@ -45,7 +45,7 @@ void DialogModelSelection::renderOnFrameBuffer(Engine::Frame *super)
     glViewport(0, 0, width, height);
 
     camera.upDateView();
-    glClearColor(0.0f, 0.0f, 0.4f, 1.0f);
+    glClearColor(super->getClearColor()[0], super->getClearColor()[1], super->getClearColor()[2], 1.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glUseProgram(core);
 
@@ -109,6 +109,10 @@ void DialogModelSelection::renderContent(Engine::Frame *super)
     ImGui::Begin("ObjectPropertis");
     gameObjectProp.renderContent(super);
     ImGui::End();
+
+    ImGui::Begin("Light Settings");
+    lightSetting.renderContent(super);
+    ImGui::End();
 }
 bool DialogModelSelection::createFrambuffer()
 {
@@ -134,6 +138,7 @@ void DialogModelSelection::setUpContent(Engine::Frame *super)
 {
     width = super->getWidth();
     height = super->getHeight();
+    lightSetting.setUpContent(super);
     loadFileList();
     projection = glm::perspective(45.0f, 4.0f / 3.0f, 0.1f, 300.0f);
     // Camera matrix

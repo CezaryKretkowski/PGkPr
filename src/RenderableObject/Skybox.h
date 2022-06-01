@@ -12,6 +12,7 @@ private:
     GLuint ambientStrenghtID;
     GLuint lightColorID;
     GLuint lightPosID;
+    GLuint lightSwichID;
     GLuint M;
 
 public:

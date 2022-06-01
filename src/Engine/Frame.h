@@ -36,6 +36,7 @@ namespace Engine
         bool endFlag = false;
         std::list<Component *> components;
         glm::vec2 mousePos;
+        glm::vec3 clearColorRGB;
         // Private metods
         bool glfwInital();
 
@@ -44,10 +45,12 @@ namespace Engine
         void mainLoop();
 
     public:
+        bool drawSkyBox = false;
         bool addObjectTriger = false;
         int objectIndex = 0;
         float deltaTime;
         LightProps lightProps;
+        LightProps lightPropsSkybox;
         std::vector<Mesh> objects;
         std::vector<GameObject *> gameObjects;
 
@@ -83,6 +86,7 @@ namespace Engine
         glm::vec2 getMousePos() { return mousePos; }
 
         void clearColor(glm::vec4 color);
+        glm::vec3 getClearColor() { return clearColorRGB; }
 
         bool addObjectToScene(int index, bool add);
         void setUpUi();

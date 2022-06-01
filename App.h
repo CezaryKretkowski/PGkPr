@@ -60,7 +60,7 @@ public:
     ~App();
     void upDateScene(Engine::Frame *super) override
     {
-        super->clearColor(glm::vec4(0.8f, 0.8f, 0.8f, 0.1f));
+        // super->clearColor(glm::vec4(0.8f, 0.8f, 0.8f, 0.1f));
         glUseProgram(programID);
         camera.control(super->getWindow(), super->getWidth(), super->getHeight());
         camera.upDateView();

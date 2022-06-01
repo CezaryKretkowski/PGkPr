@@ -9,6 +9,7 @@ uniform sampler2D SamplerTexture;
 uniform float ambientStrength = 0.1;
 uniform vec3 lightColor=vec3(1.0,1.0,1.0);
 uniform vec3 lightPos=vec3(0.0,4.0,0.0); 
+uniform bool lightSwich;
 
 void main(){
     
@@ -22,5 +23,13 @@ void main(){
 
     vec3 result=vec3(1.0,1.0,1.0);
     result=(ambient+diffuse);
-    color=vec4(result,1.0)*material;
+    vec4 finalResult=vec4(1.0,1.0,1.0,1.0);
+    if(lightSwich==true){
+        finalResult=vec4(result,1.0)*material;
+    }
+    else
+    {
+        finalResult=material;
+    }
+    color=finalResult;
 }

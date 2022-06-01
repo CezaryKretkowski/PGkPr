@@ -15,6 +15,7 @@ GameObject::GameObject(std::vector<glm::vec3> vertices, std::vector<glm::vec3> n
     lightColorID = glGetUniformLocation(core, "lightColor");
     ambientStrenghtID = glGetUniformLocation(core, "ambientStrength");
     lightPosID = glGetUniformLocation(core, "lightPos");
+    lightSwich = glGetUniformLocation(core, "lightSwich");
     translate = glm::vec3(0.0f, 0.0f, 0.0f);
     rotate = glm::vec3(1.0f, 1.0f, 1.0f);
     scale = glm::vec3(1.0f, 1.0f, 1.0f);
@@ -87,4 +88,12 @@ void GameObject::setLightProp(LightProps l)
     glUniform1f(ambientStrenghtID, l.ambientStringht);
     glUniform3f(lightColorID, l.lightColor.x, l.lightColor.y, l.lightColor.z);
     glUniform3f(lightPosID, l.lightPos.x, l.lightPos.y, l.lightPos.z);
+    if (l.lightSwich)
+    {
+        glUniform1i(lightSwich, GL_TRUE);
+    }
+    else
+    {
+        glUniform1i(lightSwich, GL_FALSE);
+    }
 }

@@ -48,6 +48,8 @@ add_executable(PGKPr main.cpp shader.cpp
     src/UI/DialogObjectProp.cpp
     src/UI/UI.cpp
     src/UI/UI.h
+    src/UI/DialogLightSettings.h
+    src/UI/DialogLightSettings.cpp
 
     App.h
 

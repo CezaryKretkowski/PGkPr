@@ -34,7 +34,7 @@ public:
     void upDateScene(Engine::Frame *super) override
     {
         camera.upDateView();
-        super->clearColor(glm::vec4(0.8f, 0.8f, 0.8f, 0.1f));
+        // super->clearColor(glm::vec4(0.8f, 0.8f, 0.8f, 0.1f));
         camera.control(super->getWindow(), super->getWidth(), super->getHeight());
         glUseProgram(programID);
 

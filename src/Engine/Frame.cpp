@@ -52,6 +52,7 @@ void Frame::mainLoop()
     setUpUi();
     while (!endFlag)
     {
+        glClearColor(clearColorRGB[0], clearColorRGB[1], clearColorRGB[2], 1.0);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         double x;
         double y;
@@ -116,7 +117,7 @@ Frame::~Frame()
 }
 void Frame::clearColor(glm::vec4 color)
 {
-    glClearColor(color[0], color[1], color[2], color[3]);
+    clearColorRGB = glm::vec3(color);
 }
 bool Frame::addObjectToScene(int index, bool add)
 {
