@@ -16,6 +16,9 @@ GameObject::GameObject(std::vector<glm::vec3> vertices, std::vector<glm::vec3> n
     ambientStrenghtID = glGetUniformLocation(core, "ambientStrength");
     lightPosID = glGetUniformLocation(core, "lightPos");
     lightSwich = glGetUniformLocation(core, "lightSwich");
+    viewPos = glGetUniformLocation(core, "viewPos");
+    specStr = glGetUniformLocation(core, "specluarStreinght");
+    specArea = glGetUniformLocation(core, "specluarArea");
     translate = glm::vec3(0.0f, 0.0f, 0.0f);
     rotate = glm::vec3(1.0f, 1.0f, 1.0f);
     scale = glm::vec3(1.0f, 1.0f, 1.0f);
@@ -96,4 +99,7 @@ void GameObject::setLightProp(LightProps l)
     {
         glUniform1i(lightSwich, GL_FALSE);
     }
+    glUniform3f(viewPos, l.cameraPos[0], l.cameraPos[1], l.cameraPos[2]);
+    glUniform1f(specStr, l.specStright);
+    glUniform1i(specArea, l.specluarArea);
 }

@@ -12,6 +12,8 @@ private:
     float lightColor[3];
     float lightPos[3];
     float ambient;
+    float specular;
+    int specularArea;
     float ambientSkybox;
 
 public:

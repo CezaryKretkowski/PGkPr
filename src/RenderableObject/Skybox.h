@@ -15,6 +15,8 @@ private:
     GLuint lightSwichID;
     GLuint cameraPos;
     GLuint M;
+    GLuint specArea;
+    GLuint specStraight;
 
 public:
     bool initSkybox(GLuint skyShader);

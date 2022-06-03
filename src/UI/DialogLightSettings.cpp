@@ -1,4 +1,5 @@
 #include "DialogLightSettings.h"
+#include <math.h>
 DialogLightSettings::DialogLightSettings(/* args */)
 {
     clearColor[0] = 1.0;
@@ -62,6 +63,17 @@ void DialogLightSettings::renderSkyboxTab(Engine::Frame *super)
     {
         super->lightPropsSkybox.lightPos = glm::vec3(lightPos[0], lightPos[1], lightPos[2]);
     }
+    specular = super->lightPropsSkybox.specStright;
+
+    if (ImGui::SliderFloat("Specular", &specular, 0.0, 1.0))
+    {
+        super->lightPropsSkybox.specStright = specular;
+    }
+    if (ImGui::SliderInt("SpeCluar Area", &specularArea, 1, 8))
+    {
+        specularArea = pow(2, specularArea);
+        super->lightPropsSkybox.specluarArea = specularArea;
+    }
 }
 void DialogLightSettings::renderObjectTab(Engine::Frame *super)
 {
@@ -87,6 +99,16 @@ void DialogLightSettings::renderObjectTab(Engine::Frame *super)
     if (ImGui::InputFloat3("Light position", lightPos))
     {
         super->lightProps.lightPos = glm::vec3(lightPos[0], lightPos[1], lightPos[2]);
+    }
+
+    if (ImGui::SliderFloat("Specular", &specular, 0.0, 1.0))
+    {
+        super->lightProps.specStright = specular;
+    }
+    if (ImGui::SliderInt("SpeCluar Area", &specularArea, 1, 8))
+    {
+        specularArea = pow(2, specularArea);
+        super->lightProps.specluarArea = specularArea;
     }
 }
 void DialogLightSettings::renderMainSettingsTab(Engine::Frame *super)

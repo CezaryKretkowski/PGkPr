@@ -8,6 +8,10 @@ bool Skybox::initSkybox(GLuint skyShader)
     lightPosID = glGetUniformLocation(skyShader, "lightPos");
     lightSwichID = glGetUniformLocation(skyShader, "lightSwich");
     M = glGetUniformLocation(skyShader, "M");
+    cameraPos = glGetUniformLocation(skyShader, "viewPos");
+    specStraight = glGetUniformLocation(skyShader, "specluarStreinght");
+    specArea = glGetUniformLocation(skyShader, "specluarArea");
+
     GLuint TexCubicID[] = {
         GL_TEXTURE_CUBE_MAP_POSITIVE_X, // Prawo
         GL_TEXTURE_CUBE_MAP_NEGATIVE_X, // Lewo
@@ -80,4 +84,7 @@ void Skybox::setLightProp(LightProps l)
     {
         glUniform1i(lightSwichID, GL_FALSE);
     }
+    glUniform3f(cameraPos, l.cameraPos[0], l.cameraPos[1], l.cameraPos[2]);
+    glUniform1f(specStraight, l.specStright);
+    glUniform1i(specArea, l.specluarArea);
 }

@@ -12,6 +12,6 @@ uniform mat4 M;
 void main(){
     textureCord=vec3(pos.x,pos.y,-pos.z);
     gl_Position = VP * vec4(pos, 1.0);
-    Normals=noramals;
+    Normals=mat3(transpose(inverse(M))) *  noramals;
     FragPos=vec3(M*vec4(pos,1.0));
 }
