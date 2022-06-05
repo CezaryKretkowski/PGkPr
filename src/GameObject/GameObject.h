@@ -9,6 +9,8 @@ public:
     glm::vec3 lightPos = glm::vec3(0.0f, 4.0f, 0.0f);
     glm::vec3 cameraPos = glm::vec3(0.0f, 4.0f, 0.0f);
     bool lightSwich = false;
+    float specStright = 0.5;
+    int specluarArea = 32;
 };
 class GameObject : public RenderableObject
 {
@@ -23,7 +25,9 @@ private:
     GLuint lightColorID;
     GLuint lightPosID;
     GLuint lightSwich;
-    GLuint CameraPos;
+    GLuint viewPos;
+    GLuint specStr;
+    GLuint specArea;
     glm::vec2 mousePos;
     glm::vec2 windowSize;
     std::string name;

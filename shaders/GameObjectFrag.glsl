@@ -11,6 +11,8 @@ uniform vec3 lightColor=vec3(1.0,1.0,1.0);
 uniform vec3 lightPos=vec3(0.0,4.0,0.0); 
 uniform bool lightSwich;
 uniform vec3 viewPos;
+uniform float specluarStreinght;
+uniform int specluarArea;
 
 void main(){
     
@@ -23,10 +25,19 @@ void main(){
     vec4 material =texture(SamplerTexture,textureCord);   
 
     vec3 result=vec3(1.0,1.0,1.0);
-    result=(ambient+diffuse);
+    
     vec4 finalResult=vec4(1.0,1.0,1.0,1.0);
+
+    vec3 viewDir = normalize(viewPos - FragPos);
+    vec3 reflectDir = reflect(-lightDir, norm); 
+
+    float spec = pow(max(dot(viewDir, reflectDir), 0.0), specluarArea);
+    vec3 specular = specluarStreinght * spec * lightColor;  
+
+    result=(ambient+diffuse+specular);
+
     if(lightSwich==true){
-        finalResult=vec4(result,1.0)*material;
+        finalResult=vec4(result*material.xyz,material[3]);
     }
     else
     {
