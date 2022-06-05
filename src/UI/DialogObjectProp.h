@@ -11,11 +11,13 @@ private:
     float translation[3];
     float scale[3];
     float roata[4];
+    std::vector<std::string> names;
 
 public:
     void setUpContent(Engine::Frame *super);
     void renderContent(Engine::Frame *super);
     void loadItems(glm::vec3 translate, glm::vec3 sceale, glm::vec4 rotate);
+    void loadFileList();
 };
 
 #endif

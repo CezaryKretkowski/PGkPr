@@ -50,6 +50,8 @@ add_executable(PGKPr main.cpp shader.cpp
     src/UI/UI.h
     src/UI/DialogLightSettings.h
     src/UI/DialogLightSettings.cpp
+    src/ParticleSystem/Particle.h
+    src/ParticleSystem/ParticleSystem.h
 
     App.h
 

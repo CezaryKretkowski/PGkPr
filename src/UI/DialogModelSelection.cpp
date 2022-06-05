@@ -139,6 +139,7 @@ void DialogModelSelection::setUpContent(Engine::Frame *super)
     width = super->getWidth();
     height = super->getHeight();
     lightSetting.setUpContent(super);
+    gameObjectProp.setUpContent(super);
     loadFileList();
     projection = glm::perspective(45.0f, 4.0f / 3.0f, 0.1f, 300.0f);
     // Camera matrix

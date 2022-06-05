@@ -38,6 +38,10 @@ void RenderableObject::setTexture(GLuint textureID, GLuint texture)
     this->textureID = textureID;
     this->texture = texture;
 }
+void RenderableObject::setTexture(GLuint texture)
+{
+    this->texture = texture;
+}
 void RenderableObject::rotate(glm::vec3 vector, float angle)
 {
     modelMatrix = glm::rotate(modelMatrix, glm::radians(angle), vector);

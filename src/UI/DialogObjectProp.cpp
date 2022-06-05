@@ -1,12 +1,15 @@
 #include "DialogObjectProp.h"
 #include <string.h>
 #include <string>
+#include <cstring>
+#include "../../dependeces/Common/dirent.h"
 void DialogObjectProp::setUpContent(Engine::Frame *super)
 {
     this->objects = objects;
     translation[0] = 0.0f;
     translation[1] = 0.0f;
     translation[2] = 0.0f;
+    loadFileList();
 }
 void DialogObjectProp::loadItems(glm::vec3 translate, glm::vec3 sceale, glm::vec4 rotate)
 {
@@ -25,6 +28,7 @@ void DialogObjectProp::renderContent(Engine::Frame *super)
 {
 
     int index = 0;
+    int index1 = 0;
     if (ImGui::BeginListBox("GameObject", ImVec2(200, 40)))
     {
         for (int i = 0; i < super->gameObjects.size(); i++)
@@ -101,5 +105,46 @@ void DialogObjectProp::renderContent(Engine::Frame *super)
             super->gameObjects[index]->angle = roata[3];
             super->gameObjects[index]->rotateObject();
         }
+    }
+    if (ImGui::BeginListBox("GameObject Texture Selection", ImVec2(200, 40)))
+    {
+
+        for (int i = 0; i < names.size(); i++)
+        {
+            bool selected = false;
+            std::string &item_name = std::to_string(i) + ". " + names[i];
+            if (ImGui::Selectable(item_name.c_str(), &selected))
+            {
+                std::string path = "../../resources/Texture/" + names[i];
+                super->gameObjects[index]->setTexture(super->gameObjects[index]->loadTexture(path));
+            }
+        }
+
+        ImGui::EndListBox();
+    }
+}
+void DialogObjectProp::loadFileList()
+{
+    DIR *dir;
+    struct dirent *ent;
+    int i = 0;
+    if ((dir = opendir("../../resources/Texture")) != NULL)
+    { /* print all the files and directories within directory */
+        while ((ent = readdir(dir)) != NULL)
+        {
+            if (strcmp(ent->d_name, ".") != 0 && strcmp(ent->d_name, "..") != 0)
+            {
+                std::string name(ent->d_name);
+
+                names.push_back(name);
+            }
+        }
+        i++;
+        closedir(dir);
+    }
+    else
+    {
+        /* could not open directory */
+        perror("");
     }
 }
