@@ -8,6 +8,7 @@
 #include <stack>
 #include "../RenderableObject/RenderableObject.h"
 #include "../GameObject/GameObject.h"
+
 #include <list>
 #include "glm/glm.hpp"
 
@@ -20,6 +21,20 @@ namespace Engine
     public:
         std::vector<glm::vec3> vert, normal;
         std::vector<glm::vec2> uvs;
+    };
+    class ParticleSystemOption
+    {
+    public:
+        int mode = 0;
+        bool reset = false;
+        bool swich = true;
+        int texture = 0;
+        int effectNumber;
+        int maxParticles = 100;
+        glm::vec3 emiterPos = glm::vec3(0.0f, 0.0f, 0.0f);
+        glm::vec3 shapePos = glm::vec3(0.0f, 0.0f, 0.0f);
+        glm::vec3 garvity = glm::vec3(0.0f, -1.0f, 0.0f);
+        glm::vec2 fadeTime = glm::vec2(1.0f, 5.0f);
     };
 
 // macros
@@ -53,6 +68,7 @@ namespace Engine
         LightProps lightPropsSkybox;
         std::vector<Mesh> objects;
         std::vector<GameObject *> gameObjects;
+        ParticleSystemOption op;
 
         // Constructor and desctructor
         Frame(/* args */) { endFlag = false; }

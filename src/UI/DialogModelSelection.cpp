@@ -113,6 +113,10 @@ void DialogModelSelection::renderContent(Engine::Frame *super)
     ImGui::Begin("Light Settings");
     lightSetting.renderContent(super);
     ImGui::End();
+
+    ImGui::Begin("Particle System");
+    particleSystemDialog.renderContent(super);
+    ImGui::End();
 }
 bool DialogModelSelection::createFrambuffer()
 {

@@ -61,8 +61,8 @@ namespace Engine
                 skybox.draw(vp);
             glUseProgram(0);
             glDepthMask(GL_TRUE);
-            if (system.mainSwich)
-                system.generate(super, camera.getProjectionMatrix(), camera.getViewMatrix());
+            if (super->op.swich)
+                system.generate(super, camera.getProjectionMatrix(), camera.getViewMatrix(), &camera);
             last = super->gameObjects.size() - 1;
             for (int i = 0; i < super->gameObjects.size(); i++)
             {

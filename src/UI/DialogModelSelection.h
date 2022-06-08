@@ -4,6 +4,7 @@
 #include "../RenderableObject/RenderableObject.h"
 #include "DialogObjectProp.h"
 #include "DialogLightSettings.h"
+#include "DialogParticleSystem.h"
 #include "../GameObject/GameObject.h"
 #include "../Camera/Camera.h"
 
@@ -22,6 +23,7 @@ private:
     GLuint lightID;
     DialogObjectProp gameObjectProp;
     DialogLightSettings lightSetting;
+    DialogParticleSystem particleSystemDialog;
     int index = 0;
     RenderableObject obj;
     std::vector<RenderableObject *> objects;

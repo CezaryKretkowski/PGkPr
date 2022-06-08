@@ -52,6 +52,10 @@ add_executable(PGKPr main.cpp shader.cpp
     src/UI/DialogLightSettings.cpp
     src/ParticleSystem/Particle.h
     src/ParticleSystem/ParticleSystem.h
+    src/ParticleSystem/DirectionStrategy.h
+    src/ParticleSystem/Effects.h
+    src/UI/DialogParticleSystem.h
+    src/UI/DialogParticleSystem.cpp
 
     App.h
 
