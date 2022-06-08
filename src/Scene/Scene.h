@@ -12,7 +12,8 @@
 #include "../RenderableObject/Skybox.h"
 #include "../Camera/Camera.h"
 #include "../GameObject/GameObject.h"
-//#include "../ParticleSystem/ParticleSystem.h"
+#include "../ParticleSystem/Particle.h"
+#include "../ParticleSystem/ParticleSystem.h"
 namespace Engine
 {
     class Scene : public Engine::Component
@@ -25,6 +26,7 @@ namespace Engine
         int last;
         int count = 0;
         bool cancel;
+        ParticleSystem system;
 
     protected:
         Camera camera;
@@ -32,7 +34,7 @@ namespace Engine
         {
             //  initSkybox();
             glEnable(GL_DEPTH_TEST);
-
+            system.setUp(super);
             skyShaderID = LoadShaders("../../shaders/skyboxVert.glsl", "../../shaders/skyboxFrag.glsl");
             std::vector<glm::vec3> normal, vector;
             std::vector<glm::vec2> uv;
@@ -59,7 +61,8 @@ namespace Engine
                 skybox.draw(vp);
             glUseProgram(0);
             glDepthMask(GL_TRUE);
-
+            if (system.mainSwich)
+                system.generate(super, camera.getProjectionMatrix(), camera.getViewMatrix());
             last = super->gameObjects.size() - 1;
             for (int i = 0; i < super->gameObjects.size(); i++)
             {
